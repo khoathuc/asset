@@ -1,0 +1,265 @@
+CREATE TABLE `types`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(256) NOT NULL,
+    `user_id` INT NOT NULL,
+    `form` TEXT NOT NULL,
+    `settings` TEXT NOT NULL,
+    `files` TEXT NOT NULL,
+    `prefix` VARCHAR(32) NOT NULL,
+    `description` TEXT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+CREATE TABLE `asset_logs`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `metatype` VARCHAR(255) NOT NULL,
+    `object_id` BIGINT NOT NULL,
+    `object_type` VARCHAR(255) NOT NULL,
+    `changes` TEXT NOT NULL,
+    `files` TEXT NOT NULL,
+    `description` TEXT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `asset_logs` ADD INDEX `asset_logs_metatype_index`(`metatype`);
+ALTER TABLE
+    `asset_logs` ADD INDEX `asset_logs_object_id_object_type_index`(`object_id`, `object_type`);
+CREATE TABLE `requests`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(256) NOT NULL,
+    `user_id` INT NOT NULL,
+    `location_id` INT NOT NULL,
+    `request_group_id` INT NOT NULL,
+    `approvals` TEXT NOT NULL,
+    `approvers` TEXT NOT NULL,
+    `rejections` TEXT NOT NULL,
+    `followers` TEXT NOT NULL,
+    `status` VARCHAR(255) NOT NULL,
+    `description` TEXT NULL,
+    `files` TEXT NOT NULL,
+    `form` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `requests` ADD INDEX `requests_location_id_index`(`location_id`);
+ALTER TABLE
+    `requests` ADD INDEX `requests_request_group_id_index`(`request_group_id`);
+ALTER TABLE
+    `requests` ADD INDEX `requests_status_index`(`status`);
+CREATE TABLE `assets`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `image` VARCHAR(255) NOT NULL,
+    `code` VARCHAR(32) NOT NULL,
+    `serial_number` VARCHAR(255) NOT NULL,
+    `assignee_id` INT NOT NULL,
+    `tag_ids` TEXT NOT NULL,
+    `status_id` INT NOT NULL,
+    `type_id` INT NOT NULL,
+    `location_id` INT NOT NULL,
+    `vendor_id` INT NOT NULL,
+    `meta_type` VARCHAR(32) NOT NULL,
+    `description` TEXT NULL,
+    `form` TEXT NOT NULL,
+    `active_date` TIMESTAMP NOT NULL,
+    `files` TEXT NOT NULL,
+    `images` TEXT NOT NULL,
+    `purchase_date` TIMESTAMP NOT NULL,
+    `purchase_price` DECIMAL(8, 2) NOT NULL,
+    `stats` TEXT NOT NULL,
+    `token` VARCHAR(255) NOT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `assets` ADD INDEX `assets_name_index`(`name`);
+ALTER TABLE
+    `assets` ADD INDEX `assets_type_id_index`(`type_id`);
+ALTER TABLE
+    `assets` ADD INDEX `assets_location_id_index`(`location_id`);
+ALTER TABLE
+    `assets` ADD INDEX `assets_vendor_id_index`(`vendor_id`);
+ALTER TABLE
+    `assets` ADD INDEX `assets_meta_type_index`(`meta_type`);
+CREATE TABLE `tags`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `user_id` INT NOT NULL,
+    `color` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NOT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `tags` ADD INDEX `tags_name_index`(`name`);
+CREATE TABLE `stock`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `user_id` INT NOT NULL,
+    `code` VARCHAR(255) NOT NULL,
+    `minimum_quantity` INT NOT NULL,
+    `total_quantity` INT NOT NULL,
+    `location_id` INT NOT NULL,
+    `vendor_id` INT NOT NULL,
+    `tag_ids` TEXT NOT NULL,
+    `type_id` INT NOT NULL,
+    `is_inventory` TINYINT(1) NOT NULL,
+    `form` TEXT NOT NULL,
+    `purchase_date` TIMESTAMP NOT NULL,
+    `price_per_unit` DECIMAL(8, 2) NOT NULL,
+    `data` TEXT NOT NULL,
+    `image` TEXT NULL,
+    `files` TEXT NOT NULL,
+    `images` TEXT NOT NULL,
+    `stats` TEXT NOT NULL,
+    `description` TEXT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `stock` ADD INDEX `stock_name_index`(`name`);
+ALTER TABLE
+    `stock` ADD INDEX `stock_location_id_vendor_id_type_id_index`(
+        `location_id`,
+        `vendor_id`,
+        `type_id`
+    );
+ALTER TABLE
+    `stock` ADD INDEX `stock_is_inventory_index`(`is_inventory`);
+CREATE TABLE `vendor`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(256) NOT NULL,
+    `user_id` INT NOT NULL,
+    `phone` VARCHAR(256) NULL,
+    `contact` VARCHAR(256) NULL,
+    `url` VARCHAR(255) NULL,
+    `address` VARCHAR(256) NULL,
+    `email` VARCHAR(256) NULL,
+    `description` TEXT NULL,
+    `image` TEXT NULL,
+    `files` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `vendor` ADD INDEX `vendor_name_index`(`name`);
+CREATE TABLE `statuses`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(256) NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `active` TINYINT(1) NOT NULL,
+    `available_to_use` TINYINT(1) NOT NULL,
+    `currently_in_use` TINYINT(1) NOT NULL,
+    `color` VARCHAR(32) NOT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `statuses` ADD INDEX `statuses_name_index`(`name`);
+ALTER TABLE
+    `statuses` ADD INDEX `statuses_active_available_to_use_currently_in_use_index`(
+        `active`,
+        `available_to_use`,
+        `currently_in_use`
+    );
+CREATE TABLE `locations`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(256) NOT NULL,
+    `address` BIGINT NOT NULL,
+    `user_id` INT NOT NULL,
+    `description` TEXT NULL,
+    `status` TINYINT(1) NOT NULL,
+    `image` TEXT NOT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `locations` ADD INDEX `locations_name_index`(`name`);
+CREATE TABLE `request_groups`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `form` TEXT NOT NULL,
+    `description` TEXT NULL,
+    `default_approvers` TEXT NOT NULL,
+    `default_followers` TEXT NOT NULL,
+    `allow_direct_approval` TINYINT(1) NOT NULL,
+    `approval_follow` VARCHAR(255) NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+CREATE TABLE `activity_logs`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `user_id` INT NOT NULL,
+    `object_id` INT NOT NULL,
+    `object_type` VARCHAR(255) NOT NULL,
+    `changes` TEXT NOT NULL,
+    `files` TEXT NOT NULL,
+    `metatype` VARCHAR(255) NOT NULL,
+    `action_cost` DECIMAL(8, 2) NOT NULL,
+    `action_date` TIMESTAMP NOT NULL,
+    `data` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+ALTER TABLE
+    `activity_logs` ADD INDEX `activity_logs_object_id_object_type_metatype_index`(
+        `object_id`,
+        `object_type`,
+        `metatype`
+    );
+CREATE TABLE `actions`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `user_id` INT NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    `change_fields` TEXT NOT NULL,
+    `conditions` TEXT NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+CREATE TABLE `users_roles`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `description` TEXT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+CREATE TABLE `roles_permissions`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `role_id` VARCHAR(255) NOT NULL,
+    `permissions` VARCHAR(255) NOT NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
+CREATE TABLE `users`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `first_name` VARCHAR(255) NOT NULL,
+    `last_name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` TEXT NOT NULL,
+    `activated` TINYINT(1) NOT NULL,
+    `country` VARCHAR(255) NULL,
+    `avatar` TEXT NULL,
+    `phone` VARCHAR(255) NULL,
+    `job_title` VARCHAR(255) NULL,
+    `username` VARCHAR(255) NOT NULL,
+    `description` TEXT NULL,
+    `address` VARCHAR(255) NULL,
+    `city` VARCHAR(255) NULL,
+    `state` VARCHAR(255) NULL,
+    `zip` VARCHAR(255) NULL,
+    `since` TIMESTAMP NOT NULL,
+    `last_update` TIMESTAMP NOT NULL
+);
