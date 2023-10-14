@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
@@ -9,10 +10,14 @@ import Licenses from "@/public/licenses.svg";
 import Request from "@/public/request.svg";
 import Audit from "@/public/audit.svg";
 import Depreciation from "@/public/depreciation.svg";
+import {usePathname} from 'next/navigation';
+import styles from '../../styles/layout.module.scss'
 
 export default function MasterMenu() {
+  const currentRoute =usePathname();
+
   return (
-    <aside className="w-56 bg-base-100">
+    <aside className="w-56 bg-base-100 border-r-2">
       <ul className="menu w-56">
         <div className="flex h-16 gap-3 px-4">
           <div className="avatar items-center">
@@ -32,32 +37,32 @@ export default function MasterMenu() {
       </ul>
       <ul className="menu w-56">
         <li>
-          <Link href={"/"}>
-            <Home className="h-5 w-5" /> My assets
+          <Link href={"/"} className={currentRoute === '/' ? 'active' : ''}>
+            <Home className={`${currentRoute === '/' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> My assets
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
-            <Setting className="h-5 w-5" /> Setting
+          <Link href={"/settings"} className={currentRoute === '/settings' ? 'active' : ''}>
+            <Setting className={`${currentRoute === '/settings' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Setting
           </Link>
         </li>
       </ul>
       <ul className="menu  w-56">
         <li className="menu-title">ASSET MANAGEMENT</li>
         <li>
-          <Link href={"/"}>
-            <Asset className="h-5 w-5" /> Assets
+          <Link href={"/assets"} className={currentRoute === '/assets' ? 'active' : ''}>
+            <Asset className={`${currentRoute === '/assets' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Assets
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
-            <Accessories className="h-5 w-5" />
+          <Link href={"/accessories"} className={currentRoute === '/accessories' ? 'active' : ''}>
+            <Accessories className={`${currentRoute === '/accessories' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} />
             Accessories
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
-            <Licenses className="h-5 w-5" />
+          <Link href={"/licenses"} className={currentRoute === '/licenses' ? 'active' : ''}>
+            <Licenses className={`${currentRoute === '/licenses' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} />
             Licenses
           </Link>
         </li>
@@ -66,20 +71,20 @@ export default function MasterMenu() {
       <ul className="menu w-56">
         <li className="menu-title">ASSET OPERATIONS</li>
         <li>
-          <Link href={"/"}>
-            <Request className="h-5 w-5" />
+          <Link href={"/requests"} className={currentRoute === '/requests' ? 'active' : ''}>
+            <Request className={`${currentRoute === '/requests' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} />
             Requests
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
-            <Audit className="h-5 w-5" />
+          <Link href={"/audits"} className={currentRoute === '/audits' ? 'active' : ''}>
+            <Audit className={`${currentRoute === '/audits' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} />
             Audits
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
-            <Depreciation className="h-5 w-5" />
+          <Link href={"/depreciation"} className={currentRoute === '/depreciation' ? 'active' : ''}>
+            <Depreciation className={`${currentRoute === '/depreciation' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} />
             Depreciation
           </Link>
         </li>
