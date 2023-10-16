@@ -6,3 +6,14 @@
         stroke: white;
     }
 }
+
+.search_input{
+    input{
+        height: 32px;
+    }
+
+    button{
+        height: 32px;
+        min-height: 32px;
+    }
+}

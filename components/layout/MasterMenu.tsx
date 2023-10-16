@@ -42,8 +42,8 @@ export default function MasterMenu() {
           </Link>
         </li>
         <li>
-          <Link href={"/settings"} className={currentRoute === '/settings' ? 'active' : ''}>
-            <Setting className={`${currentRoute === '/settings' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Setting
+          <Link href={"/settings/locations"} className={currentRoute.includes('/settings') ? 'active' : ''}>
+            <Setting className={`${currentRoute.includes('/settings') ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Setting
           </Link>
         </li>
       </ul>

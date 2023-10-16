@@ -7,8 +7,8 @@ export default function SettingLayout({
 }) {
   return (
     <div className="flex flex-row">
-      <SettingMenu className="flex h-screen w-52 border-r-2 bg-base-100" />
-      <main>{children}</main>
+      <SettingMenu className="h-screen w-52 border-r-2 bg-base-100" />
+      <div className="flex-grow">{children}</div>
     </div>
   );
 }
