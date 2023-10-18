@@ -1,6 +1,13 @@
 import Pagination from "@/components/layout/Pagination";
+import prisma from "@/lib/db/prisma";
+import Image from "next/image";
 
-export default function LocationBoard({}: {}) {
+export default async function LocationBoard({}: {}) {
+  const locations = await prisma.locations.findMany({
+    orderBy: { id: "desc" },
+    take: 10,
+  });
+
   return (
     <div className="w-full overflow-x-auto">
       <table className="tabel-auto table table-zebra table-xs">
@@ -12,21 +19,24 @@ export default function LocationBoard({}: {}) {
             <th>Address</th>
             <th>Description</th>
             <th>Status</th>
-            <th>Assigned Asset</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>12/16/2020</td>
-            <td>Quality Control Specialist</td>
-            <td>Littel, Schaden and Vandervort</td>
-            <td>Canada</td>
-            <td>Blue</td>
-            <td></td>
-          </tr>
+          {locations.map((location, index) => {
+            return (
+              <tr>
+                <th>{index + 1}</th>
+                <th>{location.name?.toString()}</th>
+                <th>
+                  {location.image && <Image src={location.image.toString()} alt={location.name?.toString()} width={80} height={80}/>}
+                </th>
+                <th>{location.address?.toString()}</th>
+                <th>{location.description?.toString()}</th>
+                <th>{location.status?.toString()}</th>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

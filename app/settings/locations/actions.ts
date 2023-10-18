@@ -1,21 +1,29 @@
 "use server";
 
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { uploadFile } from "../../base/file";
+import prisma from "@/lib/db/prisma";
+import { revalidatePath } from "next/cache";
 
-export async function addLocation(formData: FormData){
-    const file:File | null = formData.get('file') as unknown as File;
-    if(!file){
-        throw new Error('No file uploaded')
-    }
+export async function addLocation(formData: FormData) {
+  const name = formData.get("name")?.toString();
+  const description = formData.get("description")?.toString();
+  const address = formData.get("address")?.toString();
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+  const file: File | null = formData.get("file") as unknown as File;
+  var file_path;
+  if (file) {
+    file_path = await uploadFile(file);
+  }
 
-    console.log(process.cwd())
-    const path = join(process.cwd(),'/public/upload', file.name);
-    console.log(`open ${path} to see the uploaded file`)
-    await writeFile(path, buffer);
-    
-    return {success:true}
+  if(!name){
+    throw Error("Missing required fields");
+  }
+
+  await prisma.locations.create({
+    data: {
+      name,description, address, image:file_path
+    },
+  });
+
+  revalidatePath('/settings/locations');
 }
