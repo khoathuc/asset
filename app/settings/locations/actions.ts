@@ -2,6 +2,7 @@
 
 import { uploadFile } from "../../base/file";
 import prisma from "@/lib/db/prisma";
+import { locations } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function addLocation(formData: FormData) {
@@ -15,15 +16,34 @@ export async function addLocation(formData: FormData) {
     file_path = await uploadFile(file);
   }
 
-  if(!name){
-    throw Error("Missing required fields");
+  if (!name) {
+    throw Error("Name is required");
   }
 
   await prisma.locations.create({
     data: {
-      name,description, address, image:file_path
+      name,
+      description,
+      address,
+      image: file_path,
+      status: true,
     },
   });
 
-  revalidatePath('/settings/locations');
+  revalidatePath("/settings/locations");
+}
+
+export async function changeStatus(checked:boolean, location:locations) {
+  if(!location){
+    throw Error("Location is required");
+  }
+
+  return await prisma.locations.update({
+    where: {
+      id: location.id,
+    },
+    data:{
+      status: checked
+    }
+  })
 }

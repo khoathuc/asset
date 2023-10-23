@@ -92,7 +92,7 @@ model locations {
   address     String?   @db.Text
   user_id     Int?
   description String?  @db.Text
-  status      Boolean?
+  status      Boolean
   image       String?   @db.Text
   data        String?   @db.Text
   since       DateTime @db.Timestamp(0) @default(now())

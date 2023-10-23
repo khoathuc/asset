@@ -1,29 +1,26 @@
 "use client";
 import { useRef } from "react";
 
-export default function ModalForm({
-  id,
-  label,
-  action,
-  children,
-}: {
+type ModalForm = {
   id: string;
   label?: string;
   action: (formData: FormData) => Promise<void>;
   children: React.ReactNode;
-}) {
+};
+
+export default function ModalForm({ id, label, action, children }: ModalForm) {
   const ref = useRef<HTMLFormElement>(null);
 
   function handleSubmit() {
     const dialogElement = document?.getElementById(
-      "js-modal-form",
+      "js-modal",
     ) as HTMLDialogElement;
     dialogElement.close();
   }
 
   return (
-    <dialog id="js-modal-form" className="modal">
-      <div className="modal-box">
+    <>
+      <div className="modal-box overflow-hidden">
         <div className="border-b-2 ">
           <form method="dialog">
             <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
@@ -61,6 +58,6 @@ export default function ModalForm({
           </button>
         </div>
       </div>
-    </dialog>
+    </>
   );
 }

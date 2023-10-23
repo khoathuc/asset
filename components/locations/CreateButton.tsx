@@ -1,10 +1,16 @@
 "use client";
+import { CreateForm } from "./Form";
+import { createRoot } from 'react-dom/client';
 
 export default function CreateButton() {
   function handleClick() {
     const dialogElement = document?.getElementById(
-      "js-modal-form",
+      "js-modal",
     ) as HTMLDialogElement;
+
+    const root = createRoot(dialogElement);
+    root.render(<CreateForm/>);
+
     dialogElement.showModal();
   }
 
