@@ -1,8 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
+import MasterMenu from "@/components/layout/MasterMenu";
+import Modal from "@/components/layout/Modal";
 
-const inter = Inter({ subsets: ["latin"] });
+const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Asset",
@@ -16,7 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={openSans.className}>
+        <div className="flex h-screen flex-row bg-base-200">
+          <MasterMenu></MasterMenu>
+          <main className="flex-grow">{children}</main>
+          <Modal></Modal>
+        </div>
+      </body>
     </html>
   );
 }
