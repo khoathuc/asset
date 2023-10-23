@@ -6,7 +6,7 @@ import LocationBoard from "./board";
 
 export default function Page() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full min-h-full">
       <PageHeader label="Locations" subLabel="Manage location">
         <Side>
           <SearchInput name="q" placeholder="Search locations"></SearchInput>
@@ -16,7 +16,7 @@ export default function Page() {
         </Side>
       </PageHeader>
 
-      <div className="flex h-full w-full flex-1 justify-center pt-12 pb-12">
+      <div className="flex h-full w-full flex-1 justify-center overflow-auto pt-12 pb-12">
         <div className="flex w-11/12 bg-base-100 p-3">
           <LocationBoard></LocationBoard>
         </div>

@@ -3,6 +3,9 @@ import prisma from "@/lib/db/prisma";
 import Image from "next/image";
 import { changeStatus } from "./actions";
 import ToggleStatus from "@/components/locations/ToggleStatus";
+import More from "@/public/more.svg";
+import Edit from "@/public/edit.svg";
+import Trash from "@/public/trash.svg";
 
 export default async function LocationBoard({}: {}) {
   const locations = await prisma.locations.findMany({
@@ -53,16 +56,24 @@ export default async function LocationBoard({}: {}) {
 
                 <th>
                   <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
-                    <label tabIndex={0} className="btn m-1"></label>
+                    <label tabIndex={0} className="btn h-8 w-8 p-0 min-h-fit bg-neutral text-neutral-content hover:text-neutral-focus">
+                      <More className='w-4 h-4'/>
+                    </label>
                     <ul
                       tabIndex={0}
-                      className="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
+                      className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
                     >
                       <li>
-                        <a>Item 1</a>
+                        <button>
+                          <Edit className='h-4 w-4'/>
+                          Edit
+                        </button>
                       </li>
                       <li>
-                        <a>Item 2</a>
+                        <button className='flex justify-start items-center text-error hover:bg-error hover:text-neutral-50'>
+                          <Trash className='h-4 w-4'/>
+                          Delete
+                        </button>
                       </li>
                     </ul>
                   </div>
