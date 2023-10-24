@@ -47,3 +47,31 @@ export async function changeStatus(checked:boolean, location:locations) {
     }
   })
 }
+
+export async function editLocation(formData: FormData){
+  const id = parseInt(formData.get("id")?.toString() ?? "");
+  const name = formData.get("name")?.toString();
+  const description = formData.get("description")?.toString();
+  const address = formData.get("address")?.toString();
+
+  const file: File | null = formData.get("file") as unknown as File;
+  var file_path;
+  if (file) {
+    file_path = await uploadFile(file);
+  }
+
+  if (!name || !id) {
+    throw Error("Name is required");
+  }
+
+  await prisma.locations.update({
+    where: {
+      id: id
+    },
+    data:{
+      name:name,
+      description,
+      address
+    }
+  })
+}

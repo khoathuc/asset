@@ -20,7 +20,7 @@ export default function ModalForm({ id, label, action, children }: ModalForm) {
 
   return (
     <>
-      <div className="modal-box overflow-hidden">
+      <div className="modal-box m-auto overflow-hidden max-h-none">
         <div className="border-b-2 ">
           <form method="dialog">
             <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
