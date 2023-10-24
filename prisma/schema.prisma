@@ -14,8 +14,8 @@ model actions {
   status        Boolean
   change_fields String   @db.Text
   conditions    String   @db.Text
-  since         DateTime @db.Timestamp(0)
-  last_update   DateTime @db.Timestamp(0)
+  since         DateTime @default(now()) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model activity_logs {
@@ -28,10 +28,10 @@ model activity_logs {
   files       String   @db.Text
   metatype    String   @db.VarChar(255)
   action_cost Decimal  @db.Decimal(8, 2)
-  action_date DateTime @db.Timestamp(0)
+  action_date DateTime @default(now()) @db.Timestamp(0)
   data        String   @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([object_id, object_type, metatype], map: "activity_logs_object_id_object_type_metatype_index")
 }
@@ -46,8 +46,8 @@ model asset_logs {
   changes     String   @db.Text
   files       String   @db.Text
   description String?  @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([metatype], map: "asset_logs_metatype_index")
   @@index([object_id, object_type], map: "asset_logs_object_id_object_type_index")
@@ -68,16 +68,16 @@ model assets {
   meta_type      String   @db.VarChar(32)
   description    String?  @db.Text
   form           String   @db.Text
-  active_date    DateTime @db.Timestamp(0)
+  active_date    DateTime @default(now()) @db.Timestamp(0)
   files          String   @db.Text
   images         String   @db.Text
-  purchase_date  DateTime @db.Timestamp(0)
+  purchase_date  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
   purchase_price Decimal  @db.Decimal(8, 2)
   stats          String   @db.Text
   token          String   @db.VarChar(255)
   data           String   @db.Text
-  since          DateTime @db.Timestamp(0)
-  last_update    DateTime @db.Timestamp(0)
+  since          DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update    DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([location_id], map: "assets_location_id_index")
   @@index([meta_type], map: "assets_meta_type_index")
@@ -89,14 +89,14 @@ model assets {
 model locations {
   id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
   name        String   @db.VarChar(256)
-  address     String?   @db.Text
+  address     String?  @db.Text
   user_id     Int?
   description String?  @db.Text
   status      Boolean
-  image       String?   @db.Text
-  data        String?   @db.Text
-  since       DateTime @db.Timestamp(0) @default(now())
-  last_update DateTime @db.Timestamp(0) @updatedAt
+  image       String?  @db.Text
+  data        String?  @db.Text
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([name], map: "locations_name_index")
 }
@@ -112,8 +112,8 @@ model request_groups {
   allow_direct_approval Boolean
   approval_follow       String   @db.VarChar(255)
   status                Boolean
-  since                 DateTime @db.Timestamp(0)
-  last_update           DateTime @db.Timestamp(0)
+  since                 DateTime @default(now()) @db.Timestamp(0)
+  last_update           DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model requests {
@@ -130,8 +130,8 @@ model requests {
   description      String?  @db.Text
   files            String   @db.Text
   form             String   @db.Text
-  since            DateTime @db.Timestamp(0)
-  last_update      DateTime @db.Timestamp(0)
+  since            DateTime @default(now()) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([location_id], map: "requests_location_id_index")
   @@index([request_group_id], map: "requests_request_group_id_index")
@@ -142,8 +142,8 @@ model roles_permissions {
   id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
   role_id     String   @db.VarChar(255)
   permissions String   @db.VarChar(255)
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model statuses {
@@ -155,8 +155,8 @@ model statuses {
   currently_in_use Boolean
   color            String   @db.VarChar(32)
   data             String   @db.Text
-  since            DateTime @db.Timestamp(0)
-  last_update      DateTime @db.Timestamp(0)
+  since            DateTime @default(now()) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([active, available_to_use, currently_in_use], map: "statuses_active_available_to_use_currently_in_use_index")
   @@index([name], map: "statuses_name_index")
@@ -175,7 +175,7 @@ model stock {
   type_id          Int
   is_inventory     Boolean
   form             String   @db.Text
-  purchase_date    DateTime @db.Timestamp(0)
+  purchase_date    DateTime @default(now()) @db.Timestamp(0)
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
   image            String?  @db.Text
@@ -183,8 +183,8 @@ model stock {
   images           String   @db.Text
   stats            String   @db.Text
   description      String?  @db.Text
-  since            DateTime @db.Timestamp(0)
-  last_update      DateTime @db.Timestamp(0)
+  since            DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([is_inventory], map: "stock_is_inventory_index")
   @@index([location_id, vendor_id, type_id], map: "stock_location_id_vendor_id_type_id_index")
@@ -198,8 +198,8 @@ model tags {
   color       String   @db.VarChar(255)
   description String   @db.VarChar(255)
   data        String   @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([name], map: "tags_name_index")
 }
@@ -214,8 +214,8 @@ model types {
   prefix      String   @db.VarChar(32)
   description String?  @db.Text
   data        String   @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model users {
@@ -235,16 +235,16 @@ model users {
   city        String?  @db.VarChar(255)
   state       String?  @db.VarChar(255)
   zip         String?  @db.VarChar(255)
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model users_roles {
   id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
   name        String   @db.VarChar(255)
   description String?  @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
 model vendor {
@@ -259,8 +259,8 @@ model vendor {
   description String?  @db.Text
   image       String?  @db.Text
   files       String   @db.Text
-  since       DateTime @db.Timestamp(0)
-  last_update DateTime @db.Timestamp(0)
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([name], map: "vendor_name_index")
 }
