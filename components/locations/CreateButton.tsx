@@ -4,11 +4,16 @@ import ModalForm from "../layout/ModalForm";
 import { useForm, FormProvider } from "react-hook-form";
 import "../../styles/form.css";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import React from "react";
 
 export default function CreateButton() {
-  const methods = useForm();
+  const id = "js-location-form";
+
+  const methods = useForm<FormData>();
   const { register, formState, reset } = methods;
   const { errors, isSubmitSuccessful } = formState;
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -16,14 +21,25 @@ export default function CreateButton() {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const id = "js-location-form";
 
   function handleClick() {
     Modal.open(id);
   }
 
-  const onSubmit = (data: any) => {
-    console.log("form Submitted", data);
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    
+    console.log(data)
+
+    const response = await fetch("/api/location", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body:data,
+    });
+
+
   };
 
   return (
