@@ -29,7 +29,6 @@ export default function CreateButton() {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     
-    console.log(data)
 
     const response = await fetch("/api/location", {
       method: "POST",
