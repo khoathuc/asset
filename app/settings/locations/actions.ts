@@ -33,8 +33,8 @@ export async function addLocation(formData: FormData) {
   revalidatePath("/settings/locations");
 }
 
-export async function changeStatus(checked:boolean, location:locations) {
-  if(!location){
+export async function changeStatus(checked: boolean, location: locations) {
+  if (!location) {
     throw Error("Location is required");
   }
 
@@ -42,13 +42,13 @@ export async function changeStatus(checked:boolean, location:locations) {
     where: {
       id: location.id,
     },
-    data:{
-      status: checked
-    }
-  })
+    data: {
+      status: checked,
+    },
+  });
 }
 
-export async function editLocation(formData: FormData){
+export async function editLocation(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
   const name = formData.get("name")?.toString();
   const description = formData.get("description")?.toString();
@@ -66,12 +66,12 @@ export async function editLocation(formData: FormData){
 
   await prisma.locations.update({
     where: {
-      id: id
+      id: id,
     },
-    data:{
-      name:name,
+    data: {
+      name: name,
       description,
-      address
-    }
-  })
+      address,
+    },
+  });
 }
