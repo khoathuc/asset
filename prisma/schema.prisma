@@ -8,7 +8,7 @@ datasource db {
 }
 
 model actions {
-  id            BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id            Int   @id @default(autoincrement()) @db.UnsignedInt
   name          String   @db.VarChar(255)
   user_id       Int
   status        Boolean
@@ -19,7 +19,7 @@ model actions {
 }
 
 model activity_logs {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
   object_id   Int
@@ -37,11 +37,11 @@ model activity_logs {
 }
 
 model asset_logs {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
-  user_id     BigInt
+  user_id     Int
   metatype    String   @db.VarChar(255)
-  object_id   BigInt
+  object_id   Int
   object_type String   @db.VarChar(255)
   changes     String   @db.Text
   files       String   @db.Text
@@ -54,7 +54,7 @@ model asset_logs {
 }
 
 model assets {
-  id             BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id             Int   @id @default(autoincrement()) @db.UnsignedInt
   name           String   @db.VarChar(255)
   image          String   @db.VarChar(255)
   code           String   @db.VarChar(32)
@@ -87,7 +87,7 @@ model assets {
 }
 
 model locations {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   address     String?  @db.Text
   user_id     Int?
@@ -102,7 +102,7 @@ model locations {
 }
 
 model request_groups {
-  id                    BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id                    Int   @id @default(autoincrement()) @db.UnsignedInt
   user_id               Int
   name                  String   @db.VarChar(255)
   form                  String   @db.Text
@@ -117,7 +117,7 @@ model request_groups {
 }
 
 model requests {
-  id               BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id               Int   @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(256)
   user_id          Int
   location_id      Int
@@ -139,7 +139,7 @@ model requests {
 }
 
 model roles_permissions {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   role_id     String   @db.VarChar(255)
   permissions String   @db.VarChar(255)
   since       DateTime @default(now()) @db.Timestamp(0)
@@ -147,9 +147,9 @@ model roles_permissions {
 }
 
 model statuses {
-  id               BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id               Int   @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(256)
-  user_id          BigInt
+  user_id          Int
   active           Boolean
   available_to_use Boolean
   currently_in_use Boolean
@@ -163,7 +163,7 @@ model statuses {
 }
 
 model stock {
-  id               BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id               Int   @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(255)
   user_id          Int
   code             String   @db.VarChar(255)
@@ -192,7 +192,7 @@ model stock {
 }
 
 model tags {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
   color       String   @db.VarChar(255)
@@ -205,7 +205,7 @@ model tags {
 }
 
 model types {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   user_id     Int
   form        String   @db.Text
@@ -219,7 +219,7 @@ model types {
 }
 
 model users {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   first_name  String   @db.VarChar(255)
   last_name   String   @db.VarChar(255)
   email       String   @db.VarChar(255)
@@ -240,7 +240,7 @@ model users {
 }
 
 model users_roles {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   description String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
@@ -248,7 +248,7 @@ model users_roles {
 }
 
 model vendor {
-  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   user_id     Int
   phone       String?  @db.VarChar(256)
