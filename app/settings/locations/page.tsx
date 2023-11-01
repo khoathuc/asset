@@ -11,7 +11,7 @@ export default function Page() {
         <Side>
           <SearchInput name="q" placeholder="Search locations"></SearchInput>
           <div className="h-8">
-            <CreateButton></CreateButton>
+            <CreateButton />
           </div>
         </Side>
       </PageHeader>

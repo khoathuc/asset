@@ -4,8 +4,8 @@ import Image from "next/image";
 import { changeStatus } from "./actions";
 import ToggleStatus from "@/components/locations/ToggleStatus";
 import More from "@/public/more.svg";
-import Edit from "@/public/edit.svg";
 import Trash from "@/public/trash.svg";
+import EditButton from "@/components/locations/EditButton";
 
 export default async function LocationBoard({}: {}) {
   const locations = await prisma.locations.findMany({
@@ -64,10 +64,7 @@ export default async function LocationBoard({}: {}) {
                       className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
                     >
                       <li>
-                        <button>
-                          <Edit className='h-4 w-4'/>
-                          Edit
-                        </button>
+                        <EditButton location={location}/>
                       </li>
                       <li>
                         <button className='flex justify-start items-center text-error hover:bg-error hover:text-neutral-50'>
