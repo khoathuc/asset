@@ -9,7 +9,7 @@ import Caction from "@/public/caction.svg";
 import PrintTemplate from "@/public/printTemplate.svg";
 import RequestPurpose from "@/public/requestPurpose.svg";
 import { usePathname } from "next/navigation";
-import styles from '../../styles/layout.module.scss'
+import styles from '@/styles/layout.module.scss'
 
 export default function SettingMenu({ className }: { className: string }) {
   const currentRoute = usePathname();

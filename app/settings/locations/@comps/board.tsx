@@ -1,11 +1,11 @@
 import Pagination from "@/components/layout/Pagination";
 import prisma from "@/lib/db/prisma";
 import Image from "next/image";
-import { changeStatus } from "./actions";
-import ToggleStatus from "@/components/locations/ToggleStatus";
+import { changeStatus } from "../actions";
+import ToggleStatus from "@/app/settings/locations/@comps/ToggleStatus";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
-import EditButton from "@/components/locations/EditButton";
+import EditButton from "@/app/settings/locations/@comps/EditButton";
 
 export default async function LocationBoard({}: {}) {
   const locations = await prisma.locations.findMany({
