@@ -9,6 +9,7 @@ export default function ModalForm({
   label,
   onSubmit,
   noValidate,
+  className,
   children,
 }: ModalFormProps) {
   const { handleSubmit } = useFormContext();
@@ -29,7 +30,7 @@ export default function ModalForm({
   return (
     <>
       <dialog id={dialogId} className="modal block overflow-auto pt-10">
-        <div className="modal-box m-auto max-h-none overflow-hidden">
+        <div className={`modal-box m-auto max-h-none overflow-hidden ${className}`}>
           <div className="border-b-2 ">
               <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2" onClick={handleClose}>
                 ✕
