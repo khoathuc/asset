@@ -10,7 +10,7 @@
 
 
 /public/upload
-/public/uploads
+/public/uploads/*
 # next.js
 /.next/
 /out/
