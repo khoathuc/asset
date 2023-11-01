@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import MasterMenu from "@/components/layout/MasterMenu";
 import Modal from "@/components/layout/Modal";
+import { ToastContainer } from "react-toastify";
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
           <MasterMenu></MasterMenu>
           <main className="flex-grow">{children}</main>
           <Modal></Modal>
+          <ToastContainer/>
         </div>
       </body>
     </html>

@@ -7,23 +7,30 @@ import { useEffect } from "react";
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import InputFile from "../InputFile";
+import { Input } from "../ui/Input";
+import { addLocation } from "../../app/settings/locations/actions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string(),
   address: z.string(),
   owners: z.string(),
-  file: z.string().nullable(),
+  file: z.any(),
 });
+
+type LocationFormData = z.infer<typeof schema>;
 
 export default function CreateButton() {
   const id = "js-location-form";
 
-  const methods = useForm({
+  const methods = useForm<LocationFormData>({
     resolver: zodResolver(schema),
   });
 
+  const router = useRouter();
   const { register, formState, reset, control, setValue, getValues } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -38,21 +45,29 @@ export default function CreateButton() {
     Modal.open(id);
   }
 
-  const handleFileChange = (fileUrl: string | null) => {
-    setValue("file", fileUrl);
-    console.log(getValues('file'))
-  };
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LocationFormData) => {
     setIsLoading(true);
 
-    const response = await fetch("/api/location", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    var formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("address", data.address);
+    formData.append("owners", data.owners);
+    if (data.file) {
+      formData.append("file", data.file[0]);
+    }
+
+    try {
+      await addLocation(formData).then();
+
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -123,15 +138,12 @@ export default function CreateButton() {
             <label className="pb-1 text-sm font-bold text-current">
               Images
             </label>
-            <Controller
-              name="file"
-              control={control}
-              defaultValue={null}
-              render={({ field }) => (
-                <div>
-                  <InputFile field={field} onChange={handleFileChange} />
-                </div>
-              )}
+            <Input
+              type="file"
+              placeholder="Images"
+              className="file-input file-input-bordered"
+              accept="image/png, image/jpeg"
+              {...register("file")}
             />
             <p className="error">{errors.file?.message?.toString()}</p>
           </div>
