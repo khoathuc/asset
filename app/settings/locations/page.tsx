@@ -1,8 +1,8 @@
 import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
-import CreateButton from "@/components/locations/CreateButton";
-import LocationBoard from "./board";
+import CreateButton from "@/app/settings/locations/@comps/CreateButton";
+import LocationBoard from "./@comps/board";
 
 export default function Page() {
   return (

@@ -1,5 +1,5 @@
 export type ModalFormProps = {
-    id: string,
+    id?: string,
     label?: string,
     noValidate?: boolean
     onSubmit?: any,

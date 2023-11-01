@@ -3,6 +3,7 @@
 import { uploadFile } from "../../base/file";
 import prisma from "@/lib/db/prisma";
 import { locations } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function addLocation(formData: FormData) {
   const name = formData.get("name")?.toString();
@@ -19,7 +20,7 @@ export async function addLocation(formData: FormData) {
     throw Error("Name is required");
   }
 
-  return await prisma.locations.create({
+  await prisma.locations.create({
     data: {
       name,
       description,
@@ -28,6 +29,8 @@ export async function addLocation(formData: FormData) {
       status: true,
     },
   });
+
+  revalidatePath("/settings/locations");
 }
 
 export async function changeStatus(checked: boolean, location: locations) {
@@ -69,6 +72,9 @@ export async function editLocation(formData: FormData) {
       name: name,
       description,
       address,
+      image: file_path,
     },
   });
+
+  revalidatePath("/settings/locations");
 }
