@@ -164,20 +164,45 @@ export function EditForm({ location }: { location: locations }) {
 
   return (
     <FormProvider {...methods}>
-      <ModalForm label="EDIT LOCATION" onSubmit={onSubmit} noValidate={true}>
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">
-            Location Name *
-          </label>
-          <Input
-            required
-            type="text"
-            placeholder="Location name"
-            className="input input-bordered"
-            {...register("name")}
-            defaultValue={location.name}
-          />
-          <p className="error">{errors.name?.message?.toString()}</p>
+      <ModalForm label="EDIT LOCATION" onSubmit={onSubmit} className='w-[28rem]' noValidate={true}>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col gap-2">
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Location Name *
+              </label>
+              <Input
+                required
+                type="text"
+                placeholder="Location name"
+                className="input input-bordered"
+                {...register("name")}
+                defaultValue={location.name}
+              />
+              <p className="error">{errors.name?.message?.toString()}</p>
+            </div>
+
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Address
+              </label>
+              <Input
+                type="text"
+                placeholder="Location address"
+                className="input input-bordered"
+                {...register("address")}
+                defaultValue={location.address || ""}
+              />
+            </div>
+          </div>
+          {location.image && (
+            <Image
+              src={location.image.toString()}
+              alt={location.name?.toString()}
+              width={150}
+              height={150}
+            />
+          )}
         </div>
 
         <div className="form-control flex flex-col">
@@ -189,17 +214,6 @@ export function EditForm({ location }: { location: locations }) {
             placeholder="Description"
             {...register("description")}
             defaultValue={location.description || ""}
-          />
-        </div>
-
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Address</label>
-          <Input
-            type="text"
-            placeholder="Location address"
-            className="input input-bordered"
-            {...register("address")}
-            defaultValue={location.address || ""}
           />
         </div>
 
@@ -217,14 +231,6 @@ export function EditForm({ location }: { location: locations }) {
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">Images</label>
-          {location.image && (
-            <Image
-              src={location.image.toString()}
-              alt={location.name?.toString()}
-              width={120}
-              height={120}
-            />
-          )}
           <Input
             type="file"
             placeholder="Images"
