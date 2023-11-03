@@ -34,12 +34,17 @@ export function CreateForm() {
     setIsLoading(true);
 
     var formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("address", data.address);
-    formData.append("owners", data.owners);
-    if (data.file) {
-      formData.append("file", data.file[0]);
+
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = (data as any)[key];
+
+        if (key == "file" && value instanceof FileList) {
+          formData.append("file", data.file[0]);
+        } else {
+          formData.append(key, value);
+        }
+      }
     }
 
     try {
@@ -143,12 +148,17 @@ export function EditForm({ location }: { location: locations }) {
 
     var formData = new FormData();
     formData.append("id", location.id.toString());
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("address", data.address);
-    formData.append("owners", data.owners);
-    if (data.file) {
-      formData.append("file", data.file[0]);
+    
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = (data as any)[key];
+
+        if (key == "file" && value instanceof FileList) {
+          formData.append("file", data.file[0]);
+        } else {
+          formData.append(key, value);
+        }
+      }
     }
 
     try {
@@ -164,7 +174,12 @@ export function EditForm({ location }: { location: locations }) {
 
   return (
     <FormProvider {...methods}>
-      <ModalForm label="EDIT LOCATION" onSubmit={onSubmit} className='w-[28rem]' noValidate={true}>
+      <ModalForm
+        label="EDIT LOCATION"
+        onSubmit={onSubmit}
+        className="w-[28rem]"
+        noValidate={true}
+      >
         <div className="flex flex-row justify-between">
           <div className="flex flex-col gap-2">
             <div className="form-control flex flex-col">
