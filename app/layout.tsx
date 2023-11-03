@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={openSans.className}>
           <div className="flex h-screen flex-row bg-base-200">
             <MasterMenu></MasterMenu>
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow min-w-0">{children}</main>
             <ToastContainer />
             <ModalContainer />
           </div>

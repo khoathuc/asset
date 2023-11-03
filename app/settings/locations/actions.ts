@@ -5,27 +5,33 @@ import prisma from "@/lib/db/prisma";
 import { locations } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function addLocation(formData: FormData) {
-  const name = formData.get("name")?.toString();
+async function readData(formData: FormData) {
   const description = formData.get("description")?.toString();
   const address = formData.get("address")?.toString();
 
   const file: File | null = formData.get("file") as unknown as File;
-  var file_path;
+  var image_url;
   if (file) {
-    file_path = await uploadFile(file);
+    image_url = await uploadFile(file);
   }
 
+  const name = formData.get("name")?.toString();
   if (!name) {
     throw Error("Name is required");
   }
+
+  return { name, description, address, image_url };
+}
+
+export async function addLocation(formData: FormData) {
+  const { name, description, address, image_url } = await readData(formData);
 
   await prisma.locations.create({
     data: {
       name,
       description,
       address,
-      image: file_path,
+      image: image_url,
       status: true,
     },
   });
@@ -50,19 +56,17 @@ export async function changeStatus(checked: boolean, location: locations) {
 
 export async function editLocation(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
-  const name = formData.get("name")?.toString();
-  const description = formData.get("description")?.toString();
-  const address = formData.get("address")?.toString();
+  const location = await prisma.locations.findUnique({
+    where: {
+      id,
+    },
+  });
 
-  const file: File | null = formData.get("file") as unknown as File;
-  var file_path;
-  if (file) {
-    file_path = await uploadFile(file);
+  if(!location){
+    throw new Error("Invalid Location");
   }
 
-  if (!name || !id) {
-    throw Error("Name is required");
-  }
+  const { name, description, address, image_url } = await readData(formData);
 
   await prisma.locations.update({
     where: {
@@ -72,7 +76,7 @@ export async function editLocation(formData: FormData) {
       name: name,
       description,
       address,
-      image: file_path,
+      image: image_url,
     },
   });
 
