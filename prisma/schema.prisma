@@ -247,10 +247,10 @@ model users_roles {
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 }
 
-model vendor {
+model vendors {
   id          Int   @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
-  user_id     Int
+  user_id     Int?
   phone       String?  @db.VarChar(256)
   contact     String?  @db.VarChar(256)
   url         String?  @db.VarChar(255)
@@ -258,9 +258,8 @@ model vendor {
   email       String?  @db.VarChar(256)
   description String?  @db.Text
   image       String?  @db.Text
-  files       String   @db.Text
+  files       String?   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
   @@index([name], map: "vendor_name_index")
 }

@@ -48,7 +48,7 @@ export function CreateForm() {
     }
 
     try {
-      await addLocation(formData).then();
+      await addLocation(formData);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -148,7 +148,7 @@ export function EditForm({ location }: { location: locations }) {
 
     var formData = new FormData();
     formData.append("id", location.id.toString());
-    
+
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];

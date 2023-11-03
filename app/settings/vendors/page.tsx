@@ -2,6 +2,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import CreateButton from "./@comps/CreateButton";
 import Side from "@/components/layout/Side";
+import VendorBoard from "./@comps/board";
 
 export default function Page() {
   return (
@@ -17,7 +18,7 @@ export default function Page() {
 
       <div className="flex h-full w-full flex-1 justify-center overflow-auto pb-12 pt-12">
         <div className="flex w-11/12 bg-base-100 p-3">
-          {/* <VendorBoard></VendorBoard> */}
+          <VendorBoard></VendorBoard>
         </div>
       </div>
     </div>
