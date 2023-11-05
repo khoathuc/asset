@@ -2,7 +2,6 @@
 
 import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
-import { vendors } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 async function readData(formData: FormData) {

@@ -2,7 +2,19 @@ import prisma from "@/lib/db/prisma";
 import { randomInt } from "crypto";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
+import Checked from "@/public/checked.svg";
+import XMark from "@/public/x-mark.svg";
 import EditButton from "./EditButton";
+
+
+//TODO: Implement status type here
+function StatusType({status}: {status: string}){
+  return (
+    <div>
+      {status}
+    </div>
+  )
+}
 
 export default async function StatusBoard() {
   const statuses = await prisma.statuses.findMany({
@@ -30,11 +42,11 @@ export default async function StatusBoard() {
 
                 <th>{statuses.name?.toString()}</th>
 
-                <th>{statuses.deployable?.toString()}</th>
+                <th><StatusType status={statuses.type?.toString()}/></th>
 
                 <th>{randomInt(20, 50)}</th>
 
-                <th>default</th>
+                <th>{statuses.default?<Checked className="w-4 text-success"/>: <XMark className="w-4 text-error"/>}</th>
 
                 <th>
                   <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">

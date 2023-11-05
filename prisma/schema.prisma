@@ -31,7 +31,7 @@ model activity_logs {
   action_date DateTime @default(now()) @db.Timestamp(0)
   data        String   @db.Text
   since       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([object_id, object_type, metatype], map: "activity_logs_object_id_object_type_metatype_index")
 }
@@ -47,7 +47,7 @@ model asset_logs {
   files       String   @db.Text
   description String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([metatype], map: "asset_logs_metatype_index")
   @@index([object_id, object_type], map: "asset_logs_object_id_object_type_index")
@@ -143,24 +143,28 @@ model roles_permissions {
   role_id     String   @db.VarChar(255)
   permissions String   @db.VarChar(255)
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+}
+
+enum StatusType{
+  DEPLOYABLE
+  PENDING
+  UNDEPLOYABLE
+  ARCHIVED
 }
 
 model statuses {
   id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
-  user_id     Int
-  deployable  Boolean
-  pending     Boolean
-  archived    Boolean
-  notes       String   @db.Text
+  user_id     Int?
+  type        StatusType @default(DEPLOYABLE)
+  notes       String?   @db.Text
   default     Boolean 
   color       String   @db.VarChar(32)
-  data        String   @db.Text
+  data        String?   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
-  @@index([pending, deployable, archived], map: "statuses_active_available_to_use_currently_in_use_index")
   @@index([name], map: "statuses_name_index")
 }
 
@@ -201,7 +205,7 @@ model tags {
   description String   @db.VarChar(255)
   data        String   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([name], map: "tags_name_index")
 }
@@ -217,7 +221,7 @@ model types {
   description String?  @db.Text
   data        String   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model users {
@@ -238,7 +242,7 @@ model users {
   state       String?  @db.VarChar(255)
   zip         String?  @db.VarChar(255)
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model users_roles {
@@ -246,7 +250,7 @@ model users_roles {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model vendors {

@@ -2,6 +2,7 @@
 import "@/styles/form.css";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "react-toastify";
 import { statusSchema } from "@/lib/validations/status";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { Input } from "@/components/ui/Input";
 import SelectType from "./SelectType";
 import { Textarea } from "@/components/ui/textarea";
 import { CompactPicker } from "react-color";
+import { addStatus } from "../action";
 
 type StatusFormData = z.infer<typeof statusSchema>;
 
@@ -31,11 +33,26 @@ export function CreateForm() {
 
   const [color, setColor] = useState("#aea1ff");
   const [checked, setChecked] = useState(false);
+
   const onSubmit = async (data: StatusFormData) => {
-    console.log("asdfasdf");
     setIsLoading(true);
 
-    console.log(data);
+    var formData = new FormData();
+
+    for(const key in data){
+      if(data.hasOwnProperty(key)){
+        const value = (data as any)[key];
+        formData.append(key, value);
+      }
+    }
+
+    try{
+      await addStatus(formData);
+    }catch(error){
+      if(error instanceof Error){
+        toast.error(error.message)
+      }
+    }
 
     setIsLoading(false);
   };

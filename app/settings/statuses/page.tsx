@@ -17,7 +17,7 @@ export default function Page() {
 
       <div className="flex h-full w-full flex-1 justify-center overflow-auto pb-12 pt-12">
         <div className="flex w-11/12 justify-between p-3">
-          <div className="bg-base-100">
+          <div className="bg-base-100 w-7/12">
             <StatusBoard></StatusBoard>
           </div>
           <Sidebar />
