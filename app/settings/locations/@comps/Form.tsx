@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/form.css";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -49,6 +50,7 @@ export function CreateForm() {
 
     try {
       await addLocation(formData);
+      toast.success("Successfully add new location")
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -163,6 +165,7 @@ export function EditForm({ location }: { location: locations }) {
 
     try {
       await editLocation(formData).then();
+      toast.success("Successfully edit location");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);

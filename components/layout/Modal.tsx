@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Root, createRoot } from "react-dom/client";
+import {toast} from 'react-toastify';
 
 export function ModalContainer() {
   return <div id="js-modal"></div>;
@@ -26,7 +27,7 @@ export class Modal {
           callback(); // Call the callback to indicate initialization is complete.
         }
       } else {
-        console.log("Dialog element not found.");
+        toast.error("Dialog element not found.");
       }
     });
   }
