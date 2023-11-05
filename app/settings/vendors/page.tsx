@@ -2,7 +2,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import CreateButton from "./@comps/CreateButton";
 import Side from "@/components/layout/Side";
-import VendorBoard from "./@comps/board";
+import VendorBoard from "./@comps/Board";
 
 export default function Page() {
   return (

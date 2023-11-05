@@ -1,6 +1,5 @@
 "use client";
 import { Modal } from "@/components/layout/Modal";
-import "@/styles/form.css";
 import React from "react";
 import { CreateForm } from "./Form";
 

@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/form.css";
 import ModalForm from "@/components/layout/ModalForm";
 import React, { useEffect } from "react";
 import { z } from "zod";
@@ -47,6 +48,7 @@ export function CreateForm() {
 
     try {
       await addVendor(formData);
+      toast.success("Successfully add new vendor");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -199,6 +201,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
 
     try {
       await editVendor(formData);
+      toast.success("Successfully edit vendor");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -210,11 +213,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
 
   return (
     <FormProvider {...methods}>
-      <ModalForm
-        label="EDIT VENDOR"
-        onSubmit={onSubmit}
-        noValidate={true}
-      >
+      <ModalForm label="EDIT VENDOR" onSubmit={onSubmit} noValidate={true}>
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
             Vendor Name *
@@ -237,7 +236,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
             className="textarea textarea-bordered"
             placeholder="Description"
             {...register("description")}
-            defaultValue={vendor.description || ''}
+            defaultValue={vendor.description || ""}
           />
         </div>
 
@@ -250,7 +249,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               className="input input-bordered"
               {...register("phone")}
-              defaultValue={vendor.phone || ''}
+              defaultValue={vendor.phone || ""}
             />
             <p className="error">{errors.phone?.message?.toString()}</p>
           </div>
@@ -264,7 +263,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
               placeholder="Contact"
               className="input input-bordered"
               {...register("contact")}
-              defaultValue={vendor.contact || ''}
+              defaultValue={vendor.contact || ""}
             />
             <p className="error">{errors.contact?.message?.toString()}</p>
           </div>
@@ -278,7 +277,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
               placeholder="Email"
               className="input input-bordered"
               {...register("email")}
-              defaultValue={vendor.email || ''}
+              defaultValue={vendor.email || ""}
             />
             <p className="error">{errors.email?.message?.toString()}</p>
           </div>
@@ -290,7 +289,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
               placeholder="Url"
               className="input input-bordered"
               {...register("url")}
-              defaultValue={vendor.url || ''}
+              defaultValue={vendor.url || ""}
             />
             <p className="error">{errors.url?.message?.toString()}</p>
           </div>
@@ -303,7 +302,7 @@ export function EditForm({ vendor }: { vendor: vendors }) {
             placeholder="Address"
             className="input input-bordered"
             {...register("address")}
-            defaultValue={vendor.address || ''}
+            defaultValue={vendor.address || ""}
           />
           <p className="error">{errors.address?.message?.toString()}</p>
         </div>

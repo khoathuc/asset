@@ -8,7 +8,7 @@ datasource db {
 }
 
 model actions {
-  id            Int   @id @default(autoincrement()) @db.UnsignedInt
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
   name          String   @db.VarChar(255)
   user_id       Int
   status        Boolean
@@ -19,7 +19,7 @@ model actions {
 }
 
 model activity_logs {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
   object_id   Int
@@ -37,7 +37,7 @@ model activity_logs {
 }
 
 model asset_logs {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
   metatype    String   @db.VarChar(255)
@@ -54,7 +54,7 @@ model asset_logs {
 }
 
 model assets {
-  id             Int   @id @default(autoincrement()) @db.UnsignedInt
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
   name           String   @db.VarChar(255)
   image          String   @db.VarChar(255)
   code           String   @db.VarChar(32)
@@ -87,7 +87,7 @@ model assets {
 }
 
 model locations {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   address     String?  @db.Text
   user_id     Int?
@@ -102,7 +102,7 @@ model locations {
 }
 
 model request_groups {
-  id                    Int   @id @default(autoincrement()) @db.UnsignedInt
+  id                    Int      @id @default(autoincrement()) @db.UnsignedInt
   user_id               Int
   name                  String   @db.VarChar(255)
   form                  String   @db.Text
@@ -117,7 +117,7 @@ model request_groups {
 }
 
 model requests {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(256)
   user_id          Int
   location_id      Int
@@ -139,7 +139,7 @@ model requests {
 }
 
 model roles_permissions {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   role_id     String   @db.VarChar(255)
   permissions String   @db.VarChar(255)
   since       DateTime @default(now()) @db.Timestamp(0)
@@ -147,23 +147,25 @@ model roles_permissions {
 }
 
 model statuses {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
-  name             String   @db.VarChar(256)
-  user_id          Int
-  active           Boolean
-  available_to_use Boolean
-  currently_in_use Boolean
-  color            String   @db.VarChar(32)
-  data             String   @db.Text
-  since            DateTime @default(now()) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  name        String   @db.VarChar(256)
+  user_id     Int
+  deployable  Boolean
+  pending     Boolean
+  archived    Boolean
+  notes       String   @db.Text
+  default     Boolean 
+  color       String   @db.VarChar(32)
+  data        String   @db.Text
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
-  @@index([active, available_to_use, currently_in_use], map: "statuses_active_available_to_use_currently_in_use_index")
+  @@index([pending, deployable, archived], map: "statuses_active_available_to_use_currently_in_use_index")
   @@index([name], map: "statuses_name_index")
 }
 
 model stock {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(255)
   user_id          Int
   code             String   @db.VarChar(255)
@@ -192,7 +194,7 @@ model stock {
 }
 
 model tags {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
   color       String   @db.VarChar(255)
@@ -205,7 +207,7 @@ model tags {
 }
 
 model types {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   user_id     Int
   form        String   @db.Text
@@ -219,7 +221,7 @@ model types {
 }
 
 model users {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   first_name  String   @db.VarChar(255)
   last_name   String   @db.VarChar(255)
   email       String   @db.VarChar(255)
@@ -240,7 +242,7 @@ model users {
 }
 
 model users_roles {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   description String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
@@ -248,7 +250,7 @@ model users_roles {
 }
 
 model vendors {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   user_id     Int?
   phone       String?  @db.VarChar(256)
@@ -258,8 +260,9 @@ model vendors {
   email       String?  @db.VarChar(256)
   description String?  @db.Text
   image       String?  @db.Text
-  files       String?   @db.Text
+  files       String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+
   @@index([name], map: "vendor_name_index")
 }
