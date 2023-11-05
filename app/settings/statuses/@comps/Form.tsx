@@ -4,10 +4,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { statusSchema } from "@/lib/validations/status";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import SelectType from "./SelectType";
+import { Textarea } from "@/components/ui/textarea";
+import { CompactPicker } from "react-color";
 
 type StatusFormData = z.infer<typeof statusSchema>;
 
@@ -16,22 +18,28 @@ export function CreateForm() {
     resolver: zodResolver(statusSchema),
   });
 
-  const { register, formState, reset } = methods;
+  const { register, formState, reset, setValue, setError } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   useEffect(() => {
+    setValue("default", checked);
+    setValue("color", color);
     if (isSubmitSuccessful) {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
 
+  const [color, setColor] = useState("#aea1ff");
+  const [checked, setChecked] = useState(false);
   const onSubmit = async (data: StatusFormData) => {
+    console.log("asdfasdf");
     setIsLoading(true);
 
     console.log(data);
 
     setIsLoading(false);
   };
+
   return (
     <FormProvider {...methods}>
       <ModalForm
@@ -57,21 +65,53 @@ export function CreateForm() {
           <label className="pb-1 text-sm font-bold text-current">
             Status Type *
           </label>
-          <Select placeholder="Select Status Type">
-            <option className="border-2 border-l-success" data-color="success" value="1">
-              Deployable
-            </option>
-            <option data-color="warning" value="2">
-              Pending
-            </option>
-            <option data-color="error" value="3">
-              Undeployable
-            </option>
-            <option data-color="error" value="4">
-              Archived
-            </option>
-          </Select>
+          <SelectType
+            onChange={(value: any) => {
+              setValue("type", value);
+            }}
+          />
           <p className="error">{errors.type?.message?.toString()}</p>
+        </div>
+
+        <div className="form-control flex">
+          <label className="flex gap-2 pb-1 text-sm font-bold text-current">
+            Default status
+            <Input
+              type="checkbox"
+              className="toggle toggle-sm"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setValue("default", !checked)
+                setChecked(!checked);
+              }}
+            />
+          </label>
+        </div>
+
+        <div className="form-control flex flex-col">
+          <label className="pb-1 text-sm font-bold text-current">Color</label>
+          <div className="flex justify-between">
+            {color && (
+              <div
+                style={{ backgroundColor: color }}
+                className="h-30 w-1/3"
+              ></div>
+            )}
+            <CompactPicker
+              onChange={(color) => {
+                setColor(color.hex);
+                setValue("color", color.hex);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="form-control flex flex-col">
+          <label className="pb-1 text-sm font-bold text-current">Notes</label>
+          <Textarea
+            className="textarea textarea-bordered"
+            placeholder="Notes"
+            {...register("notes")}
+          />
         </div>
       </ModalForm>
     </FormProvider>

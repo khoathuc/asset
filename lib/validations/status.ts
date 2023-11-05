@@ -10,6 +10,7 @@ const HexColorCodeSchema = z.string().refine(
     message: "Invalid hexadecimal color code",
   },
 );
+
 //for status: 1: Deployable ; 2: Pending, 3: Undeployable, 4: Archived
 const typeSchema = z
   .enum(["1", "2", "3", "4"])
@@ -23,5 +24,5 @@ export const statusSchema = z.object({
   type: typeSchema,
   notes: z.string(),
   default: z.boolean(),
-  color: HexColorCodeSchema,
+  color: z.string(),
 });
