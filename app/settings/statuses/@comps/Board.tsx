@@ -5,15 +5,47 @@ import Trash from "@/public/trash.svg";
 import Checked from "@/public/checked.svg";
 import XMark from "@/public/x-mark.svg";
 import EditButton from "./EditButton";
-
+import { getOption } from "../type";
 
 //TODO: Implement status type here
-function StatusType({status}: {status: string}){
-  return (
-    <div>
-      {status}
-    </div>
-  )
+function StatusType({ status }: { status: string }) {
+  const statusDetail = getOption(status);
+  if (!statusDetail) {
+    return;
+  }
+
+  switch (statusDetail.code) {
+    case "DEPLOYABLE":
+      return (
+        <div>
+          <div className="badge badge-success badge-xs mr-1"></div>
+          {statusDetail?.label}
+        </div>
+      );
+    case "PENDING":
+      return (
+        <div>
+          <div className="badge badge-warning badge-xs mr-1"></div>
+          {statusDetail?.label}
+        </div>
+      );
+    case "UNDEPLOYABLE":
+      return (
+        <div>
+          <div className="badge badge-error badge-xs mr-1"></div>
+          {statusDetail?.label}
+        </div>
+      );
+    case "ARCHIVED":
+      return (
+        <div>
+          <div className="badge badge-error badge-xs mr-1"></div>
+          {statusDetail?.label}
+        </div>
+      );
+    default:
+      return;
+  }
 }
 
 export default async function StatusBoard() {
@@ -42,11 +74,19 @@ export default async function StatusBoard() {
 
                 <th>{status.name?.toString()}</th>
 
-                <th><StatusType status={status.type?.toString()}/></th>
+                <th>
+                  <StatusType status={status.type?.toString()} />
+                </th>
 
                 <th>{randomInt(20, 50)}</th>
 
-                <th>{status.default?<Checked className="w-4 text-success"/>: <XMark className="w-4 text-error"/>}</th>
+                <th>
+                  {status.default ? (
+                    <Checked className="w-4 text-success" />
+                  ) : (
+                    <XMark className="w-4 text-error" />
+                  )}
+                </th>
 
                 <th>
                   <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
@@ -61,7 +101,7 @@ export default async function StatusBoard() {
                       className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
                     >
                       <li>
-                        <EditButton status={status}/>
+                        <EditButton status={status} />
                       </li>
                       <li>
                         <button className="flex items-center justify-start text-error hover:bg-error hover:text-neutral-50">
