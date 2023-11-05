@@ -23,7 +23,6 @@ export default function ModalForm({
   };
 
   const handleClose = () => {
-    console.log("handleClose")
     Modal.closeModal()
   };
 
