@@ -1,9 +1,14 @@
 "use client";
 import Edit from "@/public/edit.svg";
+import {Modal} from "@/components/layout/Modal";
+import { statuses } from "@prisma/client";
+import { EditForm } from "./Form";
 
-export default function EditButton() {
+export default function EditButton({status}:{status: statuses}) {
   function handleClick() {
-    console.log("Edit handleClick");
+    Modal.initModal(<EditForm status={status}/>, ()=>{
+      Modal.openModal()
+    })
   }
 
   return (

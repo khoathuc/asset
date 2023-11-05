@@ -35,18 +35,18 @@ export default async function StatusBoard() {
           </tr>
         </thead>
         <tbody>
-          {statuses.map((statuses, index) => {
+          {statuses.map((status, index) => {
             return (
               <tr>
                 <th>{index + 1}</th>
 
-                <th>{statuses.name?.toString()}</th>
+                <th>{status.name?.toString()}</th>
 
-                <th><StatusType status={statuses.type?.toString()}/></th>
+                <th><StatusType status={status.type?.toString()}/></th>
 
                 <th>{randomInt(20, 50)}</th>
 
-                <th>{statuses.default?<Checked className="w-4 text-success"/>: <XMark className="w-4 text-error"/>}</th>
+                <th>{status.default?<Checked className="w-4 text-success"/>: <XMark className="w-4 text-error"/>}</th>
 
                 <th>
                   <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
@@ -61,7 +61,7 @@ export default async function StatusBoard() {
                       className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
                     >
                       <li>
-                        <EditButton />
+                        <EditButton status={status}/>
                       </li>
                       <li>
                         <button className="flex items-center justify-start text-error hover:bg-error hover:text-neutral-50">

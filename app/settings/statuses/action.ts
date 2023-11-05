@@ -3,8 +3,7 @@ import prisma from "@/lib/db/prisma";
 import { StatusType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-
-function readType(formData: FormData): StatusType|undefined {
+function readType(formData: FormData): StatusType | undefined {
   const validType = ["1", "2", "3", "4"];
   const type = formData.get("type")?.toString();
   if (!type) {
@@ -95,10 +94,40 @@ export async function addStatus(formData: FormData) {
       name,
       type,
       notes,
-      default:isDefault,
+      default: isDefault,
       color,
     },
   });
 
   revalidatePath("/settings/statuses");
+}
+
+export async function editStatus(formData: FormData) {
+  const id = parseInt(formData.get("id")?.toString() ?? "");
+  const status = await prisma.statuses.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!status) {
+    throw new Error("Invalid status");
+  }
+
+  const { name, type, notes, isDefault, color } = readData(formData);
+
+  await prisma.statuses.update({
+    where: {
+      id: id,
+    },
+    data: {
+      name,
+      type,
+      notes,
+      default: isDefault,
+      color,
+    },
+  });
+
+  revalidatePath("/settings/locations");
 }
