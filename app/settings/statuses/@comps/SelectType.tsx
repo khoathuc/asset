@@ -3,29 +3,12 @@ import Select, { ActionMeta, SingleValue , StylesConfig } from "react-select";
 import { rgba } from "polished";
 import { StatusType } from "@prisma/client";
 import { useState } from "react";
+import {TypeOption, getOption, typeOptions} from "../type";
 
 type SelectTypeProps = {
   value?: StatusType | undefined;
   onChange: (value: string) => void;
 }
-
-export function getOption(code: string){
-  return typeOptions.find((option) => option.code === code);
-}
-
-interface TypeOption {
-  readonly code: string;
-  readonly value: string;
-  readonly label: string;
-  readonly color: string;
-}
-
-const typeOptions = [
-  { code: "DEPLOYABLE", value: "1", label: "Deployable", color: "#339900" },
-  { code: "PENDING", value: "2", label: "Pending", color: "#ffcc00" },
-  { code: "UNDEPLOYABLE", value: "3", label: "Undeployable", color: "#cc3300" },
-  { code: "ARCHIVED", value: "4", label: "Archived", color: "#cc3300" },
-];
 
 export function SelectType({
   value,
