@@ -1,48 +1,42 @@
 "use client";
 import "@/styles/form.css";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "react-toastify";
-import { statusSchema } from "@/lib/validations/status";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
+import { z } from "zod";
+import { tagSchema } from "@/lib/validations/tags";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/Input";
-import {SelectType } from "./SelectType";
-import {getOption} from "../type";
 import { Textarea } from "@/components/ui/textarea";
 import { CompactPicker } from "react-color";
-import { addStatus, editStatus } from "../action";
-import { statuses } from "@prisma/client";
+import { toast } from "react-toastify";
+import { addTag, editTag } from "../action";
+import { tags } from "@prisma/client";
 
-type StatusFormData = z.infer<typeof statusSchema>;
+type TagFormData = z.infer<typeof tagSchema>;
 const DEFAULT_COLOR = "#aea1ff";
-const DEFAULT_STATUS = false;
 
 export function CreateForm() {
-  const methods = useForm<StatusFormData>({
-    resolver: zodResolver(statusSchema),
+  const methods = useForm<TagFormData>({
+    resolver: zodResolver(tagSchema),
   });
 
   const { register, formState, reset, setValue } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const [color, setColor] = useState(DEFAULT_COLOR);
   useEffect(() => {
-    setValue("default", checked);
     setValue("color", color);
     if (isSubmitSuccessful) {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
 
-  const [color, setColor] = useState(DEFAULT_COLOR);
-  const [checked, setChecked] = useState(DEFAULT_STATUS);
-
-  const onSubmit = async (data: StatusFormData) => {
+  const onSubmit = async (data: TagFormData) => {
     setIsLoading(true);
 
-    var formData = new FormData();
-
+    const formData = new FormData();
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];
@@ -51,32 +45,32 @@ export function CreateForm() {
     }
 
     try {
-      await addStatus(formData);
+      await addTag(formData);
+      toast.success("Successfully add tag");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
     }
-
     setIsLoading(false);
   };
 
   return (
     <FormProvider {...methods}>
       <ModalForm
-        label="CREATE NEW STATUS"
-        onSubmit={onSubmit}
+        label="CREATE TAG"
         className="w-[28rem]"
+        onSubmit={onSubmit}
         noValidate={true}
       >
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
-            Status Name *
+            Tag Name *
           </label>
           <Input
             required
             type="text"
-            placeholder="Status name"
+            placeholder="Tag name"
             className="input input-bordered"
             {...register("name")}
           />
@@ -85,28 +79,13 @@ export function CreateForm() {
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
-            Status Type *
+            Description
           </label>
-          <SelectType
-            onChange={(value: any) => {
-              setValue("type", value);
-            }}
+          <Textarea
+            className="textarea textarea-bordered"
+            placeholder="Description"
+            {...register("description")}
           />
-          <p className="error">{errors.type?.message?.toString()}</p>
-        </div>
-
-        <div className="form-control flex">
-          <label className="flex gap-2 pb-1 text-sm font-bold text-current">
-            Default status
-            <Input
-              type="checkbox"
-              className="toggle toggle-sm"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setValue("default", !checked);
-                setChecked(!checked);
-              }}
-            />
-          </label>
         </div>
 
         <div className="form-control flex flex-col">
@@ -126,72 +105,58 @@ export function CreateForm() {
             />
           </div>
         </div>
-
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Notes</label>
-          <Textarea
-            className="textarea textarea-bordered"
-            placeholder="Notes"
-            {...register("notes")}
-          />
-        </div>
       </ModalForm>
     </FormProvider>
   );
 }
 
-export function EditForm({ status }: { status: statuses }) {
-  const methods = useForm<StatusFormData>({
-    resolver: zodResolver(statusSchema),
+export function EditForm({ tag }: { tag: tags }) {
+  const methods = useForm<TagFormData>({
+    resolver: zodResolver(tagSchema),
   });
 
   const { register, formState, reset, setValue } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  const [color, setColor] = useState(status.color);
-  const [checked, setChecked] = useState(status.default);
-
+  const [color, setColor] = useState(tag.color);
   useEffect(() => {
-    setValue("default", checked);
     setValue("color", color);
-    setValue("type", getOption(status.type)?.value as any);
     if (isSubmitSuccessful) {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = async (data: StatusFormData) => {
+  const onSubmit = async (data: TagFormData) => {
     setIsLoading(true);
-    var formData = new FormData();
-    formData.append("id", status.id.toString());
 
+    const formData = new FormData();
+    formData.append("id", tag.id.toString());
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];
-
         formData.append(key, value);
       }
     }
 
     try {
-      await editStatus(formData)
-      toast.success("Successfully edit status");
+      await editTag(formData);
+      toast.success("Successfully edit tag");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
     }
-
     setIsLoading(false);
   };
+
   return (
     <FormProvider {...methods}>
       <ModalForm
-        label="EDIT STATUS"
+        label="EDIT TAG"
         onSubmit={onSubmit}
-        className="w-[28rem]"
         noValidate={true}
+        className="w-[28rem]"
       >
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
@@ -200,40 +165,24 @@ export function EditForm({ status }: { status: statuses }) {
           <Input
             required
             type="text"
-            placeholder="Status name"
+            placeholder="Tag name"
             className="input input-bordered"
             {...register("name")}
-            defaultValue={status.name}
+            defaultValue={tag.name}
           />
           <p className="error">{errors.name?.message?.toString()}</p>
         </div>
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
-            Status Type *
+            Description
           </label>
-          <SelectType
-            value={status.type}
-            onChange={(value: any) => {
-              setValue("type", value);
-            }}
+          <Textarea
+            className="textarea textarea-bordered"
+            placeholder="Description"
+            {...register("description")}
+            defaultValue={tag.description || ""}
           />
-          <p className="error">{errors.type?.message?.toString()}</p>
-        </div>
-
-        <div className="form-control flex">
-          <label className="flex gap-2 pb-1 text-sm font-bold text-current">
-            Default status
-            <Input
-              type="checkbox"
-              className="toggle toggle-sm"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setValue("default", !checked);
-                setChecked(!checked);
-              }}
-              checked={checked}
-            />
-          </label>
         </div>
 
         <div className="form-control flex flex-col">
@@ -253,16 +202,6 @@ export function EditForm({ status }: { status: statuses }) {
               }}
             />
           </div>
-        </div>
-
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Notes</label>
-          <Textarea
-            className="textarea textarea-bordered"
-            placeholder="Notes"
-            {...register("notes")}
-            defaultValue={status.notes || ''}
-          />
         </div>
       </ModalForm>
     </FormProvider>

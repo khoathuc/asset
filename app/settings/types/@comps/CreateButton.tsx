@@ -1,14 +1,13 @@
-"use client";
+"use client"
 import { Modal } from "@/components/layout/Modal";
 import { CreateForm } from "./Form";
 
 export default function CreateButton() {
-  function handleClick() {
-    Modal.initModal(<CreateForm />, () => {
-      Modal.openModal();
-    });
-  }
-
+    function handleClick(){
+        Modal.initModal(<CreateForm />, ()=>{
+            Modal.openModal();
+        })
+    }
   return (
     <>
       <button

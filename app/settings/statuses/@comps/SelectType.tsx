@@ -1,5 +1,5 @@
 'use client'
-import Select, { ActionMeta, SingleValue , StylesConfig } from "react-select";
+import Select, { ActionMeta, StylesConfig } from "react-select";
 import { rgba } from "polished";
 import { StatusType } from "@prisma/client";
 import { useState } from "react";
