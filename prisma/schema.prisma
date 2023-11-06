@@ -200,10 +200,10 @@ model stock {
 model tags {
   id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
-  user_id     Int
-  color       String   @db.VarChar(255)
-  description String   @db.VarChar(255)
-  data        String   @db.Text
+  user_id     Int?
+  color       String   @db.VarChar(32)
+  description String?   @db.VarChar(255)
+  data        String?   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 

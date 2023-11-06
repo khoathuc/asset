@@ -16,6 +16,8 @@ import { addStatus, editStatus } from "../action";
 import { statuses } from "@prisma/client";
 
 type StatusFormData = z.infer<typeof statusSchema>;
+const DEFAULT_COLOR = "#aea1ff";
+const DEFAULT_STATUS = false;
 
 export function CreateForm() {
   const methods = useForm<StatusFormData>({
@@ -33,8 +35,8 @@ export function CreateForm() {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const [color, setColor] = useState("#aea1ff");
-  const [checked, setChecked] = useState(false);
+  const [color, setColor] = useState(DEFAULT_COLOR);
+  const [checked, setChecked] = useState(DEFAULT_STATUS);
 
   const onSubmit = async (data: StatusFormData) => {
     setIsLoading(true);
@@ -64,6 +66,7 @@ export function CreateForm() {
       <ModalForm
         label="CREATE NEW STATUS"
         onSubmit={onSubmit}
+        className="w-[28rem]"
         noValidate={true}
       >
         <div className="form-control flex flex-col">
