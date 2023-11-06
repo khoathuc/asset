@@ -261,6 +261,7 @@ export function EditForm({ status }: { status: statuses }) {
             className="textarea textarea-bordered"
             placeholder="Notes"
             {...register("notes")}
+            defaultValue={status.notes || ''}
           />
         </div>
       </ModalForm>

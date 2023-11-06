@@ -14,5 +14,5 @@ const HexColorCodeSchema = z.string().refine(
 export const tagSchema = z.object({
   name: z.string().min(1, "Name is required"),
   color: HexColorCodeSchema,
-  description: z.string().optional()
+  description: z.string()
 });
