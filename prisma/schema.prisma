@@ -213,13 +213,13 @@ model tags {
 model types {
   id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
-  user_id     Int
-  form        String   @db.Text
-  settings    String   @db.Text
-  files       String   @db.Text
+  user_id     Int?
+  form        String?   @db.Text
+  settings    String?   @db.Text
+  files       String?   @db.Text
   prefix      String   @db.VarChar(32)
   description String?  @db.Text
-  data        String   @db.Text
+  data        String?   @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
