@@ -1,10 +1,14 @@
 "use client";
 import { types } from "@prisma/client";
 import Custom from "@/public/custom.svg";
+import { Modal } from "@/components/layout/Modal";
+import CFormBuilder from "../../../../components/ui/cform/CFormBuilder";
 
 export function CFormButton({ type }: { type: types }) {
   function handleClick() {
-    console.log("handleClick");
+    Modal.initModal(<CFormBuilder form={type.form} label={type.name} />, (dialog) => {
+      Modal.openModal(dialog);
+    })
   }
   return (
     <button onClick={handleClick}>

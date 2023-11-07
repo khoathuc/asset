@@ -146,7 +146,7 @@ model roles_permissions {
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
-enum StatusType{
+enum StatusType {
   DEPLOYABLE
   PENDING
   UNDEPLOYABLE
@@ -154,16 +154,16 @@ enum StatusType{
 }
 
 model statuses {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(256)
+  id          Int        @id @default(autoincrement()) @db.UnsignedInt
+  name        String     @db.VarChar(256)
   user_id     Int?
   type        StatusType @default(DEPLOYABLE)
-  notes       String?   @db.Text
-  default     Boolean 
-  color       String   @db.VarChar(32)
-  data        String?   @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  notes       String?    @db.Text
+  default     Boolean
+  color       String     @db.VarChar(32)
+  data        String?    @db.Text
+  since       DateTime   @default(now()) @db.Timestamp(0)
+  last_update DateTime   @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([name], map: "statuses_name_index")
 }
@@ -202,8 +202,8 @@ model tags {
   name        String   @db.VarChar(255)
   user_id     Int?
   color       String   @db.VarChar(32)
-  description String?   @db.Text
-  data        String?   @db.Text
+  description String?  @db.Text
+  data        String?  @db.Text
   since       DateTime @default(now()) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
@@ -211,17 +211,17 @@ model tags {
 }
 
 model types {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(256)
+  id          Int             @id @default(autoincrement()) @db.UnsignedInt
+  name        String          @db.VarChar(256)
   user_id     Int?
-  form        String?   @db.Text
-  settings    String?   @db.Text
-  files       String?   @db.Text
-  prefix      String   @db.VarChar(32)
-  description String?  @db.Text
-  data        String?   @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  form        Json?
+  settings    String?         @db.Text
+  files       String?         @db.Text
+  prefix      String          @db.VarChar(32)
+  description String?         @db.Text
+  data        String?         @db.Text
+  since       DateTime        @default(now()) @db.Timestamp(0)
+  last_update DateTime        @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model users {

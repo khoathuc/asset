@@ -19,11 +19,11 @@ export default function ModalForm({
 
   const submit = (data: any) => {
     onSubmit(data);
-    Modal.closeModal();
+    Modal.closeModal(dialogId);
   };
 
   const handleClose = () => {
-    Modal.closeModal()
+    Modal.closeModal(dialogId)
   };
 
   return (

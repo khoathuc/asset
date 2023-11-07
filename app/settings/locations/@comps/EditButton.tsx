@@ -7,8 +7,8 @@ import { EditForm } from "./Form";
 
 export default function EditButton({ location }: { location: locations }) {
   function handleClick() {
-    Modal.initModal(<EditForm location={location} />, () => {
-      Modal.openModal();
+    Modal.initModal(<EditForm location={location} />, (dialog) => {
+      Modal.openModal(dialog);
     });
   }
 

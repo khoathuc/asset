@@ -7,8 +7,8 @@ import { EditForm } from "./Form";
 
 export default function EditButton({ vendor }: { vendor: vendors }) {
   function handleClick() {
-    Modal.initModal(<EditForm vendor={vendor} />, () => {
-      Modal.openModal();
+    Modal.initModal(<EditForm vendor={vendor} />, (dialog) => {
+      Modal.openModal(dialog);
     });
   }
 

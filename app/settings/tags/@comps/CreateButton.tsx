@@ -4,9 +4,9 @@ import {CreateForm} from "./Form"
 
 export default function CreateButton(){
     function handleClick(){
-        Modal.initModal(<CreateForm />, ()=>{
-            Modal.openModal();
-        })
+        Modal.initModal(<CreateForm />, (dialog) => {
+            Modal.openModal(dialog);
+          })
     }
     return (
         <>

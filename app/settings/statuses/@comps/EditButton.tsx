@@ -6,8 +6,8 @@ import { EditForm } from "./Form";
 
 export default function EditButton({status}:{status: statuses}) {
   function handleClick() {
-    Modal.initModal(<EditForm status={status}/>, ()=>{
-      Modal.openModal()
+    Modal.initModal(<EditForm status={status}/>, (dialog) => {
+      Modal.openModal(dialog);
     })
   }
 
