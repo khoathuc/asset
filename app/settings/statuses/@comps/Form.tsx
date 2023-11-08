@@ -27,6 +27,7 @@ export function CreateForm() {
   const { register, formState, reset, setValue } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  
   useEffect(() => {
     setValue("default", checked);
     setValue("color", color);

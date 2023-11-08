@@ -24,8 +24,7 @@ export class Modal {
     setTimeout(() => {
       const dialog = this.root_ref.querySelector("dialog") as HTMLDialogElement;
       if (dialog) {
-        const id = dialog.getAttribute("id");
-        this.dialogs.push({ id: id?.toString() || "", dialog });
+        this.addDialog(dialog);
 
         if (typeof callback === "function") {
           callback(dialog); // Call the callback to indicate initialization is complete.
@@ -45,13 +44,20 @@ export class Modal {
     return this.dialogs.find((dialog) => dialog.id == id);
   }
 
-  private static removeDialogById(id: string) {
-    const foundDialogIndex = this.dialogs.findIndex((dialog) => dialog.id === id);
-  
+  static removeDialogById(id: string) {
+    const foundDialogIndex = this.dialogs.findIndex(
+      (dialog) => dialog.id === id,
+    );
+
     if (foundDialogIndex !== -1) {
       // Remove the found dialog from the array
       this.dialogs.splice(foundDialogIndex, 1);
     }
+  }
+
+  static addDialog(dialog: HTMLDialogElement) {
+    const id = dialog.getAttribute("id");
+    this.dialogs.push({ id: id?.toString() || "", dialog });
   }
 
   static openModal(dialog: HTMLDialogElement) {
