@@ -9,7 +9,7 @@ const cTextSchema = z.object({});
 
 type cTextFormData = z.infer<typeof cTextSchema>;
 
-export default function CFormNumber() {
+export default function CFormNumber({ onClose }: { onClose: () => void }) {
   const methods = useForm<cTextFormData>({
     resolver: zodResolver(cTextSchema),
   });
@@ -17,7 +17,7 @@ export default function CFormNumber() {
   const { register, formState, reset, setValue } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  
+
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
@@ -33,14 +33,15 @@ export default function CFormNumber() {
 
   return (
     <FormProvider {...methods}>
-        <ModalForm
-            label="Simple Text"
-            className="w-[20rem]"
-            onSubmit={onSubmit}
-            noValidate={true}
-        >
-            Hello
-        </ModalForm>
+      <ModalForm
+        label="Simple Text"
+        className="w-[20rem]"
+        onSubmit={onSubmit}
+        onClose={onClose}
+        noValidate={true}
+      >
+        NumberField
+      </ModalForm>
     </FormProvider>
-  )
-};
+  );
+}

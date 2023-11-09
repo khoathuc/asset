@@ -5,6 +5,7 @@ import Date from "@/public/date_picker.svg";
 import Dropdown from "@/public/bar_arrow_down.svg";
 import { Modal } from "@/components/layout/Modal";
 import { CFieldForm } from "./CFieldForm";
+import { useState } from "react";
 
 export type CField = {
   icon: React.ReactNode;
@@ -20,11 +21,7 @@ const CFieldTypes: CField[] = [
 ];
 
 export function CreateField() {
-  const handleClick = (field: CField) => {
-    Modal.initModal(<CFieldForm field={field}/>, (dialog) => {
-      Modal.openModal(dialog);
-    })
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
@@ -41,16 +38,17 @@ export function CreateField() {
         <div className="grid grid-cols-2 gap-2 p-2">
           {CFieldTypes.map((field, index) => {
             return (
-              <div
-                key={index}
-                className="flex cursor-pointer flex-row items-center gap-2 rounded-sm p-2 hover:bg-neutral-200"
-                onClick={(e) => {
-                  handleClick(field);
-                }}
-              >
-                {field.icon}
-                {field.label?.toString()}
-              </div>
+              <>
+                <div
+                  key={index}
+                  className="flex cursor-pointer flex-row items-center gap-2 rounded-sm p-2 hover:bg-neutral-200"
+                  onClick={(e)=>{setShowModal(true)}}
+                >
+                  {field.icon}
+                  {field.label?.toString()}
+                </div>
+                {showModal && Modal.initModal(<CFieldForm field={field} onClose={()=> setShowModal(false)} />)}
+              </>
             );
           })}
         </div>

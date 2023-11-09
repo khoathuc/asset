@@ -9,7 +9,7 @@ const cTextSchema = z.object({});
 
 type cTextFormData = z.infer<typeof cTextSchema>;
 
-export default function CFormText() {
+export default function CFormText({ onClose }: { onClose: () => void }) {
   const methods = useForm<cTextFormData>({
     resolver: zodResolver(cTextSchema),
   });
@@ -35,10 +35,11 @@ export default function CFormText() {
       <ModalForm
         label="Simple Text"
         className="w-[20rem]"
+        onClose={onClose}
         onSubmit={onSubmit}
         noValidate={true}
       >
-        Hello
+        TextField
       </ModalForm>
     </FormProvider>
   );
