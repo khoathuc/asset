@@ -1,23 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { locations } from "@prisma/client";
 import { Modal } from "@/components/layout/Modal";
 import Edit from "@/public/edit.svg";
 import { EditForm } from "./Form";
 
 export default function EditButton({ location }: { location: locations }) {
-  function handleClick() {
-    Modal.initModal(<EditForm location={location} />, (dialog) => {
-      Modal.openModal(dialog);
-    });
-  }
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={handleClick}>
+      <button onClick={()=>setShowModal(true)}>
         <Edit className="h-4 w-4" />
         Edit location
       </button>
+      {showModal && Modal.initModal(<EditForm location={location} onClose={()=> setShowModal(false)} />)}
     </>
   );
 }

@@ -3,20 +3,18 @@ import Edit from "@/public/edit.svg";
 import { Modal } from "@/components/layout/Modal";
 import { tags } from "@prisma/client";
 import { EditForm } from "./Form";
+import { useState } from "react";
 
 export default function EditButton({ tag }: { tag: tags }) {
-  function handleClick() {
-    Modal.initModal(<EditForm tag={tag} />, (dialog) => {
-      Modal.openModal(dialog);
-    });
-  }
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={handleClick}>
+      <button onClick={()=>setShowModal(true)}>
         <Edit className="h-4 w-4"></Edit>
         Edit Tag
       </button>
+      {showModal && Modal.initModal(<EditForm tag={tag} onClose={()=> setShowModal(false)} />)}
     </>
   );
 }

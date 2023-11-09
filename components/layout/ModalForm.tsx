@@ -11,9 +11,9 @@ export default function ModalForm({
   onSubmit,
   noValidate,
   className,
+  onClose,
   children,
 }: ModalFormProps) {
-  const [updateRef, setUpdateRef] = useState(false);
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const { handleSubmit } = useFormContext();
@@ -23,21 +23,18 @@ export default function ModalForm({
 
   const submit = (data: any) => {
     onSubmit(data);
-    Modal.closeModal(dialogId);
+    onClose();
   };
 
   const handleClose = () => {
-    Modal.closeModal(dialogId);
+    onClose();
   };
 
-  //This way will register the dialog after rendered
+  // This way will register the dialog after rendered
   useEffect(() => {
     if(ref.current){
       Modal.addDialog(ref.current);
-    }
-    
-    return ()=>{
-      Modal.removeDialogById(dialogId)
+      Modal.openModal(ref.current);
     }
   });
 

@@ -16,7 +16,7 @@ import Image from "next/image";
 
 type LocationFormData = z.infer<typeof locationSchema>;
 
-export function CreateForm() {
+export function CreateForm({ onClose }: { onClose: () => void }) {
   const methods = useForm<LocationFormData>({
     resolver: zodResolver(locationSchema),
   });
@@ -50,7 +50,7 @@ export function CreateForm() {
 
     try {
       await addLocation(formData);
-      toast.success("Successfully add new location")
+      toast.success("Successfully add new location");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -65,6 +65,7 @@ export function CreateForm() {
       <ModalForm
         label="CREATE NEW LOCATION"
         onSubmit={onSubmit}
+        onClose={onClose}
         noValidate={true}
       >
         <div className="form-control flex flex-col">
@@ -130,7 +131,13 @@ export function CreateForm() {
   );
 }
 
-export function EditForm({ location }: { location: locations }) {
+export function EditForm({
+  location,
+  onClose,
+}: {
+  location: locations;
+  onClose: () => void;
+}) {
   const methods = useForm<LocationFormData>({
     resolver: zodResolver(locationSchema),
   });
@@ -180,6 +187,7 @@ export function EditForm({ location }: { location: locations }) {
       <ModalForm
         label="EDIT LOCATION"
         onSubmit={onSubmit}
+        onClose={onClose}
         className="w-[28rem]"
         noValidate={true}
       >

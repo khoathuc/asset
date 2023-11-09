@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import { Root, createRoot } from "react-dom/client";
 import { toast } from "react-toastify";
 
@@ -8,31 +9,12 @@ export function ModalContainer() {
 }
 
 export class Modal {
-  private static root: Root;
   private static root_ref: HTMLElement;
-  private static dialog: HTMLDialogElement;
   private static dialogs: { id: string; dialog: HTMLDialogElement }[] = [];
 
-  static initModal(
-    modal: React.ReactNode,
-    callback?: (dialog: HTMLDialogElement) => void,
-  ) {
+  static initModal(modal: React.ReactNode) {
     this.root_ref = document?.getElementById("js-modal") as HTMLElement;
-    this.root = createRoot(this.root_ref);
-    this.root.render(modal);
-
-    setTimeout(() => {
-      const dialog = this.root_ref.querySelector("dialog") as HTMLDialogElement;
-      if (dialog) {
-        this.addDialog(dialog);
-
-        if (typeof callback === "function") {
-          callback(dialog); // Call the callback to indicate initialization is complete.
-        }
-      } else {
-        toast.error("Dialog element not found.");
-      }
-    });
+    return createPortal(modal, this.root_ref);
   }
 
   private static getDialogById(id: string) {

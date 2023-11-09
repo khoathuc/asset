@@ -3,6 +3,7 @@ export type ModalFormProps = {
     label?: string,
     noValidate?: boolean
     onSubmit?: any,
+    onClose?: any,
     className?: string,
     children?: React.ReactNode
 }

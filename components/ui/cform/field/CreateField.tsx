@@ -3,12 +3,15 @@ import More from "@/public/more.svg";
 import Number from "@/public/hashtag.svg";
 import Date from "@/public/date_picker.svg";
 import Dropdown from "@/public/bar_arrow_down.svg";
+import { Modal } from "@/components/layout/Modal";
+import { CFieldForm } from "./CFieldForm";
 
-type CField = {
+export type CField = {
   icon: React.ReactNode;
   label: String;
   code: String;
 };
+
 const CFieldTypes: CField[] = [
   { icon: <More className="h-4" />, label: "Simple Text", code: "text" },
   { icon: <Number className="h-4" />, label: "Number", code: "number" },
@@ -16,9 +19,11 @@ const CFieldTypes: CField[] = [
   { icon: <Date className="h-4" />, label: "Date time", code: "number" },
 ];
 
-export default function CreateField() {
+export function CreateField() {
   const handleClick = (field: CField) => {
-    
+    Modal.initModal(<CFieldForm field={field}/>, (dialog) => {
+      Modal.openModal(dialog);
+    })
   };
 
   return (

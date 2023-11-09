@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/Input";
-import {SelectType } from "./SelectType";
-import {getOption} from "../type";
+import { SelectType } from "./SelectType";
+import { getOption } from "../type";
 import { Textarea } from "@/components/ui/textarea";
 import { CompactPicker } from "react-color";
 import { addStatus, editStatus } from "../action";
@@ -19,7 +19,7 @@ type StatusFormData = z.infer<typeof statusSchema>;
 const DEFAULT_COLOR = "#aea1ff";
 const DEFAULT_STATUS = false;
 
-export function CreateForm() {
+export function CreateForm({ onClose }: { onClose: () => void }) {
   const methods = useForm<StatusFormData>({
     resolver: zodResolver(statusSchema),
   });
@@ -27,7 +27,7 @@ export function CreateForm() {
   const { register, formState, reset, setValue } = methods;
   const { errors, isSubmitSuccessful } = formState;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  
+
   useEffect(() => {
     setValue("default", checked);
     setValue("color", color);
@@ -67,6 +67,7 @@ export function CreateForm() {
       <ModalForm
         label="CREATE NEW STATUS"
         onSubmit={onSubmit}
+        onClose={onClose}
         className="w-[28rem]"
         noValidate={true}
       >
@@ -141,7 +142,13 @@ export function CreateForm() {
   );
 }
 
-export function EditForm({ status }: { status: statuses }) {
+export function EditForm({
+  status,
+  onClose,
+}: {
+  status: statuses;
+  onClose: () => void;
+}) {
   const methods = useForm<StatusFormData>({
     resolver: zodResolver(statusSchema),
   });
@@ -176,7 +183,7 @@ export function EditForm({ status }: { status: statuses }) {
     }
 
     try {
-      await editStatus(formData)
+      await editStatus(formData);
       toast.success("Successfully edit status");
     } catch (error) {
       if (error instanceof Error) {
@@ -191,6 +198,7 @@ export function EditForm({ status }: { status: statuses }) {
       <ModalForm
         label="EDIT STATUS"
         onSubmit={onSubmit}
+        onClose={onClose}
         className="w-[28rem]"
         noValidate={true}
       >
@@ -262,7 +270,7 @@ export function EditForm({ status }: { status: statuses }) {
             className="textarea textarea-bordered"
             placeholder="Notes"
             {...register("notes")}
-            defaultValue={status.notes || ''}
+            defaultValue={status.notes || ""}
           />
         </div>
       </ModalForm>

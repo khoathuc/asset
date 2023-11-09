@@ -14,7 +14,7 @@ import { vendors } from "@prisma/client";
 
 type VendorFormData = z.infer<typeof vendorSchema>;
 
-export function CreateForm() {
+export function CreateForm({ onClose }: { onClose: () => void }) {
   const methods = useForm<VendorFormData>({
     resolver: zodResolver(vendorSchema),
   });
@@ -62,6 +62,7 @@ export function CreateForm() {
       <ModalForm
         label="CREATE NEW VENDOR"
         onSubmit={onSubmit}
+        onClose={onClose}
         noValidate={true}
       >
         <div className="form-control flex flex-col">
@@ -166,7 +167,13 @@ export function CreateForm() {
   );
 }
 
-export function EditForm({ vendor }: { vendor: vendors }) {
+export function EditForm({
+  vendor,
+  onClose,
+}: {
+  vendor: vendors;
+  onClose: () => void;
+}) {
   const methods = useForm<VendorFormData>({
     resolver: zodResolver(vendorSchema),
   });
@@ -213,7 +220,12 @@ export function EditForm({ vendor }: { vendor: vendors }) {
 
   return (
     <FormProvider {...methods}>
-      <ModalForm label="EDIT VENDOR" onSubmit={onSubmit} noValidate={true}>
+      <ModalForm
+        label="EDIT VENDOR"
+        onSubmit={onSubmit}
+        onClose={onClose}
+        noValidate={true}
+      >
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
             Vendor Name *
