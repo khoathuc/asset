@@ -1,11 +1,16 @@
 "use client";
 import ModalForm from "@/components/layout/ModalForm";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const cTextSchema = z.object({});
+const cTextSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  note: z.string()
+});
 
 type cTextFormData = z.infer<typeof cTextSchema>;
 
@@ -34,13 +39,32 @@ export default function CFormNumber({ onClose }: { onClose: () => void }) {
   return (
     <FormProvider {...methods}>
       <ModalForm
-        label="Simple Text"
-        className="w-[20rem]"
+        label="Simple Number"
+        className="w-[28rem]"
         onSubmit={onSubmit}
         onClose={onClose}
         noValidate={true}
       >
-        NumberField
+        <div className="form-control flex flex-col">
+          <label className="pb-1 text-sm font-bold text-current">Name *</label>
+          <Input
+            required
+            type="text"
+            placeholder="Input field name"
+            className="input input-bordered"
+            {...register("name")}
+          />
+          <p className="error">{errors.name?.message?.toString()}</p>
+        </div>
+
+        <div className="form-control flex flex-col">
+          <label className="pb-1 text-sm font-bold text-current">Note</label>
+          <Textarea
+            className="textarea textarea-bordered"
+            placeholder="Note"
+            {...register("note")}
+          />
+        </div>
       </ModalForm>
     </FormProvider>
   );
