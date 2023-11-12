@@ -4,18 +4,24 @@ import { JsonValue } from "@prisma/client/runtime/library";
 import { v4 as uuidv4 } from "uuid";
 import { CreateField } from "./field/CreateField";
 import { useEffect, useRef } from "react";
+import { useAppSelector } from "@/app/redux/store";
+import CFormBoard from "./@comps/CFormBoard";
 
 export default function CFormBuilder({
   form,
   onClose,
+  onSubmit,
   label,
 }: {
   onClose: () => void;
+  onSubmit: (form: any) => void;
   form: JsonValue;
   label: String;
 }) {
   const ref = useRef<HTMLDialogElement | null>(null);
   const dialogId = uuidv4();
+
+  const cform = useAppSelector((state) => state.cformReducer);
 
   const handleClose = () => {
     onClose();
@@ -28,6 +34,10 @@ export default function CFormBuilder({
       Modal.openModal(ref.current);
     }
   });
+
+  const handleSubmit = () => {
+    onSubmit(cform);
+  };
 
   return (
     <>
@@ -58,12 +68,22 @@ export default function CFormBuilder({
 
             <div className="divider"></div>
 
-            <div>Cfield board</div>
+            <div className="px-10">
+              <CFormBoard form={cform}></CFormBoard>
+            </div>
           </div>
 
           <div className="modal-action gap-3">
             <button className="btn" onClick={handleClose}>
               Close
+            </button>
+
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="btn bg-neutral-focus text-neutral-content hover:bg-neutral hover:opacity-75"
+            >
+              Save
             </button>
           </div>
         </div>

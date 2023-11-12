@@ -28,7 +28,7 @@ export async function TagBoard() {
 
   return (
     <div className="w-full">
-      <table className="table table-zebra table-xs table-auto">
+      <table className="table table-xs table-auto">
         <thead>
           <tr>
             <th className="w-10"></th>

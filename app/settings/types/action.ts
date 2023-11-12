@@ -28,6 +28,14 @@ function readPrefix(formData: FormData) {
   return prefix;
 }
 
+function readCForm(formData: FormData){
+  const form = formData.get("form")?.toString();
+  if(!form){
+    return ;
+  }
+  return JSON.parse(form)
+}
+
 function readData(formData: FormData) {
   const name = readName(formData);
 
@@ -74,6 +82,32 @@ export async function editType(formData: FormData) {
       name,
       prefix,
       description,
+    },
+  });
+  
+  revalidatePath("/settings/types");
+}
+
+export async function editCform(formData: FormData) {
+  const id = parseInt(formData.get("id")?.toString() ?? "");
+  const type = await prisma.types.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!type) {
+    throw new Error("Invalid type");
+  }
+
+  const form = readCForm(formData);
+
+  await prisma.types.update({
+    where: {
+      id: id,
+    },
+    data: {
+      form:form || null
     },
   });
   
