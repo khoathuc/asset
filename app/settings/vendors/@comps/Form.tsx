@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import { FormProvider, useForm } from "react-hook-form";
 import { vendorSchema } from "@/lib/validations/vendor";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/form/Input";
+import { Textarea } from "@/components/ui/form/textarea";
 import { addVendor, editVendor } from "../actions";
 import { vendors } from "@prisma/client";
 

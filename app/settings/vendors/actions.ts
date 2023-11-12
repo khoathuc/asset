@@ -26,6 +26,23 @@ async function readData(formData: FormData) {
   return { name, phone, contact, url, address, email, description, image_url };
 }
 
+export async function getAllVendors(query: string | null = null) {
+  if (!query || query === "") {
+    return await prisma.vendors.findMany({
+      orderBy: { id: "desc" },
+    });
+  }
+  
+  return await prisma.vendors.findMany({
+    orderBy: { id: "desc" },
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+}
+
 export async function addVendor(formData: FormData) {
   const { name, phone, contact, url, address, email, description, image_url } =
     await readData(formData);

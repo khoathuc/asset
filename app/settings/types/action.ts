@@ -46,6 +46,23 @@ function readData(formData: FormData) {
   return { name, prefix, description };
 }
 
+export async function getAllTypes(query: string | null = null){
+  if (!query || query === "") {
+    return await prisma.types.findMany({
+      orderBy: { id: "desc" },
+    });
+  }
+  
+  return await prisma.types.findMany({
+    orderBy: { id: "desc" },
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+}
+
 export async function addType(formData: FormData) {
   const { name, prefix, description } = readData(formData);
 

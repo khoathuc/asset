@@ -68,7 +68,7 @@ model assets {
   meta_type      String   @db.VarChar(32)
   description    String?  @db.Text
   form           String   @db.Text
-  active_date    DateTime @default(now()) @db.Timestamp(0)
+  active_date    DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
   files          String   @db.Text
   images         String   @db.Text
   purchase_date  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)

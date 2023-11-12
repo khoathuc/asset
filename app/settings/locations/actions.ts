@@ -23,6 +23,23 @@ async function readData(formData: FormData) {
   return { name, description, address, image_url };
 }
 
+export async function getAllLocations(query: string | null = null) {
+  if (!query || query === "") {
+    return await prisma.locations.findMany({
+      orderBy: { id: "desc" },
+    });
+  }
+  
+  return await prisma.locations.findMany({
+    orderBy: { id: "desc" },
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+}
+
 export async function addLocation(formData: FormData) {
   const { name, description, address, image_url } = await readData(formData);
 
@@ -62,7 +79,7 @@ export async function editLocation(formData: FormData) {
     },
   });
 
-  if(!location){
+  if (!location) {
     throw new Error("Invalid Location");
   }
 

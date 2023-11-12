@@ -1,7 +1,7 @@
 "use client";
 import ModalForm from "@/components/layout/ModalForm";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/form/Input";
+import { Textarea } from "@/components/ui/form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { Form, FormProvider, useForm } from "react-hook-form";
