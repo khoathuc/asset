@@ -4,7 +4,7 @@ import Number from "@/public/hashtag.svg";
 import Date from "@/public/date_picker.svg";
 import Dropdown from "@/public/bar_arrow_down.svg";
 import { Modal } from "@/components/layout/Modal";
-import { CFieldForm } from "./CFieldForm";
+import { CFieldCreateForm } from "./CFieldForm";
 import { useState } from "react";
 
 export type CField = {
@@ -52,7 +52,7 @@ export function CreateField() {
                   </div>
                   {showModal &&
                     Modal.initModal(
-                      <CFieldForm
+                      <CFieldCreateForm
                         field={field}
                         onClose={() => setShowModal(false)}
                       />,

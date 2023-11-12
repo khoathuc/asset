@@ -1,8 +1,9 @@
 import { CField } from "./CreateField";
-import CFormText from "./@form/Text";
-import CFormNumber from "./@form/Number";
+import { CFormCreateText, CFormEditText } from "./@form/Text";
+import { CFormCreateNumber, CFormEditNumber } from "./@form/Number";
+import { cfieldType } from "@/app/redux/features/cform";
 
-export function CFieldForm({
+export function CFieldCreateForm({
   field,
   onClose,
 }: {
@@ -11,8 +12,23 @@ export function CFieldForm({
 }) {
   switch (field.code) {
     case "text":
-      return <CFormText onClose={onClose}/>;
+      return <CFormCreateText onClose={onClose} />;
     case "number":
-      return <CFormNumber onClose={onClose}/>;
+      return <CFormCreateNumber onClose={onClose} />;
+  }
+}
+
+export function CFieldEditForm({
+  field,
+  onClose,
+}: {
+  field: cfieldType;
+  onClose: () => void;
+}) {
+  switch (field.type) {
+    case "text":
+      return <CFormEditText field={field} onClose={onClose} />;
+    case "number":
+      return <CFormEditNumber field={field} onClose={onClose} />;
   }
 }

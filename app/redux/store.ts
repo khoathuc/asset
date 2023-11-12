@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit'
-import testReducer from "./features/test-slice";
+import cformReducer from "./features/cform";
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const store = configureStore({
     reducer:{
-        testReducer
+        cformReducer
     }
 })
 
