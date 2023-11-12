@@ -5,7 +5,7 @@ import Trash from "@/public/trash.svg";
 import Checked from "@/public/checked.svg";
 import XMark from "@/public/x-mark.svg";
 import EditButton from "./EditButton";
-import { getOption } from "../type";
+import { getOption } from "../../../../components/ui/form/Select/status/type";
 import { rgba } from "polished";
 
 //TODO: Implement status type here

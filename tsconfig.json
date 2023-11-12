@@ -24,7 +24,10 @@
       "@/*": ["./*"],
       "@/styles/*": ["styles/*"],
       "@/components/*": ["components/*"],
-      "@/redux/*": ["app/redux/*"]
+      "@/redux/*": ["app/redux/*"],
+      "@/locations/*": ["app/settings/locations/*"],
+      "@/types/*": ["app/settings/types/*"],
+      "@/vendors/*": ["app/settings/vendors/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
