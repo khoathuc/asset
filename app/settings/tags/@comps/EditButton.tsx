@@ -1,22 +1,20 @@
-"use client"
+"use client";
 import Edit from "@/public/edit.svg";
-import {Modal} from "@/components/layout/Modal";
+import { Modal } from "@/components/layout/Modal";
 import { tags } from "@prisma/client";
 import { EditForm } from "./Form";
+import { useState } from "react";
 
-export default function EditButton({tag}:{tag: tags}){
-    function handleClick(){
-        Modal.initModal(<EditForm tag={tag}/>, ()=>{
-            Modal.openModal()
-        })
-    }
+export default function EditButton({ tag }: { tag: tags }) {
+  const [showModal, setShowModal] = useState(false);
 
-    return (
-        <>
-            <button onClick={handleClick}>
-                <Edit className="h-4 w-4"></Edit>
-                Edit Tag
-            </button>
-        </>
-    )
+  return (
+    <>
+      <button onClick={()=>setShowModal(true)}>
+        <Edit className="h-4 w-4"></Edit>
+        Edit Tag
+      </button>
+      {showModal && Modal.initModal(<EditForm tag={tag} onClose={()=> setShowModal(false)} />)}
+    </>
+  );
 }

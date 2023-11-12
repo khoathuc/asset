@@ -16,7 +16,7 @@ import { tags } from "@prisma/client";
 type TagFormData = z.infer<typeof tagSchema>;
 const DEFAULT_COLOR = "#aea1ff";
 
-export function CreateForm() {
+export function CreateForm({ onClose }: { onClose: () => void }) {
   const methods = useForm<TagFormData>({
     resolver: zodResolver(tagSchema),
   });
@@ -61,6 +61,7 @@ export function CreateForm() {
         label="CREATE TAG"
         className="w-[28rem]"
         onSubmit={onSubmit}
+        onClose={onClose}
         noValidate={true}
       >
         <div className="form-control flex flex-col">
@@ -110,7 +111,7 @@ export function CreateForm() {
   );
 }
 
-export function EditForm({ tag }: { tag: tags }) {
+export function EditForm({ tag, onClose }: { tag: tags; onClose: () => void }) {
   const methods = useForm<TagFormData>({
     resolver: zodResolver(tagSchema),
   });
@@ -155,6 +156,7 @@ export function EditForm({ tag }: { tag: tags }) {
       <ModalForm
         label="EDIT TAG"
         onSubmit={onSubmit}
+        onClose={onClose}
         noValidate={true}
         className="w-[28rem]"
       >

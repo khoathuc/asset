@@ -1,23 +1,20 @@
 "use client";
 import { Modal } from "@/components/layout/Modal";
-import React from "react";
+import React, { useState } from "react";
 import { CreateForm } from "./Form";
 
 export default function CreateButton() {
-  function handleClick() {
-    Modal.initModal(<CreateForm />, () => {
-      Modal.openModal();
-    });
-  }
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <button
         className="btn- btn h-full min-h-full bg-neutral-focus normal-case text-neutral-content hover:text-neutral-focus"
-        onClick={handleClick}
+        onClick={()=>setShowModal(true)}
       >
         Create new
       </button>
+      {showModal && Modal.initModal(<CreateForm onClose={()=> setShowModal(false)}/>)}
     </>
   );
 }
