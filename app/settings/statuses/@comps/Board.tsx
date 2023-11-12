@@ -6,6 +6,7 @@ import Checked from "@/public/checked.svg";
 import XMark from "@/public/x-mark.svg";
 import EditButton from "./EditButton";
 import { getOption } from "../type";
+import { rgba } from "polished";
 
 //TODO: Implement status type here
 function StatusType({ status }: { status: string }) {
@@ -55,7 +56,7 @@ export default async function StatusBoard() {
   });
   return (
     <div className="w-full">
-      <table className="table table-zebra table-xs table-auto">
+      <table className="table table-xs table-auto">
         <thead>
           <tr>
             <th></th>
@@ -72,7 +73,14 @@ export default async function StatusBoard() {
               <tr>
                 <th>{index + 1}</th>
 
-                <th>{status.name?.toString()}</th>
+                <th
+                  style={{
+                    borderLeft: `4px solid ${status.color.toString()}`,
+                    backgroundColor: rgba(status.color, 0.1),
+                  }}
+                >
+                  {status.name?.toString()}
+                </th>
 
                 <th>
                   <StatusType status={status.type?.toString()} />
