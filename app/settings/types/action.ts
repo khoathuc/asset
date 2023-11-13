@@ -46,6 +46,14 @@ function readData(formData: FormData) {
   return { name, prefix, description };
 }
 
+export async function getType(id: number){
+  return await prisma.types.findUnique({
+    where:{
+      id:id
+    },
+  })
+}
+
 export async function getAllTypes(query: string | null = null){
   if (!query || query === "") {
     return await prisma.types.findMany({

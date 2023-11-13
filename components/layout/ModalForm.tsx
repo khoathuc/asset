@@ -16,7 +16,7 @@ export default function ModalForm({
 }: ModalFormProps) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
-  const { handleSubmit } = useFormContext();
+  const { handleSubmit, formState } = useFormContext();
 
   const formId = uuidv4();
   const dialogId = id ? id : uuidv4();

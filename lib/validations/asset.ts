@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 
-const priceSchema = z.number().refine(
+const priceSchema = z.string().refine(
   (value) => {
     if(!value){
       return true;
@@ -18,15 +18,16 @@ const priceSchema = z.number().refine(
 export const assetSchema = z.object({
   name: z.string().min(1, "Name is required"),
   code: z.string(),
-  serial_number: z.string(),
-  tag_ids: z.array(z.string()),
+  // serial_number: z.string(),
+  // tag_ids: z.array(z.string()),
   type_id: z.string().min(1, "Asset type is required"),
   location_id: z.string().min(1, "Location is required"),
   vendor_id: z.string(),
-  description: z.string(),
-  active_date: z.string().datetime(),
-  images: z.any(),
-  files: z.any(),
-  purchase_date: z.string().datetime(),
+  // description: z.string(),
+  active_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  // images: z.any(),
+  // files: z.any(),
+  form: z.any(),
+  // purchase_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   purchase_price: priceSchema,
 });

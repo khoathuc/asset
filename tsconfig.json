@@ -26,7 +26,7 @@
       "@/components/*": ["components/*"],
       "@/redux/*": ["app/redux/*"],
       "@/locations/*": ["app/settings/locations/*"],
-      "@/types/*": ["app/settings/types/*"],
+      "@/settings/types/*": ["app/settings/types/*"],
       "@/vendors/*": ["app/settings/vendors/*"],
     }
   },
