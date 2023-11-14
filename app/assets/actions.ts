@@ -61,7 +61,7 @@ async function readStatus(formData: FormData){
     if(status_id){
         return await getStatus(parseInt("status_id"));
     }
-
+    
     throw new Error("Status is invalid");
 }
 
@@ -110,7 +110,7 @@ async function readData(formData: FormData) {
 }
 
 export async function addAsset(formData: FormData) {
-  const data = readData(formData);
+  const data = await readData(formData);
 
   await prisma.assets.create({
     data: {
