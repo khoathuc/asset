@@ -26,6 +26,16 @@ async function readData(formData: FormData) {
   return { name, phone, contact, url, address, email, description, image_url };
 }
 
+
+export async function getVendor(id: number){
+  return await prisma.vendors.findUnique({
+    where:{
+      id: id
+    }
+  })
+}
+
+
 export async function getAllVendors(query: string | null = null) {
   if (!query || query === "") {
     return await prisma.vendors.findMany({

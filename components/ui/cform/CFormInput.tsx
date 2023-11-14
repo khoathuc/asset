@@ -12,7 +12,7 @@ export function CFormInput({
   form: cfieldValue[];
   onInputChange: (form: cfieldValue[]) => void;
 }) {
-  const [formData, setFormData] = useState<cfieldValue[] | []>([]);
+  const [formData, setFormData] = useState<cfieldValue[] | []>(form);
 
   const handleChange = (field: cfieldValue) => {
     setFormData((arr) => {
@@ -22,7 +22,7 @@ export function CFormInput({
     });
   };
 
-  useEffect(() => {
+  useEffect(()=>{
     setFormData(form);
   }, []);
 

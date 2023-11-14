@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/form/Input";
 import { SelectLocation } from "@/components/ui/form/Select/location/SelectLocation";
 import { SelectAssetType } from "@/components/ui/form/Select/asset_type/SelectAssetType";
 import { SelectVendor } from "@/components/ui/form/Select/vendor/SelectVendor";
-import { getType } from "@/app/settings/types/action";
+import { getType } from "@/app/settings/types/actions";
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
+import { addAsset } from "../actions";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -33,6 +34,10 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     }
   }, [isSubmitSuccessful, reset]);
 
+  useEffect(() => {
+    setValue("form", cform);
+  }, [cform]);
+
   const handleTypeChange = async (type_id: number) => {
     try {
       const type = await getType(type_id);
@@ -46,8 +51,38 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const onSubmit = async (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: AssetFormData) => {
+    setIsLoading(true);
+
+    var formData = new FormData();
+
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = (data as any)[key];
+        if (key == "file" && value instanceof FileList) {
+          formData.append("file", data.file[0]);
+        } else if (key == "form") {
+          try {
+            formData.append("form", JSON.stringify(value))
+          } catch (error) {
+            if(error instanceof Error){
+              toast.error(`Error parsing 'form' field: ${error.message}`);
+            }
+          }
+        }else{
+          formData.append(key,value)
+        }
+      }
+    }
+
+    try {
+      await addAsset(formData);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -157,7 +192,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           <CFormInput
             form={cform}
             onInputChange={(form: cfieldValue[]) => {
-              setValue('form', form);
+              setValue("form", form);
             }}
           />
         )}

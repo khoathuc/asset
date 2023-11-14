@@ -23,6 +23,14 @@ async function readData(formData: FormData) {
   return { name, description, address, image_url };
 }
 
+export async function getLocation(id: number){
+  return await prisma.locations.findUnique({
+    where:{
+      id: id
+    }
+  })
+}
+
 export async function getAllLocations(query: string | null = null) {
   if (!query || query === "") {
     return await prisma.locations.findMany({

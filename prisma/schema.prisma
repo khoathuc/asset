@@ -56,26 +56,25 @@ model asset_logs {
 model assets {
   id             Int      @id @default(autoincrement()) @db.UnsignedInt
   name           String   @db.VarChar(255)
-  image          String   @db.VarChar(255)
   code           String   @db.VarChar(32)
   serial_number  String   @db.VarChar(255)
-  assignee_id    Int
-  tag_ids        String   @db.Text
+  assignee_id    Int?
+  tag_ids        String?   @db.Text
   status_id      Int
   type_id        Int
   location_id    Int
   vendor_id      Int
-  meta_type      String   @db.VarChar(32)
+  meta_type      String?   @db.VarChar(32)
   description    String?  @db.Text
   form           String   @db.Text
   active_date    DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  files          String   @db.Text
-  images         String   @db.Text
+  file           String?  @db.Text
+  image          String?  @db.Text
   purchase_date  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
   purchase_price Decimal  @db.Decimal(8, 2)
-  stats          String   @db.Text
-  token          String   @db.VarChar(255)
-  data           String   @db.Text
+  stats          String?   @db.Text
+  token          String?   @db.VarChar(255)
+  data           String?   @db.Text
   since          DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
   last_update    DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
@@ -211,17 +210,17 @@ model tags {
 }
 
 model types {
-  id          Int             @id @default(autoincrement()) @db.UnsignedInt
-  name        String          @db.VarChar(256)
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  name        String   @db.VarChar(256)
   user_id     Int?
   form        Json?
-  settings    String?         @db.Text
-  files       String?         @db.Text
-  prefix      String          @db.VarChar(32)
-  description String?         @db.Text
-  data        String?         @db.Text
-  since       DateTime        @default(now()) @db.Timestamp(0)
-  last_update DateTime        @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  settings    String?  @db.Text
+  files       String?  @db.Text
+  prefix      String   @db.VarChar(32)
+  description String?  @db.Text
+  data        String?  @db.Text
+  since       DateTime @default(now()) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model users {
