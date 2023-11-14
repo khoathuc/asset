@@ -77,6 +77,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
     try {
       await addAsset(formData);
+      toast.success("Added asset successfully")
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
