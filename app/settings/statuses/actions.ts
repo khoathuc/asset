@@ -86,6 +86,22 @@ function readData(formData: FormData) {
   return { name, type, notes, isDefault, color };
 }
 
+export async function getDefaultStatus(){
+  return prisma.statuses.findFirst({
+    where:{
+      default: true
+    }
+  })
+}
+
+export async function getStatus(id: number){
+  return prisma.statuses.findUnique({
+    where:{
+      id: id
+    }
+  })
+}
+
 export async function addStatus(formData: FormData) {
   const { name, type, notes, isDefault, color } = readData(formData);
 

@@ -12,7 +12,7 @@ import { SelectType } from "./SelectType";
 import { getOption } from "../../../../components/ui/form/Select/status/type";
 import { Textarea } from "@/components/ui/form/textarea";
 import { CompactPicker } from "react-color";
-import { addStatus, editStatus } from "../action";
+import { addStatus, editStatus } from "../actions";
 import { statuses } from "@prisma/client";
 
 type StatusFormData = z.infer<typeof statusSchema>;

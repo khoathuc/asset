@@ -8,7 +8,7 @@ export type cfieldType = {
   note?: string;
 };
 
-const initialState = [{ name: "khoa", type: "le" }] as cfieldType[];
+const initialState = [] as cfieldType[];
 
 export const cform = createSlice({
   name: "cform",

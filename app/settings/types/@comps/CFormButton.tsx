@@ -9,7 +9,7 @@ import { sync } from "@/redux/features/cform";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/redux/store";
 import { JsonValue } from "@prisma/client/runtime/library";
-import { editCform } from "../action";
+import { editCform } from "../actions";
 import { toast } from "react-toastify";
 
 export function CFormButton({ type }: { type: types }) {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
-import { getAllTypes } from "@/types/action";
+import { getAllTypes } from "@/app/settings/types/actions";
 import { toast } from "react-toastify";
 import { ActionMeta } from "react-select";
 

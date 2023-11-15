@@ -10,7 +10,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/form/Input";
 import { Textarea } from "@/components/ui/form/textarea";
 import { toast } from "react-toastify";
-import { addType, editType } from "../action";
+import { addType, editType } from "../actions";
 import { types } from "@prisma/client";
 
 type TypeFormData = z.infer<typeof typeSchema>;
