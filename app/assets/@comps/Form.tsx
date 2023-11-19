@@ -14,6 +14,7 @@ import { getType } from "@/app/settings/types/actions";
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
 import { addAsset } from "../actions";
+import { assets } from "@prisma/client";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -63,21 +64,21 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           formData.append("file", data.file[0]);
         } else if (key == "form") {
           try {
-            formData.append("form", JSON.stringify(value))
+            formData.append("form", JSON.stringify(value));
           } catch (error) {
-            if(error instanceof Error){
+            if (error instanceof Error) {
               toast.error(`Error parsing 'form' field: ${error.message}`);
             }
           }
-        }else{
-          formData.append(key,value)
+        } else {
+          formData.append(key, value);
         }
       }
     }
 
     try {
       await addAsset(formData);
-      toast.success("Added asset successfully")
+      toast.success("Added asset successfully");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -202,3 +203,13 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     </FormProvider>
   );
 }
+
+export function EditForm({
+  asset,
+  onClose,
+}: {
+  asset: assets;
+  onClose: () => void;
+}){
+  
+};

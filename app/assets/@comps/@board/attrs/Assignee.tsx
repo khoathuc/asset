@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png";
 export function Assignee() {
     return (
       <>
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <div className="avatar items-center">
             <div className="mask mask-squircle h-5 w-5">
               <Image
@@ -14,7 +14,7 @@ export function Assignee() {
               ></Image>
             </div>
           </div>
-          <div className="font-light">Hart Hagerty</div>
+          <div className="font-light">Khoa Le</div>
         </div>
       </>
     );

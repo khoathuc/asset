@@ -7,6 +7,7 @@ import { Date } from "./attrs/Date";
 import { Status } from "./attrs/Status";
 import { AcquisitionCost } from "./attrs/AcquisitionCost";
 import { BookValue } from "./attrs/BookValue";
+import { MoreButton } from "./MoreButton";
 
 export function AssetItem({ asset }: { asset: assets }) {
   return (
@@ -39,7 +40,9 @@ export function AssetItem({ asset }: { asset: assets }) {
       <td>
         <BookValue asset={asset}/>
       </td>
-      <td></td>
+      <td>
+        <MoreButton asset={asset} />
+      </td>
     </tr>
   );
 }

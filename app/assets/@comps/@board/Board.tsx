@@ -6,7 +6,7 @@ export default function AssetBoard({ assets }: { assets: assets[] }) {
   return (
     <>
       <div className="w-full bg-base-100">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto h-full">
           <table className="table table-xs">
             <thead>
               <tr>

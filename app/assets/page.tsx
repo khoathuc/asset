@@ -6,6 +6,7 @@ import AssetBoard from "./@comps/@board/Board";
 import { getAllAssets } from "./actions";
 import PageBody from "@/components/layout/PageBody";
 import Empty from "./empty";
+import FilterButton from "./@comps/FilterButton";
 
 export default async function Page() {
   const assets = await getAllAssets();
@@ -23,6 +24,9 @@ export default async function Page() {
       >
         <Side>
           <SearchInput name="q" placeholder="Search Asset"></SearchInput>
+          <div className="h-8">
+            <FilterButton/>
+          </div>
           <div className="h-8">
             <CreateButton />
           </div>

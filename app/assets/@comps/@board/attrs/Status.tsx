@@ -30,7 +30,7 @@ export function Status({ asset }: { asset: assets }) {
   return (
     <>
       <div
-        className="badge p-3 text-white"
+        className="badge p-2 text-white text-xs"
         style={{ backgroundColor: status.color }}
       >
         {status.name}
