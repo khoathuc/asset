@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { ModalContainer } from "@/components/layout/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import ReduxProvider from "./redux/provider";
+import { DataProvider } from "@/context/data.context";
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -22,14 +23,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={openSans.className}>
-        <ReduxProvider>
-          <div className="flex h-screen flex-row bg-base-200">
-            <MasterMenu></MasterMenu>
-            <main className="min-w-0 flex-grow">{children}</main>
-            <ToastContainer />
-            <ModalContainer />
-          </div>
-        </ReduxProvider>
+        <DataProvider>
+          <ReduxProvider>
+            <div className="flex h-screen flex-row bg-base-200">
+              <MasterMenu></MasterMenu>
+              <main className="min-w-0 flex-grow">{children}</main>
+              <ToastContainer />
+              <ModalContainer />
+            </div>
+          </ReduxProvider>
+        </DataProvider>
       </body>
     </html>
   );

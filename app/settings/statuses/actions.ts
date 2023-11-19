@@ -94,6 +94,12 @@ export async function getDefaultStatus(){
   })
 }
 
+export async function getAllStatuses(){
+  return prisma.statuses.findMany({
+    orderBy: {id: 'desc'}
+  })
+}
+
 export async function getStatus(id: number){
   return prisma.statuses.findUnique({
     where:{

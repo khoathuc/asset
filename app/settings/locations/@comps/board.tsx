@@ -35,7 +35,7 @@ export default async function LocationBoard({}: {}) {
 
                 <th>{location.name?.toString()}</th>
 
-                <th>
+                <td>
                   {location.image && (
                     <Image
                       src={location.image.toString()}
@@ -44,17 +44,17 @@ export default async function LocationBoard({}: {}) {
                       height={50}
                     />
                   )}
-                </th>
+                </td>
 
-                <th>{location.address?.toString()}</th>
+                <td>{location.address?.toString()}</td>
 
-                <th className="max-w-xs truncate">{location.description?.toString()}</th>
+                <td className="max-w-xs truncate">{location.description?.toString()}</td>
 
-                <th>
+                <td>
                   <ToggleStatus location={location} action={changeStatus} />
-                </th>
+                </td>
 
-                <th>
+                <td>
                   <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
                     <label tabIndex={0} className="btn h-8 w-8 p-0 min-h-fit bg-neutral text-neutral-content hover:text-neutral-focus">
                       <More className='w-4 h-4'/>
@@ -74,7 +74,7 @@ export default async function LocationBoard({}: {}) {
                       </li>
                     </ul>
                   </div>
-                </th>
+                </td>
               </tr>
             );
           })}

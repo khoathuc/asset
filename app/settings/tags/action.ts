@@ -46,6 +46,12 @@ function readData(formData: FormData) {
   return { name, color, description };
 }
 
+export async function getAllTags(){
+  return await prisma.tags.findMany({
+    orderBy: {id: 'desc'}
+  })
+}
+
 export async function addTag(formData: FormData) {
   const { name, color, description } = readData(formData);
 

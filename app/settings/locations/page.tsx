@@ -15,7 +15,7 @@ export default function Page() {
           </div>
         </Side>
       </PageHeader>
-
+      
       <div className="flex h-full w-full flex-1 justify-center overflow-auto pt-12 pb-12">
         <div className="flex w-11/12 bg-base-100 p-3">
           <LocationBoard></LocationBoard>
