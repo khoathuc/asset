@@ -36,7 +36,7 @@ export default async function VendorBoard() {
 
                 <th className="whitespace-nowrap">{vendor.name?.toString()}</th>
 
-                <th>
+                <td>
                   {vendor.image && (
                     <Image
                       src={vendor.image.toString()}
@@ -45,25 +45,25 @@ export default async function VendorBoard() {
                       height={50}
                     />
                   )}
-                </th>
+                </td>
 
-                <th className="whitespace-nowrap">{vendor.address?.toString()}</th>
+                <td className="whitespace-nowrap">{vendor.address?.toString()}</td>
 
-                <th className="whitespace-nowrap">{vendor.contact?.toString()}</th>
+                <td className="whitespace-nowrap">{vendor.contact?.toString()}</td>
                 
-                <th className="whitespace-nowrap">{vendor.phone?.toString()}</th>
+                <td className="whitespace-nowrap">{vendor.phone?.toString()}</td>
                 
-                <th>
+                <td>
                   <a target="_blank">{vendor.url?.toString()}</a>
-                </th>
+                </td>
                 
-                <th>{vendor.email?.toString()}</th>
+                <td>{vendor.email?.toString()}</td>
                 
-                <th className="max-w-xs truncate">
+                <td className="max-w-xs truncate">
                   {vendor.description?.toString()}
-                </th>
+                </td>
                 
-                <th>
+                <td>
                   <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
                     <label
                       tabIndex={0}
@@ -86,7 +86,7 @@ export default async function VendorBoard() {
                       </li>
                     </ul>
                   </div>
-                </th>
+                </td>
               </tr>
             );
           })}
