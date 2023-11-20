@@ -1,0 +1,10 @@
+.asset-display{
+    .page-header{
+        height: 3rem;
+    }
+    .-title{
+        font-size: 18px;
+        line-height: 20px;;
+        font-weight: 500px;
+    }
+}

@@ -8,6 +8,8 @@ import { Status } from "./attrs/Status";
 import { AcquisitionCost } from "./attrs/AcquisitionCost";
 import { BookValue } from "./attrs/BookValue";
 import { MoreButton } from "./MoreButton";
+import Link from "next/link";
+
 
 export function AssetItem({ asset }: { asset: assets }) {
   return (
@@ -18,7 +20,11 @@ export function AssetItem({ asset }: { asset: assets }) {
         </label>
       </th>
       <td>{asset.code}</td>
-      <td>{asset.name}</td>
+      <td>
+        <Link href={`/asset/${asset.id}`} className="link-neutral hover:link">
+          {asset.name}
+        </Link>
+      </td>
       <td>
         <Assignee />
       </td>

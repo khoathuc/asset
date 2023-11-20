@@ -189,6 +189,14 @@ async function readData(formData: FormData) {
   };
 }
 
+export async function getAssetById(id: number){
+  return await prisma.assets.findUnique({
+    where:{
+      id: id
+    }
+  })
+}
+
 export async function getAllAssets(query: string | null = null){
   if(!query || query == ''){
     return await prisma.assets.findMany({
