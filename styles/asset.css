@@ -1,10 +1,7 @@
-.asset-display{
-    .page-header{
-        height: 3rem;
-    }
+.asset-display-header{
     .-title{
         font-size: 18px;
-        line-height: 20px;;
-        font-weight: 500px;
+        line-height: 20px;
+        font-weight: 500 !important;
     }
 }

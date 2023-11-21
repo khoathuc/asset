@@ -1,4 +1,6 @@
 import "./globals.css";
+import '@/styles/header.layout.css'
+import '@/styles/body.layout.css'
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import MasterMenu from "@/components/layout/MasterMenu";
