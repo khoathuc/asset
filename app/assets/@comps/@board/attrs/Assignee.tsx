@@ -14,7 +14,7 @@ export function Assignee() {
               ></Image>
             </div>
           </div>
-          <div className="font-light">Khoa Le</div>
+          <div className="font-light">Assignee</div>
         </div>
       </>
     );

@@ -13,6 +13,16 @@ import { isValidPriceFormat } from "@/lib/utils/price";
 
 var randomstring = require("randomstring");
 
+async function readImage(formData: FormData){
+  const file: File | null = formData.get("image") as unknown as File;
+  var image_url;
+  if (file) {
+    image_url = await uploadFile(file);
+  }
+  
+  return image_url;
+}
+
 function readName(formData: FormData) {
   const name = formData.get("name")?.toString();
   if (!name) {
@@ -171,6 +181,9 @@ async function readData(formData: FormData) {
   const active_date = readActiveDate(formData);
 
   const form = readCForm(formData);
+  
+  const image = await readImage(formData);
+  console.log(image)
 
   const purchase_price = readPurchasePrice(formData);
 
@@ -185,8 +198,17 @@ async function readData(formData: FormData) {
     status_id,
     active_date,
     form,
+    image,
     purchase_price,
   };
+}
+
+export async function getAssetById(id: number){
+  return await prisma.assets.findUnique({
+    where:{
+      id: id
+    }
+  })
 }
 
 export async function getAllAssets(query: string | null = null){
@@ -220,6 +242,7 @@ export async function addAsset(formData: FormData) {
       vendor_id: data.vendor_id,
       status_id: data.status_id,
       active_date: data.active_date,
+      image: data.image,
       form: data.form,
       purchase_price: data.purchase_price,
     },
