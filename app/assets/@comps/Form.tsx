@@ -60,8 +60,8 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];
-        if (key == "file" && value instanceof FileList) {
-          formData.append("file", data.file[0]);
+        if (key == "image" && value instanceof FileList) {
+          formData.append("image", data.image[0]);
         } else if (key == "form") {
           try {
             formData.append("form", JSON.stringify(value));
@@ -199,6 +199,18 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           />
         )}
         <p className="error">{errors.form?.message?.toString()}</p>
+
+        <div className="form-control flex flex-col">
+          <label className="pb-1 text-sm font-bold text-current">Image</label>
+          <Input
+            type="file"
+            placeholder="Image"
+            className="file-input file-input-bordered"
+            accept="image/png, image/jpeg"
+            {...register("image")}
+          />
+          <p className="error">{errors.image?.message?.toString()}</p>
+        </div>
       </ModalForm>
     </FormProvider>
   );

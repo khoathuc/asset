@@ -10,6 +10,17 @@
             }
             .side-wrapper{
                 width: 20%;
+                padding: 20px 10px 20px 10px;
+            }
+        }
+        &.side_30{
+            .side-wrapper{
+                width: 30%;
+            }
+        }
+        &.side_20{
+            .side-wrapper{
+                width: 20%;
             }
         }
     }

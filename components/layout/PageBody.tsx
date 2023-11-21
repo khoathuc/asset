@@ -17,6 +17,13 @@ export default function PageBody({
 
     if(side){
       addClass+=' -with-side'
+      if(props.hasOwnProperty('side_30')){
+        addClass+=' side_30'
+      }
+      if(props.hasOwnProperty('side_20')){
+        addClass+=' side_20'
+      }
+
     }
     
     return (
@@ -25,7 +32,7 @@ export default function PageBody({
           <div className='page-body-main overflow-y-auto'>
             {children}
           </div>
-          <div className='side-wrapper overflow-y-auto'>
+          <div className='side-wrapper overflow-y-auto bg-base-100 h-full w-full'>
             {side && side}
           </div>
         </div>

@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         compact
         className="asset-display-header items-center justify-center text-sm font-medium"
       />
-      <PageBody side={<AssetSidebar asset={asset}/>} compact>
+      <PageBody side={<AssetSidebar asset={asset}/>} side_30 compact>
         <AssetDisplay asset={asset} />
       </PageBody>
     </>
