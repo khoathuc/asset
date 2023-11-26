@@ -1,12 +1,12 @@
 "use client";
 import { assets } from "@prisma/client";
-import { Type } from "./attrs/Type";
-import { Assignee } from "./attrs/Assignee";
-import { Location } from "./attrs/Location";
-import { Date } from "./attrs/Date";
-import { Status } from "./attrs/Status";
-import { AcquisitionCost } from "./attrs/AcquisitionCost";
-import { BookValue } from "./attrs/BookValue";
+import { Type } from "../../../asset/attrs/Type";
+import { Assignee } from "../../../asset/attrs/Assignee";
+import { Location } from "../../../asset/attrs/Location";
+import { Date } from "../../../asset/attrs/Date";
+import { Status } from "../../../asset/attrs/Status";
+import { AcquisitionCost } from "../../../asset/attrs/AcquisitionCost";
+import { BookValue } from "../../../asset/attrs/BookValue";
 import { MoreButton } from "./MoreButton";
 import Link from "next/link";
 

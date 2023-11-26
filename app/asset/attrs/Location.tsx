@@ -1,3 +1,4 @@
+'use client'
 import { useData } from "@/context/data.context";
 import { assets } from "@prisma/client";
 import LocationNotFound from "@/public/location_med_1.svg";
@@ -30,7 +31,7 @@ export function Location({ asset }: { asset: assets }) {
 
 
   return (
-    <Link href="/" className="link-neutral link">
+    <Link href="/" className="link-neutral link -location">
       {location.name.toString()}
     </Link>
   );

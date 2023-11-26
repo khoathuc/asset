@@ -6,7 +6,7 @@ export type cfieldType = {
   name: string;
   type: string;
   note?: string;
-};
+} & JsonValue;
 
 const initialState = [] as cfieldType[];
 

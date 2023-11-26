@@ -29,7 +29,7 @@ export function Type({ asset }: { asset: assets }) {
   }
 
   return (
-    <Link href="/" className="link-neutral link">
+    <Link href="/" className="link-neutral link -type">
       {type.name.toString()}
     </Link>
   );

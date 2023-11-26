@@ -27,7 +27,7 @@ export default function PageBody({
     }
     
     return (
-      <div className={`page-body absolute top-20 bottom-0 right-0 left-56 ${addClass}`}>
+      <div className={`page-body absolute inset-0 top-20 ${addClass}`}>
         <div className={`page-body-wrapper h-full ${className?className:''}`}>
           <div className='page-body-main overflow-y-auto'>
             {children}

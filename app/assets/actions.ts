@@ -104,6 +104,14 @@ async function readLocation(formData: FormData) {
   throw new Error("Location is invalid");
 }
 
+async function readTag(formData: FormData){
+  const tag_ids = formData.get("tag_ids")?.toString();
+  if (!tag_ids) {
+    return;
+  }
+  return JSON.parse(tag_ids);
+}
+
 async function readVendor(formData: FormData) {
   const vendor_id = formData.get("vendor_id")?.toString();
   if (vendor_id) {
@@ -160,6 +168,8 @@ async function readData(formData: FormData) {
 
   const code = await readCode(formData);
 
+  const tag_ids = await readTag(formData);
+
   const serial_number = readSerialNumber(formData);
 
   const type_id = await readType(formData).then((res) => {
@@ -183,7 +193,7 @@ async function readData(formData: FormData) {
   const form = readCForm(formData);
   
   const image = await readImage(formData);
-  console.log(image)
+
 
   const purchase_price = readPurchasePrice(formData);
 
@@ -191,6 +201,7 @@ async function readData(formData: FormData) {
     name,
     description,
     code,
+    tag_ids,
     serial_number,
     type_id,
     location_id,
@@ -236,6 +247,7 @@ export async function addAsset(formData: FormData) {
       name: data.name,
       description: data.description,
       code: data.code,
+      tag_ids: data.tag_ids,
       serial_number: data.serial_number,
       type_id: data.type_id,
       location_id: data.location_id,
