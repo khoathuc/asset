@@ -1,3 +1,4 @@
+'use client'
 import { assets } from "@prisma/client";
 import { useData } from "@/context/data.context";
 import StatusNotFound from "@/public/shield_check.svg";
@@ -30,7 +31,7 @@ export function Status({ asset }: { asset: assets }) {
   return (
     <>
       <div
-        className="badge p-2 text-white text-xs"
+        className="badge p-2 text-white text-xs -status"
         style={{ backgroundColor: status.color }}
       >
         {status.name}

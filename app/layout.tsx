@@ -26,9 +26,9 @@ export default function RootLayout({
       <body className={openSans.className}>
         <DataProvider>
           <ReduxProvider>
-            <div className="flex h-screen flex-row bg-base-200">
+            <div className="master-page flex h-screen flex-row bg-base-200">
               <MasterMenu></MasterMenu>
-              <main className="min-w-0 flex-grow">{children}</main>
+              <main className="min-w-0 flex-grow absolute inset-0 left-56">{children}</main>
               <ToastContainer />
               <ModalContainer />
             </div>

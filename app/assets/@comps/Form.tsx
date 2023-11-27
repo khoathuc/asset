@@ -15,11 +15,15 @@ import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
 import { addAsset } from "../actions";
 import { assets } from "@prisma/client";
+import { Textarea } from "@/components/ui/form/textarea";
+import Plus from "@/public/plus.svg";
+import { SelectTags } from "@/components/ui/form/Select/tag/SelectTag";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
 export function CreateForm({ onClose }: { onClose: () => void }) {
   const [cform, setCform] = useState<cfieldValue[]>([]);
+  const [showAdditional, setShowAdditional] = useState(false);
 
   const methods = useForm<AssetFormData>({
     resolver: zodResolver(assetSchema),
@@ -62,6 +66,8 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
         const value = (data as any)[key];
         if (key == "image" && value instanceof FileList) {
           formData.append("image", data.image[0]);
+        } else if (key == "file" && value instanceof FileList) {
+          formData.append("file", data.file[0]);
         } else if (key == "form") {
           try {
             formData.append("form", JSON.stringify(value));
@@ -200,16 +206,91 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
         )}
         <p className="error">{errors.form?.message?.toString()}</p>
 
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Image</label>
-          <Input
-            type="file"
-            placeholder="Image"
-            className="file-input file-input-bordered"
-            accept="image/png, image/jpeg"
-            {...register("image")}
-          />
-          <p className="error">{errors.image?.message?.toString()}</p>
+        <>
+          <button
+            className={`flex items-center justify-center gap-3 rounded-lg bg-base-200 p-2 hover:bg-base-300 ${
+              showAdditional ? "hidden" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowAdditional(true);
+            }}
+          >
+            <Plus className="h-4 w-4" />
+            Show information
+          </button>
+        </>
+        <div className={`${!showAdditional ? "hidden" : ""}`}>
+          <div className="flex flex-col gap-3 bg-base-200 p-5">
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Tags
+              </label>
+              <SelectTags />
+            </div>
+
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Description
+              </label>
+              <Textarea
+                className="textarea textarea-bordered"
+                placeholder="Description"
+                {...register("description")}
+              />
+            </div>
+
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Serial Number
+              </label>
+              <Input
+                type="text"
+                placeholder="Asset Serial Number"
+                className="input input-bordered"
+                {...register("serial_number")}
+              />
+              <p className="error">
+                {errors.serial_number?.message?.toString()}
+              </p>
+            </div>
+
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Image
+              </label>
+              <Input
+                type="file"
+                placeholder="Image"
+                className="file-input file-input-bordered"
+                accept="image/png, image/jpeg"
+                {...register("image")}
+              />
+              <p className="error">{errors.image?.message?.toString()}</p>
+            </div>
+
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                File
+              </label>
+              <Input
+                type="file"
+                placeholder="File"
+                className="file-input file-input-bordered"
+                {...register("file")}
+              />
+              <p className="error">{errors.file?.message?.toString()}</p>
+            </div>
+            <button
+              className="mt-5 flex self-end rounded-md p-1 text-neutral "
+              onClick={(e) => {
+                e.preventDefault();
+                setShowAdditional(false);
+              }}
+            >
+              Hide information
+            </button>
+          </div>
         </div>
       </ModalForm>
     </FormProvider>
@@ -222,6 +303,4 @@ export function EditForm({
 }: {
   asset: assets;
   onClose: () => void;
-}){
-  
-};
+}) {}
