@@ -66,7 +66,7 @@ model assets {
   vendor_id      Int
   meta_type      String?  @db.VarChar(32)
   description    String?  @db.Text
-  form           Json? 
+  form           Json?
   active_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   file           String?  @db.Text
   image          String?  @db.Text
@@ -104,7 +104,7 @@ model request_groups {
   id                    Int      @id @default(autoincrement()) @db.UnsignedInt
   user_id               Int
   name                  String   @db.VarChar(255)
-  form                  Json? 
+  form                  Json?
   description           String?  @db.Text
   default_approvers     String   @db.Text
   default_followers     String   @db.Text
@@ -128,21 +128,13 @@ model requests {
   status           String   @db.VarChar(255)
   description      String?  @db.Text
   files            String   @db.Text
-  form             Json? 
+  form             Json?
   since            DateTime @default(now()) @db.Timestamp(0)
   last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
 
   @@index([location_id], map: "requests_location_id_index")
   @@index([request_group_id], map: "requests_request_group_id_index")
   @@index([status], map: "requests_status_index")
-}
-
-model roles_permissions {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  role_id     String   @db.VarChar(255)
-  permissions String   @db.VarChar(255)
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 enum StatusType {
@@ -179,7 +171,7 @@ model stock {
   tag_ids          String   @db.Text
   type_id          Int
   is_inventory     Boolean
-  form             Json? 
+  form             Json?
   purchase_date    DateTime @default(now()) @db.Timestamp(0)
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
@@ -223,33 +215,32 @@ model types {
   last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
-model users {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  first_name  String   @db.VarChar(255)
-  last_name   String   @db.VarChar(255)
-  email       String   @db.VarChar(255)
-  password    String   @db.Text
-  activated   Boolean
-  country     String?  @db.VarChar(255)
-  avatar      String?  @db.Text
-  phone       String?  @db.VarChar(255)
-  job_title   String?  @db.VarChar(255)
-  username    String   @db.VarChar(255)
-  description String?  @db.Text
-  address     String?  @db.VarChar(255)
-  city        String?  @db.VarChar(255)
-  state       String?  @db.VarChar(255)
-  zip         String?  @db.VarChar(255)
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+enum UserRoles {
+  ADMIN
+  SYSADMIN
+  USER
 }
 
-model users_roles {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+model users {
+  id          String    @id @default(cuid())
+  first_name  String    @db.VarChar(255)
+  last_name   String    @db.VarChar(255)
+  email       String?   @unique
+  password    String    @db.Text
+  role        UserRoles @default(USER)
+  username    String    @db.VarChar(255)
+  activated   Boolean
+  country     String?   @db.VarChar(255)
+  avatar      String?   @db.Text
+  phone       String?   @db.VarChar(255)
+  job_title   String?   @db.VarChar(255)
+  description String?   @db.Text
+  address     String?   @db.VarChar(255)
+  city        String?   @db.VarChar(255)
+  state       String?   @db.VarChar(255)
+  zip         String?   @db.VarChar(255)
+  since       DateTime  @default(now()) @db.Timestamp(0)
+  last_update DateTime  @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 }
 
 model vendors {

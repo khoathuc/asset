@@ -1,39 +1,48 @@
-import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
+import prisma from "@/lib/db/prisma";
+import bcrypt from 'bcrypt';
 
 export const options: NextAuthOptions = {
-  pages:{
+  pages: {
     signIn: "/login",
   },
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {label:"Email", type: "text", placeholder: "Email"},
+        email: { label: "Email", type: "text", placeholder: "Email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if(!credentials){
-          return null;
+        try {
+          if (!credentials) {
+            throw new Error("No credentials");
+          }
+
+          const user = await prisma.users.findUnique({
+            where: { email: credentials.email },
+          });
+
+          if (user) {
+
+            return user;
+          }
+        } catch (error) {
+          console.log(error);
         }
 
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-
-        if(user){
-          return user;
-        }
         return null;
       },
     }),
   ],
   callbacks: {
-    async jwt({token, user}){
-      if(user) token.role = "admin";
+    async jwt({ token, user }) {
+      if (user) token.role = "admin";
       return token;
     },
     async session({ session, token }) {
-      console.log(token)
+      console.log(token);
       if (session?.user) session.user.role = token.role;
       return session;
     },
