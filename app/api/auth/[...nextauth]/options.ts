@@ -1,41 +1,39 @@
 import GitHubProvider from "next-auth/providers/github";
-import prisma from "@/lib/db/prisma";
-import { env } from "@/env.mjs";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 
 export const options: NextAuthOptions = {
-  pages: {
+  pages:{
     signIn: "/login",
   },
-  session: {
-    strategy: "jwt",
-  },
   providers: [
-    GitHubProvider({
-      profile(profile) {
-        let userRole = "GitHub User";
-
-        if (profile?.email == "khoale") {
-          userRole = "admin";
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {label:"Email", type: "text", placeholder: "Email"},
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        if(!credentials){
+          return null;
         }
 
-        return {
-          ...profile,
-          role: userRole,
-        };
-      },
+        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
 
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
-    })
+        if(user){
+          return user;
+        }
+        return null;
+      },
+    }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.role = user.role;
+    async jwt({token, user}){
+      if(user) token.role = "admin";
       return token;
     },
-
     async session({ session, token }) {
+      console.log(token)
       if (session?.user) session.user.role = token.role;
       return session;
     },
