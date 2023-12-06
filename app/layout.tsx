@@ -1,5 +1,5 @@
 import "./globals.css";
-import '@/styles/main.css'
+import "@/styles/main.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import MasterMenu from "@/components/layout/MasterMenu";
@@ -8,6 +8,7 @@ import { ModalContainer } from "@/components/layout/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import ReduxProvider from "./redux/provider";
 import { DataProvider } from "@/context/data.context";
+import AuthProvider from "@/context/auth.context";
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -24,16 +25,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={openSans.className}>
-        <DataProvider>
-          <ReduxProvider>
-            <div className="master-page flex h-screen flex-row bg-base-200">
-              <MasterMenu></MasterMenu>
-              <main className="min-w-0 flex-grow absolute inset-0 left-56">{children}</main>
-              <ToastContainer />
-              <ModalContainer />
-            </div>
-          </ReduxProvider>
-        </DataProvider>
+        <AuthProvider>
+          <DataProvider>
+            <ReduxProvider>
+              <div className="master-page flex h-screen flex-row bg-base-200">
+                <MasterMenu></MasterMenu>
+                <main className="absolute inset-0 left-56 min-w-0 flex-grow">
+                  {children}
+                </main>
+                <ToastContainer />
+                <ModalContainer />
+              </div>
+            </ReduxProvider>
+          </DataProvider>
+        </AuthProvider>
       </body>
     </html>
   );

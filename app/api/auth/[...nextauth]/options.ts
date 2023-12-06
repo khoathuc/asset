@@ -25,7 +25,6 @@ export const options: NextAuthOptions = {
           });
 
           if (user) {
-
             return user;
           }
         } catch (error) {
@@ -42,7 +41,6 @@ export const options: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log(token);
       if (session?.user) session.user.role = token.role;
       return session;
     },

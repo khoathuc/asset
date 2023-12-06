@@ -3,6 +3,7 @@ import AssetSidebar from "../../@comps/AssetSidebar";
 import AssetDisplay from "../../@comps/AssetDisplay";
 import { notFound } from "next/navigation";
 import { getAssetById } from "@/app/assets/actions";
+import { getCurrentUser } from "@/lib/session";
 
 export default async function InfoPage({ params }: { params: { id: string } }) {
   const asset = await getAssetById(parseInt(params.id));
@@ -11,7 +12,12 @@ export default async function InfoPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <PageBody side={<AssetSidebar asset={asset} />} side_20 compact className='bg-base-100'>
+    <PageBody
+      side={<AssetSidebar asset={asset} />}
+      side_20
+      compact
+      className="bg-base-100"
+    >
       <AssetDisplay asset={asset} />
     </PageBody>
   );
