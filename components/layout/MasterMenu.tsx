@@ -12,13 +12,14 @@ import { usePathname } from "next/navigation";
 import styles from "../../styles/layout.module.scss";
 import UserNav from "../ui/user/UserNav";
 import { useSession } from "next-auth/react";
+import { ADMIN_ROLE } from "@/app/api/auth/[...nextauth]/options";
 
 export default function MasterMenu() {
   const currentRoute = usePathname();
   const { data: session } = useSession();
   const user = session?.user;
 
-  const isAdmin = user?.role == "admin";
+  const isAdmin = user?.role == ADMIN_ROLE;
 
   return (
     <aside className="w-56 border-r-2 bg-base-100">
@@ -54,6 +55,28 @@ export default function MasterMenu() {
           </li>
         )}
       </ul>
+
+      {isAdmin && (
+        <ul className="menu  w-56">
+          <li className='menu-title'> USERS</li>
+          <li>
+            <Link
+              href={"/users"}
+              className={currentRoute === "/users" ? "active" : ""}
+            >
+              <Asset
+                className={`${
+                  currentRoute === "/users"
+                    ? styles.active_menu_svg
+                    : "stroke-current"
+                } h-5 w-5`}
+              />{" "}
+              Users
+            </Link>
+          </li>
+        </ul>
+      )}
+
       {isAdmin && (
         <ul className="menu  w-56">
           <li className="menu-title">ASSET MANAGEMENT</li>

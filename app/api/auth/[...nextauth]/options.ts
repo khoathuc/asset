@@ -3,6 +3,9 @@ import { NextAuthOptions } from "next-auth";
 import prisma from "@/lib/db/prisma";
 import bcrypt from 'bcrypt';
 
+export const ADMIN_ROLE = "ADMIN";
+export const USER_ROLE = "USER";
+
 export const options: NextAuthOptions = {
   pages: {
     signIn: "/login",
@@ -37,7 +40,7 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = "admin";
+      if (user) token.role = user.role;
       return token;
     },
     async session({ session, token }) {

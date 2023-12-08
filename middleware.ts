@@ -1,6 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { ADMIN_ROLE } from "./app/api/auth/[...nextauth]/options";
 
 export default withAuth(
   async function middleware(req) {
@@ -24,6 +25,13 @@ export default withAuth(
 
       return NextResponse.redirect(new URL(`/login`, req.url));
     }
+
+    if (token.role != ADMIN_ROLE) {
+      const pathname = req.nextUrl.pathname;
+      if (pathname.startsWith("settings") || pathname.startsWith("users")) {
+        return NextResponse.redirect(new URL("/denied", req.url));
+      }
+    }
   },
   {
     callbacks: {
@@ -38,5 +46,12 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/", "/login", "/settings/:path*", "/asset/:id*", "/assets/:id"],
+  matcher: [
+    "/",
+    "/login",
+    "/users/:path*",
+    "/settings/:path*",
+    "/asset/:id*",
+    "/assets/:id",
+  ],
 };
