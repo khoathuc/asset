@@ -11,10 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import React from "react";
+import { useRouter } from "next/navigation";
+import { el } from "date-fns/locale";
 
 type userFormData = z.infer<typeof userAuthSchema>;
 
 export default function AuthForm() {
+  const route = useRouter();
   const { register, formState, handleSubmit } = useForm<userFormData>({
     resolver: zodResolver(userAuthSchema),
   });
@@ -25,17 +28,24 @@ export default function AuthForm() {
 
   async function onSubmit(data: userFormData) {
     setIsLoading(true);
+    try {
+      const signInResult = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
 
-    const signInResult = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      callbackUrl: "/"
-    });
+      setIsLoading(false);
 
-    setIsLoading(false);
-
-    if (!signInResult?.ok) {
-      toast.error("Something wrong");
+      if (signInResult?.ok) {
+        route.push("/");
+      } else {
+        toast.error("Invalid email or password");
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   }
 
@@ -71,8 +81,13 @@ export default function AuthForm() {
             <p className="error">{errors.password?.message?.toString()}</p>
           </div>
 
-          <button className="btn w-full bg-neutral-focus text-neutral-content hover:bg-neutral hover:opacity-75" disabled={isLoading}>
-            {isLoading && <span className="loading loading-spinner loading-sm"></span>}
+          <button
+            className="btn w-full bg-neutral-focus text-neutral-content hover:bg-neutral hover:opacity-75"
+            disabled={isLoading}
+          >
+            {isLoading && (
+              <span className="loading loading-spinner loading-sm"></span>
+            )}
             Sign In
           </button>
           <div className="flex w-full justify-between">

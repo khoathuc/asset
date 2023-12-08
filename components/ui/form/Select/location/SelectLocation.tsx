@@ -11,11 +11,16 @@ export interface LocationOption {
 }
 
 type SelectLocationProps = {
-    value?: number | undefined;
-    onChange: (value: number) => void;
-}
+  value?: number | undefined;
+  onChange?: (value: number) => void;
+  className?: string;
+};
 
-export function SelectLocation({value, onChange}: SelectLocationProps) {
+export function SelectLocation({
+  value,
+  onChange,
+  className,
+}: SelectLocationProps) {
   const [initialOptions, setInitialOptions] = useState<LocationOption[]>([]);
 
   const fetchLocations = async (inputValue: string) => {
@@ -26,12 +31,12 @@ export function SelectLocation({value, onChange}: SelectLocationProps) {
         label: item.name,
         value: item.id,
       }));
-      
+
       if (initialOptions.length === 0) {
         setInitialOptions(mappedOptions);
       }
-      
-      return mappedOptions
+
+      return mappedOptions;
     } catch (error) {
       if (error instanceof Error) {
         toast.error(`Error fetching data: ${error.message.toString()}`);
@@ -48,11 +53,16 @@ export function SelectLocation({value, onChange}: SelectLocationProps) {
     });
   };
 
-  const handleChange = (selected: LocationOption | null, actionMeta: ActionMeta<LocationOption>)=>{
-    if(selected){
+  const handleChange = (
+    selected: LocationOption | null,
+    actionMeta: ActionMeta<LocationOption>,
+  ) => {
+    if (selected) {
+      if (onChange) {
         onChange(selected.value);
+      }
     }
-  }
+  };
 
   // useEffect to trigger data fetching on component mount
   useEffect(() => {
@@ -65,6 +75,7 @@ export function SelectLocation({value, onChange}: SelectLocationProps) {
       defaultOptions={initialOptions}
       loadOptions={promiseOptions}
       onChange={handleChange}
+      className={`${className}`}
     />
   );
 }

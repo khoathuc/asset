@@ -2,11 +2,16 @@
     &.compact{
         top: 3rem;
     }
+
+    .page-body-wrapper .page-body-main{
+        height:100%;
+    }
+    
     &.-with-side{
         .page-body-wrapper{
             display: flex;
             .page-body-main{
-                flex:1
+                flex:1;
             }
             .side-wrapper{
                 width: 20%;

@@ -4,6 +4,7 @@ import { getAllStatuses } from "@/app/settings/statuses/actions";
 import { getAllTags } from "@/app/settings/tags/action";
 import { getAllTypes } from "@/app/settings/types/actions";
 import { getAllVendors } from "@/app/settings/vendors/actions";
+import { getAllUsers } from "@/app/users/actions";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface DataContextProps {
@@ -25,10 +26,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       const locations =  await getAllLocations();
       const types = await getAllTypes();
       const statuses = await getAllStatuses();
+      const users = await getAllUsers();
       const tags = await getAllTags();
       const vendors = await getAllVendors();
       
-      setContextData({locations, types, statuses, tags, vendors});
+      setContextData({locations, types, statuses, users, tags, vendors});
     }
     
     fetchContext();

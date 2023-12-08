@@ -2,7 +2,6 @@ import "@/styles/asset.css";
 import { notFound } from "next/navigation";
 import { getAllAssets, getAssetById } from "@/app/assets/actions";
 import PageHeader from "@/components/layout/PageHeader";
-import { AssetProvider } from "@/context/asset.context";
 import { AssetNav } from "../@comps/AssetNav";
 
 export async function generateStaticParams() {

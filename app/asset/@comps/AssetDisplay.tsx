@@ -15,7 +15,6 @@ type AssetDisplayProps = {
 };
 
 export default function AssetDisplay({ asset }: AssetDisplayProps) {
-  console.log(asset);
   return (
     <div className="flex-start asset-display flex px-10 py-5">
       <List label="Detail" className="test-sm zebra w-3/4">
