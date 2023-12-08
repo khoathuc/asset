@@ -40,7 +40,20 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.username = user.username;
+        token.first_name = user.first_name;
+        token.last_name = user.last_name;
+        token.country = user.country;
+        token.avatar = user.avatar;
+        token.phone = user.phone;
+        token.job_title = user.job_title;
+        token.description = user.description;
+        token.address = user.address;
+        token.city = user.city;
+        token.state = user.state;
+      }
       return token;
     },
     async session({ session, token }) {

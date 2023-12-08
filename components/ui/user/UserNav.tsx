@@ -11,7 +11,7 @@ export default function UserNav() {
     return <></>;
   }
   
-  const name = user.name ? user.name : "User";
+  const name = user.username ? user.username : "User";
   var role;
   if (user.role == "admin") {
     role = "Manager";
