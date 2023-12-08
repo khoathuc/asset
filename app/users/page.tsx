@@ -11,9 +11,9 @@ export default async function Page() {
   const users = await getAllUsers();
 
   var html = <Empty />;
-    if (users && users.length > 0) {
-      html = <UserBoard users={users} />;
-    }
+  if (users && users.length > 0) {
+    html = <UserBoard users={users} />;
+  }
 
   return (
     <>

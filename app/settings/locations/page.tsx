@@ -7,7 +7,7 @@ import LocationBoard from "./@comps/Board";
 export default function Page() {
   return (
     <div className="flex flex-col h-full min-h-full">
-      <PageHeader label="Locations" subLabel="Manage location">
+      <PageHeader label="Locations" subLabel="Manage locations">
         <Side>
           <SearchInput name="q" placeholder="Search locations"></SearchInput>
           <div className="h-8">
