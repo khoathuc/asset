@@ -68,7 +68,20 @@ export const options: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role
+        session.user.username = token.username;
+        session.user.first_name = token.first_name;
+        session.user.last_name = token.last_name;
+        session.user.country = token.country;
+        session.user.avatar = token.avatar;
+        session.user.phone = token.phone;
+        session.user.job_title = token.job_title;
+        session.user.description = token.description;
+        session.user.address = token.address;
+        session.user.city = token.city;
+        session.user.state = token.state;
+      }
       return session;
     },
   },
