@@ -21,6 +21,7 @@
     "@types/react-redux": "^7.1.30",
     "autoprefixer": "10.4.15",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "chroma-js": "^2.4.2",
     "daisyui": "^3.9.2",
     "date-fns": "^2.30.0",
@@ -32,6 +33,7 @@
     "mime": "^3.0.0",
     "next": "13.4.19",
     "next-auth": "^4.24.5",
+    "node-gyp": "^10.0.1",
     "polished": "^4.2.2",
     "postcss": "8.4.29",
     "prettier": "^3.0.3",
@@ -57,6 +59,7 @@
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/chroma-js": "^2.4.2",
     "@types/formidable": "^3.4.4",
     "@types/jquery": "^3.5.29",

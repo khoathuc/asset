@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 import prisma from "@/lib/db/prisma";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcryptjs";
 
 export const ADMIN_ROLE = "ADMIN";
 export const USER_ROLE = "USER";
@@ -27,9 +27,20 @@ export const options: NextAuthOptions = {
             where: { email: credentials.email },
           });
 
-          if (user) {
-            return user;
+          if (!user || !user?.password) {
+            throw new Error("No user found");
           }
+
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            user.password,
+          );
+          // if password does not match
+          if (!passwordMatch) {
+            throw new Error("Incorrect password");
+          }
+
+          return user;
         } catch (error) {
           console.log(error);
         }

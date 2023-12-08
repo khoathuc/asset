@@ -6,6 +6,7 @@ import NoAvatar from "@/public/no_avatar.svg";
 import { ADMIN_ROLE } from "@/app/api/auth/[...nextauth]/options";
 import ToggleStatus from "./ToggleStatus";
 import { changeStatus } from "../actions";
+import EditButton from "./EditButton";
 
 export default function UserItem({ user }: { user: users }) {
   var avatar = <NoAvatar className="h-8" />;
@@ -20,11 +21,19 @@ export default function UserItem({ user }: { user: users }) {
     );
   }
 
-  var role = ''
-  if(user.role == ADMIN_ROLE){
-    role = (<span className="badge badge-success p-2 badge-xs text-white w-15">Admin</span>)
-  }else{
-    role = (<span className="badge badge-secondary p-2 badge-xs text-white w-15">User</span>)
+  var role = "";
+  if (user.role == ADMIN_ROLE) {
+    role = (
+      <span className="w-15 badge badge-success badge-xs p-2 text-white">
+        Admin
+      </span>
+    );
+  } else {
+    role = (
+      <span className="w-15 badge badge-secondary badge-xs p-2 text-white">
+        User
+      </span>
+    );
   }
 
   return (
@@ -43,12 +52,12 @@ export default function UserItem({ user }: { user: users }) {
           </div>
         </div>
       </td>
-      <td>{user.first_name? user.first_name : "No Information"}</td>
+      <td>{user.first_name ? user.first_name : "No Information"}</td>
       <td>{user.last_name?.toString()}</td>
-      <td>{user.job_title? user.job_title : "No Information"}</td>
+      <td>{user.job_title ? user.job_title : "No Information"}</td>
       <td>{role}</td>
-      <td>{user.address? user.address : "No information"}</td>
-      <td>{user.city? user.city : "No information"}</td>
+      <td>{user.address ? user.address : "No information"}</td>
+      <td>{user.city ? user.city : "No information"}</td>
       <td className="max-w-xs truncate">{user.description?.toString()}</td>
       <td>
         <ToggleStatus user={user} action={changeStatus} />
@@ -63,11 +72,11 @@ export default function UserItem({ user }: { user: users }) {
           </label>
           <ul
             tabIndex={0}
-            className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
+            className="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
           >
-            {/* <li>
+            <li>
               <EditButton user={user} />
-            </li> */}
+            </li>
             <li>
               <button className="flex items-center justify-start text-error hover:bg-error hover:text-neutral-50">
                 <Trash className="h-4 w-4" />
