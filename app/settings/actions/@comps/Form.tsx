@@ -11,27 +11,36 @@ import {
   Condition,
   ConditionsBuilder,
 } from "@/components/ui/condition/ConditionBuilder";
+import {
+  ChangeFields,
+  ChangeFieldsBuilder,
+} from "@/components/ui/change.field/ChangeFieldsBuilder";
 
 type ActionFormData = z.infer<typeof actionSchema>;
-
-type ChangeField = {
-  isUser: true;
-  value: any;
-  isSetValue: any;
-};
-
-type ChangeFields = {
-  assignee?: ChangeField;
-  location?: ChangeField;
-  status?: ChangeField;
-};
 
 export function CreateForm({ onClose }: { onClose: () => void }) {
   const method = useForm<ActionFormData>({
     resolver: zodResolver(actionSchema),
   });
 
-  const [changeFields, setChangeFields] = useState<ChangeFields>({});
+  const [changeFields, setChangeFields] = useState<ChangeFields>({
+    assignee: {
+      isUse: false,
+      value: undefined,
+      isSetValue: undefined,
+    },
+    location: {
+      isUse: false,
+      value: undefined,
+      isSetValue: undefined,
+    },
+    status: {
+      isUse: false,
+      value: undefined,
+      isSetValue: undefined,
+    },
+  });
+
   const [conditions, setConditions] = useState<Condition[]>([]);
 
   const { register, formState, reset } = method;
@@ -46,7 +55,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
   const onSubmit = async (data: ActionFormData) => {
     data.conditions = conditions;
-    
+    data.change_fields = changeFields;
   };
 
   return (
@@ -85,9 +94,14 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
-             Change Fields
+            Change Fields
           </label>
-          <ChangeFieldsBuilder />
+          <ChangeFieldsBuilder
+            fields={changeFields}
+            onChangeFieldsChange={(changeFields: ChangeFields) => {
+              setChangeFields(changeFields);
+            }}
+          />
         </div>
       </ModalForm>
     </FormProvider>
