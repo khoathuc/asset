@@ -24,17 +24,17 @@ const fieldDefaultOptions: FieldOptionType[] = [
 
 export function ConditionsBuilder({
   conds,
-  onSubmit,
+  onChange,
 }: {
   conds: Condition[];
-  onSubmit?: (conds: Condition[]) => void;
+  onChange?: (conds: Condition[]) => void;
 }) {
   var fieldAvailableOptions = fieldDefaultOptions;
 
   const [fieldOptions, setFieldOptions] = useState<FieldOptionType[]>(
     fieldAvailableOptions,
   );
-  
+
   const [conditions, setConditions] = useState<Condition[]>(conds);
 
   const handleConditionInputChange = (input: Condition) => {
@@ -69,6 +69,9 @@ export function ConditionsBuilder({
 
   useEffect(() => {
     resyncFieldOptions();
+    if(onChange){
+      onChange(conditions);
+    }
   }, [conditions]);
 
   return (

@@ -7,7 +7,10 @@ import { z } from "zod";
 import React, { useEffect, useState } from "react";
 import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/form/Input";
-import { Condition, ConditionsBuilder } from "@/components/ui/condition/ConditionBuilder";
+import {
+  Condition,
+  ConditionsBuilder,
+} from "@/components/ui/condition/ConditionBuilder";
 
 type ActionFormData = z.infer<typeof actionSchema>;
 
@@ -41,9 +44,10 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = async (data: ActionFormData)=>{
-    console.log(data);
-  }
+  const onSubmit = async (data: ActionFormData) => {
+    data.conditions = conditions;
+    
+  };
 
   return (
     <FormProvider {...method}>
@@ -71,15 +75,20 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           <label className="pb-1 text-sm font-bold text-current">
             Apply Conditions
           </label>
-          <ConditionsBuilder conds={conditions}/>
+          <ConditionsBuilder
+            conds={conditions}
+            onChange={(conditions: Condition[]) => {
+              setConditions(conditions);
+            }}
+          />
         </div>
 
-        {/* <div className="form-control flex flex-col">
+        <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
              Change Fields
           </label>
           <ChangeFieldsBuilder />
-        </div> */}
+        </div>
       </ModalForm>
     </FormProvider>
   );
