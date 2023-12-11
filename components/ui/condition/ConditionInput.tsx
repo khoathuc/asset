@@ -3,27 +3,34 @@ import Select, { StylesConfig } from "react-select";
 import X from "@/public/x_circle.svg";
 import { useState } from "react";
 import { ConditionValueInput } from "./ConditionValueInput";
-import { Condition } from "./ConditionBuilder";
-
-const fieldOptions = [
-  { value: "location", label: "location" },
-  { value: "assignee", label: "assignee" },
-  { value: "status", label: "status" },
-];
+import { Condition, FieldOptionType } from "./ConditionBuilder";
 
 const compareOptions = [
   { value: "equal", label: "equal" },
   { value: "not equal", label: "not equal" },
 ];
 
-export function ConditionInput({condition}:{condition: Condition}) {
+type ConditionInputProps = {
+  fieldOptions: FieldOptionType[],
+  condition: Condition;
+  onInputChange: (condition: Condition) => void;
+  onInputRemove: (condition: Condition) => void;
+};
+
+export function ConditionInput({
+  fieldOptions,
+  condition,
+  onInputChange,
+  onInputRemove
+}: ConditionInputProps) {
+  const key = condition.key;
   const [isShow, setIsShow] = useState(true);
-  const [field, setField] = useState(null);
+  const [field, setField] = useState();
   const [compare, setCompare] = useState(compareOptions[0].value);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState();
 
   const handleConditionFieldChange = async (selected: any) => {
-    setField(selected.value)
+    setField(selected.value);
   };
 
   return (
@@ -35,27 +42,46 @@ export function ConditionInput({condition}:{condition: Condition}) {
             options={fieldOptions}
             className="basic-multi-select w-40"
             onChange={handleConditionFieldChange}
-            defaultValue={condition?fieldOptions.find(option => option.value == condition.field):null}
+            defaultValue={
+              condition
+                ? fieldOptions.find((option) => option.value == condition.field)
+                : null
+            }
           ></Select>
           <Select
             name="compare"
             options={compareOptions}
             className="basic-multi-select w-40"
-            defaultValue={condition?compareOptions.find(option => option.value == condition.field):compareOptions[0]}
-            onChange={(selected)=>{
-                if(selected){
-                    setCompare(selected.value)
-                }
+            defaultValue={
+              condition
+                ? compareOptions.find(
+                    (option) => option.value == condition.field,
+                  )
+                : compareOptions[0]
+            }
+            onChange={(selected) => {
+              if (selected) {
+                setCompare(selected.value);
+              }
             }}
           ></Select>
           {!field ? (
             <Select placeholder="Empty " className="w-80" isDisabled />
           ) : (
-            <ConditionValueInput field={field} condition={condition} className="w-80" onChange={(e)=>{setValue(e)}}/>
+            <ConditionValueInput
+              field={field}
+              condition={condition}
+              className="w-80"
+              onChange={(e) => {
+                setValue(e);
+                onInputChange({ key, field, condition: compare, value: e });
+              }}
+            />
           )}
           <button
             onClick={(e) => {
               setIsShow(false);
+              onInputRemove({ key, field, condition: compare, value })
             }}
           >
             <X className="h-4 w-4 hover:cursor-pointer hover:text-red-600" />
