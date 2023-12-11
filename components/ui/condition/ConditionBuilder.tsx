@@ -16,7 +16,7 @@ export type FieldOptionType = {
   label: string;
 };
 
-const fieldDefaultOptions = [
+const fieldDefaultOptions: FieldOptionType[] = [
   { value: "location", label: "location" },
   { value: "assignee", label: "assignee" },
   { value: "status", label: "status" },
@@ -29,22 +29,17 @@ export function ConditionsBuilder({
   conds: Condition[];
   onSubmit?: (conds: Condition[]) => void;
 }) {
-  const [fieldOptions, setFieldOptions] =
-    useState<FieldOptionType[]>(fieldDefaultOptions);
+  var fieldAvailableOptions = fieldDefaultOptions;
+
+  const [fieldOptions, setFieldOptions] = useState<FieldOptionType[]>(
+    fieldAvailableOptions,
+  );
+  
   const [conditions, setConditions] = useState<Condition[]>(conds);
-
-  const removeFieldOptions = (field: string) => {
-    setFieldOptions(fieldOptions.filter((fieldOption)=>fieldOption.value != field))
-  };
-
-  const addFieldOptions = (field: string) => {};
 
   const handleConditionInputChange = (input: Condition) => {
     const updatedConditions = conditions.map((condition) => {
       if (condition.key == input.key) {
-        if (input.field) {
-          removeFieldOptions(input.field);
-        }
         return input;
       } else {
         return condition;
@@ -55,13 +50,26 @@ export function ConditionsBuilder({
   };
 
   const handleConditionInputRemoved = (input: Condition) => {
-    if(input.field){
-      addFieldOptions(input.field);
-    }
     setConditions(conditions.filter((condition) => condition.key != input.key));
   };
 
-  useEffect(() => {}, [conditions]);
+  const resyncFieldOptions = () => {
+    for (let i = 0; i < conditions.length; ++i) {
+      const field = conditions[i].field;
+
+      if (field) {
+        fieldAvailableOptions = fieldAvailableOptions.filter(
+          (condition) => condition.value != field,
+        );
+      }
+    }
+
+    setFieldOptions(fieldAvailableOptions);
+  };
+
+  useEffect(() => {
+    resyncFieldOptions();
+  }, [conditions]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -78,17 +86,19 @@ export function ConditionsBuilder({
           }}
         />
       ))}
-      <div className="flex items-center justify-end gap-2 hover:cursor-pointer hover:underline">
-        <Plus className="h-5" />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            setConditions((conditions) => [...conditions, { key: uuidv4() }]);
-          }}
-        >
-          Add new
-        </button>
-      </div>
+      {fieldOptions.length > 0 && (
+        <div className="flex items-center justify-end gap-2 hover:cursor-pointer hover:underline">
+          <Plus className="h-5" />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setConditions((conditions) => [...conditions, { key: uuidv4() }]);
+            }}
+          >
+            Add new
+          </button>
+        </div>
+      )}
     </div>
   );
 }
