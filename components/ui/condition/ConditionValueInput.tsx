@@ -25,12 +25,4 @@ export function ConditionValueInput({
   if (field == "location"){
     return <SelectLocation className={`${className}`} onChange={onChange}/>
   }
-
-  // if(field == "assignee"){
-  //     return <SelectUser />
-  // }
-
-  // if(field == "location"){
-  //     return <Location />
-  // }
 }
