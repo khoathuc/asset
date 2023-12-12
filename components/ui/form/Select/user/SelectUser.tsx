@@ -1,14 +1,14 @@
 import Select, { ActionMeta } from "react-select";
 import { UserOption, getAllUsers } from "./user";
 type SelectUserProps = {
-  value?: any;
+  defaultValue?: any;
   onChange?: (value: any) => void;
   props?: any;
   className?: string;
 };
 
 export function SelectUser({
-  value,
+  defaultValue,
   onChange,
   props,
   className,
@@ -28,6 +28,11 @@ export function SelectUser({
       options={users}
       className={`basic-multi-select ${className}`}
       onChange={handleChange}
+      defaultValue={
+        defaultValue
+          ? users.find((user) => user.value == defaultValue)
+          : null
+      }
     />
   );
 }

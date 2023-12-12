@@ -1,4 +1,5 @@
 "use client";
+import { getAllActions } from "@/app/settings/actions/action";
 import { getAllLocations } from "@/app/settings/locations/actions";
 import { getAllStatuses } from "@/app/settings/statuses/actions";
 import { getAllTags } from "@/app/settings/tags/action";
@@ -29,8 +30,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       const users = await getAllUsers();
       const tags = await getAllTags();
       const vendors = await getAllVendors();
+      const actions = await getAllActions();
       
-      setContextData({locations, types, statuses, users, tags, vendors});
+      setContextData({locations, types, statuses, actions, users, tags, vendors});
     }
     
     fetchContext();

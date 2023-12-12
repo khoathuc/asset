@@ -25,9 +25,9 @@ export function ConditionInput({
 }: ConditionInputProps) {
   const key = condition.key;
   const [isShow, setIsShow] = useState(true);
-  const [field, setField] = useState();
-  const [compare, setCompare] = useState(compareOptions[0].value);
-  const [value, setValue] = useState();
+  const [field, setField] = useState(condition.field);
+  const [compare, setCompare] = useState(condition.condition);
+  const [value, setValue] = useState(condition.value);
 
   const handleConditionFieldChange = async (selected: any) => {
     setField(selected.value);
@@ -53,9 +53,9 @@ export function ConditionInput({
             options={compareOptions}
             className="basic-multi-select w-40"
             defaultValue={
-              condition
+              compare
                 ? compareOptions.find(
-                    (option) => option.value == condition.field,
+                    (option) => option.value == compare,
                   )
                 : compareOptions[0]
             }
@@ -72,6 +72,7 @@ export function ConditionInput({
               field={field}
               condition={condition}
               className="w-80"
+              defaultValue={value}
               onChange={(e) => {
                 setValue(e);
                 onInputChange({ key, field, condition: compare, value: e });

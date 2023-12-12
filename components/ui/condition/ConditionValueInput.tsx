@@ -7,22 +7,24 @@ export function ConditionValueInput({
   field,
   className,
   onChange,
-  condition
+  condition,
+  defaultValue
 }: {
   field: string;
   className: string;
   onChange: (e: any)=>void;
   condition?:Condition
+  defaultValue?:any
 }) {
   if (field == "status") {
-    return <SelectStatus className={`${className}`} onChange={onChange}/>;
+    return <SelectStatus className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>;
   }
 
   if (field == "assignee"){
-    return <SelectUser className={`${className}`} onChange={onChange}/>
+    return <SelectUser className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
   }
 
   if (field == "location"){
-    return <SelectLocation className={`${className}`} onChange={onChange}/>
+    return <SelectLocation className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
   }
 }
