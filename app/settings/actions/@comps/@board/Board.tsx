@@ -1,6 +1,11 @@
+"use client"
 import { actions } from "@prisma/client";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
+import ToggleStatus from "../ToggleStatus";
+import { changeStatus } from "../../action";
+import { getUser } from "@/lib/user";
+import EditButton from "../EditButton";
 
 
 export default function ActionBoard({ actions }: { actions: actions[] }) {
@@ -18,12 +23,19 @@ export default function ActionBoard({ actions }: { actions: actions[] }) {
           </thead>
           <tbody>
             {actions.map((action, index) => {
+              const user = action.user_id ? getUser(action.user_id): null;
+
               return (
                 <tr>
                   <th>{index + 1}</th>
-                  <td>Action</td>
                   <td>
-                    <ToggleStatus action={action} onChange={changeStatus} />
+                    <div>
+                      <div>{action.name}</div>
+                      <span>Created by {user? <a>{user.username}</a> : 'Deactivated account'} at {action.since.toLocaleDateString()}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <ToggleStatus obj={action} action={changeStatus} />
                   </td>
                   <td>
                     <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">

@@ -2,7 +2,6 @@
 
 import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
-import { assets } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getType } from "../settings/types/actions";
 import { getLocation } from "../settings/locations/actions";

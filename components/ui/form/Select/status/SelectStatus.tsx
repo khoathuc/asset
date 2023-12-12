@@ -3,7 +3,7 @@ import Select, { ActionMeta, StylesConfig } from "react-select";
 import chroma from "chroma-js";
 
 type SelectStatusProps = {
-  value?: any;
+  defaultValue?: any;
   onChange?: (value: any) => void;
   props?: any;
   className?: string;
@@ -63,7 +63,7 @@ const colourStyles: StylesConfig<StatusOption, true> = {
 };
 
 export function SelectStatus({
-  value,
+  defaultValue,
   onChange,
   props,
   className,
@@ -86,6 +86,11 @@ export function SelectStatus({
       className={`basic-multi-select ${className}`}
       onChange={handleChange}
       styles={colourStyles}
+      defaultValue={
+        defaultValue
+          ? statuses.find((status) => status.value == defaultValue)
+          : null
+      }
     />
   );
 }

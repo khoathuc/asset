@@ -10,12 +10,12 @@ datasource db {
 model actions {
   id            Int      @id @default(autoincrement()) @db.UnsignedInt
   name          String   @db.VarChar(255)
-  user_id       Int
+  user_id       Int?
   status        Boolean
-  change_fields String   @db.Text
-  conditions    String   @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  change_fields Json
+  conditions    Json?
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model activity_logs {
@@ -222,7 +222,7 @@ enum UserRoles {
 }
 
 model users {
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   first_name  String    @db.VarChar(255)
   last_name   String    @db.VarChar(255)
   email       String?   @unique
