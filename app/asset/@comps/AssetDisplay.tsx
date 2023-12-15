@@ -30,7 +30,7 @@ export default function AssetDisplay({ asset }: AssetDisplayProps) {
           </ListRow>
           <ListRow label="Serial">{asset.serial_number}</ListRow>
           <ListRow label="Current Assignee">
-            <Assignee />
+            <Assignee asset={asset}/>
           </ListRow>
           <ListRow label="Status">
             <Status asset={asset} />
@@ -92,7 +92,7 @@ export default function AssetDisplay({ asset }: AssetDisplayProps) {
           </ListRow>
           <ListRow label="Serial">{asset.serial_number}</ListRow>
           <ListRow label="Current Assignee">
-            <Assignee />
+            <Assignee asset={asset}/>
           </ListRow>
           <ListRow label="Status">
             <Status asset={asset} />
