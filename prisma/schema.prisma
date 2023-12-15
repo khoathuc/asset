@@ -19,19 +19,20 @@ model actions {
 }
 
 model asset_logs {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  user_id     Int?
-  metatype    String   @db.VarChar(255)
-  object_id   Int
-  object_type String   @db.VarChar(255)
-  action_cost Decimal  @db.Decimal(8, 2)
-  action_date DateTime @default(now()) @db.Timestamp(0)
-  changes     Json?
-  file        String?  @db.Text
-  description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  name          String   @db.VarChar(255)
+  user_id       Int?
+  metatype      String   @db.VarChar(255)
+  object_export Json?
+  object_id     Int
+  object_type   String   @db.VarChar(255)
+  action_cost   Decimal  @db.Decimal(8, 2)
+  action_date   DateTime @default(now()) @db.Timestamp(0)
+  changes       Json?
+  file          String?  @db.Text
+  description   String?  @db.Text
+  since         DateTime @default(now()) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
 
   @@index([metatype], map: "asset_logs_metatype_index")
   @@index([object_id, object_type], map: "asset_logs_object_id_object_type_index")

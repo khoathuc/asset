@@ -261,3 +261,16 @@ export async function addAsset(formData: FormData) {
 
   revalidatePath("/assets");
 }
+
+
+export async function getAssetLogs(id: number){
+  return await prisma.asset_logs.findMany({
+    orderBy:{id:'desc'},
+    where:{
+      object_id:{
+        equals: id
+      },
+      object_type: 'asset'
+    }
+  })
+}

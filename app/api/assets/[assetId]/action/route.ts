@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         user_id: Number(user?.id),
         metatype: "update",
         object_id: asset.id,
+        object_export: {name: asset.name, id: asset.id, code: asset.code},
         object_type: "asset",
         action_cost: action_cost,
         action_date: action_date,
