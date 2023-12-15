@@ -64,7 +64,7 @@ function readActiveDate(formData: FormData) {
     throw new Error("Active Date is wrong format");
   }
 
-  return new Date("2023-11-14");
+  return new Date(active_date);
 }
 
 function readCForm(formData: FormData) {

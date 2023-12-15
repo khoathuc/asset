@@ -29,7 +29,16 @@ export default function AssetActionChangeField({
     onChange(field, value);
   }, [value]);
 
+
+  useEffect(()=>{
+    if(change_field.isSetValue){
+      console.log("zsdfasdfasdf")
+      onChange(field, change_field.value);
+    }
+  }, []);
+
   var html;
+
   switch (field) {
     case "status":
       html = (

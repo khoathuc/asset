@@ -12,9 +12,8 @@ import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/form/Input";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/form/textarea";
-import AssetActionChangeFields from "./AssetActionChangeField";
 import AssetActionChangeField from "./AssetActionChangeField";
-import { doAction } from "../actions";
+import axios from "axios"
 
 type AssetLogForm = z.infer<typeof assetLogSchema>;
 type ActionFormProps = {
@@ -44,6 +43,7 @@ export function ActionForm({ asset, action, onClose }: ActionFormProps) {
     setIsLoading(true);
 
     var formData = new FormData();
+    formData.append("name", action.name.toString());
     formData.append("asset_id", asset.id.toString());
     formData.append("changes", JSON.stringify(changes));
 
@@ -59,19 +59,26 @@ export function ActionForm({ asset, action, onClose }: ActionFormProps) {
     }
 
     try {
-      await fetch(`/api/assets/${asset.id}/action`, {
-        method: "POST",
-        body: formData,
+      const response = await axios.post(`/api/assets/${asset.id}/action`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
+      
+      if(response.data.success == false){
+        throw new Error(response.data.message);
+      }
 
+      toast.success("Update asset successful")
     } catch (error) {
       if (error instanceof Error) {
+        console.log(error)
         toast.error(error.message);
       }
     }
     
+    router.refresh();
     setIsLoading(false);
-    router.refresh()
   };
 
   return (
@@ -120,7 +127,7 @@ export function ActionForm({ asset, action, onClose }: ActionFormProps) {
                 field={key}
                 change_field={change_field}
                 onChange={(field: string, value: any) => {
-                  setChanges({ ...changes, [field]: value });
+                  setChanges(changes => ({ ...changes, [field]: value }));
                 }}
               />
             );
@@ -138,7 +145,7 @@ export function ActionForm({ asset, action, onClose }: ActionFormProps) {
           <p className="error">{errors.description?.message?.toString()}</p>
         </div>
         <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Files</label>
+          <label className="pb-1 text-sm font-bold text-current">File</label>
           <Input
             type="file"
             placeholder="Files"

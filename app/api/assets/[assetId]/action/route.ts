@@ -1,28 +1,55 @@
-import formidable from "formidable";
-import { NextApiRequest, NextApiResponse } from "next";
+import { getAssetById } from "@/app/assets/actions";
+import { uploadFile } from "@/app/base/file";
+import prisma from "@/lib/db/prisma";
+import { assets } from "@prisma/client";
+import { parseJSON } from "date-fns";
+import { NextRequest, NextResponse } from "next/server";
+import { string } from "zod";
+import { readData } from "./reader";
+import { getCurrentUser } from "@/lib/session";
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable built-in body parsing
-  },
-};
-
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const form = formidable({ multiples: true });
-
-  const formData: any = new Promise((resolve, reject) => {
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        reject("error");
-      }
-      resolve({ fields, files });
-    });
-  });
-
+export async function POST(request: NextRequest) {
   try {
-    const { fields, files } = await formData;
-  } catch (e) {
-    res.status(400).send({ status: "invalid submission" });
-    return;
+    const data = await request.formData();
+    const {
+      asset,
+      name,
+      changes,
+      changes_log,
+      action_cost,
+      action_date,
+      description,
+      file_url,
+    } = await readData(data);
+
+    const user = await getCurrentUser();
+
+    await prisma.assets.update({
+      where: {
+        id: asset.id,
+      },
+      data: changes,
+    });
+
+    await prisma.asset_logs.create({
+      data: {
+        name: name,
+        user_id: Number(user?.id),
+        metatype: "update",
+        object_id: asset.id,
+        object_type: "asset",
+        action_cost: action_cost,
+        action_date: action_date,
+        changes: changes_log,
+        description: description,
+        file: file_url,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ success: false, message: error.message });
+    }
   }
 }
