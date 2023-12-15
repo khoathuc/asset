@@ -6,6 +6,7 @@ type SelectStatusProps = {
   defaultValue?: any;
   onChange?: (value: any) => void;
   props?: any;
+  isDisabled?: boolean,
   className?: string;
 };
 
@@ -66,6 +67,7 @@ export function SelectStatus({
   defaultValue,
   onChange,
   props,
+  isDisabled,
   className,
 }: SelectStatusProps) {
   const statuses = getAllStatuses();
@@ -85,6 +87,7 @@ export function SelectStatus({
       options={statuses}
       className={`basic-multi-select ${className}`}
       onChange={handleChange}
+      isDisabled={isDisabled}
       styles={colourStyles}
       defaultValue={
         defaultValue

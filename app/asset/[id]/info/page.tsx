@@ -16,7 +16,8 @@ export default async function InfoPage({ params }: { params: { id: string } }) {
       side={<AssetSidebar asset={asset} />}
       side_20
       compact
-      className="bg-base-100"
+      scroll-y
+      className="bg-base-200"
     >
       <AssetDisplay asset={asset} />
     </PageBody>

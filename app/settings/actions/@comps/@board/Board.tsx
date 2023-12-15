@@ -30,7 +30,7 @@ export default function ActionBoard({ actions }: { actions: actions[] }) {
                   <th>{index + 1}</th>
                   <td>
                     <div>
-                      <div>{action.name}</div>
+                      <div className="font-bold">{action.name}</div>
                       <span>Created by {user? <a>{user.username}</a> : 'Deactivated account'} at {action.since.toLocaleDateString()}</span>
                     </div>
                   </td>

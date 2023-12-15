@@ -4,7 +4,6 @@ import Image from "next/image";
 import User from "@/public/user.svg";
 import Email from "@/public/at_symbol.svg";
 import Phone from "@/public/phone.svg";
-import Checkout from "@/public/archive_box_arrow.svg";
 import qr_temp from "@/assets/qr_code.png";
 
 type AssetSidebarProps = {
@@ -14,10 +13,10 @@ type AssetSidebarProps = {
 function AssetDefaultAction() {
   function onClick() {}
   const defaultActions = [
-    { label: "Checkin Asset", url: onClick },
     { label: "Edit Asset", url: onClick },
     { label: "Clone Asset", url: onClick },
-    { label: "Audit", url: onClick },
+    { label: "Download Qr Code", url: onClick },
+    { label: "Export", url: onClick },
     { label: "Remove", url: onClick, style: "red" },
   ];
 
