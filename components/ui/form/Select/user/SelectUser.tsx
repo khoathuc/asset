@@ -4,6 +4,7 @@ type SelectUserProps = {
   defaultValue?: any;
   onChange?: (value: any) => void;
   props?: any;
+  isDisabled?: boolean,
   className?: string;
 };
 
@@ -11,6 +12,7 @@ export function SelectUser({
   defaultValue,
   onChange,
   props,
+  isDisabled,
   className,
 }: SelectUserProps) {
   const users = getAllUsers();
@@ -28,6 +30,7 @@ export function SelectUser({
       options={users}
       className={`basic-multi-select ${className}`}
       onChange={handleChange}
+      isDisabled={isDisabled}
       defaultValue={
         defaultValue
           ? users.find((user) => user.value == defaultValue)

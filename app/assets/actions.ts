@@ -64,7 +64,7 @@ function readActiveDate(formData: FormData) {
     throw new Error("Active Date is wrong format");
   }
 
-  return new Date("2023-11-14");
+  return new Date(active_date);
 }
 
 function readCForm(formData: FormData) {
@@ -260,4 +260,17 @@ export async function addAsset(formData: FormData) {
   });
 
   revalidatePath("/assets");
+}
+
+
+export async function getAssetLogs(id: number){
+  return await prisma.asset_logs.findMany({
+    orderBy:{id:'desc'},
+    where:{
+      object_id:{
+        equals: id
+      },
+      object_type: 'asset'
+    }
+  })
 }

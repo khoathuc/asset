@@ -4,23 +4,25 @@ import { SelectUser } from "../form/Select/user/SelectUser";
 
 type ChangeFieldInputProps = {
   field: string;
+  defaultValue?: string | number,
   className: string;
   onChange: (e: any) => void;
 };
 export function ChangeFieldValueInput({
   field,
+  defaultValue,
   className,
   onChange,
 }: ChangeFieldInputProps) {
   if (field == "status") {
-    return <SelectStatus className={`${className}`} onChange={onChange} />;
+    return <SelectStatus defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 
   if (field == "assignee") {
-    return <SelectUser className={`${className}`} onChange={onChange} />;
+    return <SelectUser defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 
   if (field == "location") {
-    return <SelectLocation className={`${className}`} onChange={onChange} />;
+    return <SelectLocation defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 }

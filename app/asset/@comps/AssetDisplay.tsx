@@ -9,6 +9,11 @@ import { Location } from "../attrs/Location";
 import { Type } from "../attrs/Type";
 import { Date } from "../attrs/Date";
 import { AcquisitionCost } from "../attrs/AcquisitionCost";
+import DisplaySection from "@/components/layout/DisplaySection";
+import Side from "@/components/layout/Side";
+import More from "@/public/more.svg";
+import Trash from "@/public/trash.svg";
+import AssetActions from "./AssetActions";
 
 type AssetDisplayProps = {
   asset: assets;
@@ -16,15 +21,15 @@ type AssetDisplayProps = {
 
 export default function AssetDisplay({ asset }: AssetDisplayProps) {
   return (
-    <div className="flex-start asset-display flex px-10 py-5">
-      <List label="Detail" className="test-sm zebra w-3/4">
+    <DisplaySection label="Detail" className="relative px-6 py-4">
+      <List>
         <ListRow label="Name">{asset.name}</ListRow>
         <ListRow label="Code">
           <div className="text-sm text-success">{asset.code}</div>
         </ListRow>
         <ListRow label="Serial">{asset.serial_number}</ListRow>
         <ListRow label="Current Assignee">
-          <Assignee />
+          <Assignee asset={asset} />
         </ListRow>
         <ListRow label="Status">
           <Status asset={asset} />
@@ -66,6 +71,17 @@ export default function AssetDisplay({ asset }: AssetDisplayProps) {
           <div>{asset.description}</div>
         </ListRow>
       </List>
-    </div>
+      <Side className="right-6">
+        <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
+          <label
+            tabIndex={0}
+            className="btn h-8 min-h-fit w-8 bg-neutral p-0 text-neutral-content hover:text-neutral-focus"
+          >
+            <More className="h-4 w-4" />
+          </label>
+          <AssetActions asset={asset} />
+        </div>
+      </Side>
+    </DisplaySection>
   );
 }

@@ -1,21 +1,40 @@
+"use client"
 import Image from "next/image";
-import logo from "@/assets/logo.png";
+import { assets } from "@prisma/client";
+import { getUser } from "@/lib/user";
 
-export function Assignee({ className }: { className?: string }) {
+export function Assignee({
+  className,
+  asset,
+}: {
+  className?: string;
+  asset?: assets;
+}) {
+  if(asset){
+    const assignee_id = asset.assignee_id;
+    var assignee = null;
+    if (assignee_id) {
+      assignee = getUser(assignee_id);
+    }
+  }
+
   return (
     <>
-      <div className={`flex gap-2 ${className} -assignee`}>
-        <div className="avatar items-center">
-          <div className="mask mask-squircle h-5 w-5">
-            <Image
-              src={logo}
-              alt="avatar"
-              style={{ width: "40px", height: "40px" }}
-            ></Image>
+      {assignee && (
+        <div className={`flex gap-2 ${className} -assignee`}>
+          <div className="avatar items-center">
+            <div className="mask mask-squircle h-5 w-5">
+              <Image
+                src={assignee.avatar?.toString()}
+                alt={assignee.avatar?.toString()}
+                width={40}
+                height={40}
+              ></Image>
+            </div>
           </div>
+          <div className="font-light">{assignee.username.toString()}</div>
         </div>
-        <div className="font-light">Assignee</div>
-      </div>
+      )}
     </>
   );
 }

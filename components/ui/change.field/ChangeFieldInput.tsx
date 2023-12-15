@@ -66,6 +66,7 @@ export function ChangeFieldInput({ field, input, onChange }: ChangeFieldInputPro
         ) : (
           <ChangeFieldValueInput
             field={field}
+            defaultValue={value}
             className="w-50"
             onChange={(val: string | number) => {
               handleValueChange(val);

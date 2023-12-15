@@ -26,7 +26,7 @@ export function AssetItem({ asset }: { asset: assets }) {
         </Link>
       </td>
       <td>
-        <Assignee />
+        <Assignee asset={asset}/>
       </td>
       <td>
         <Type asset={asset} />

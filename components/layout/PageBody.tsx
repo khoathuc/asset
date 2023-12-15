@@ -25,14 +25,14 @@ export default function PageBody({
   }
 
   if (props.hasOwnProperty("no-header")) {
-    addClass += "top-0";
+    addClass += " top-0";
   }else{
-    addClass += "top-20"
+    addClass += " top-20"
   }
 
   var subClass = "";
   if (props.hasOwnProperty("scroll-y")) {
-    subClass += "overflow-y-auto";
+    subClass += " overflow-y-auto";
   }
 
   return (

@@ -4,6 +4,7 @@ type SelectLocationProps = {
   defaultValue?: any;
   onChange?: (value: any) => void;
   props?: any;
+  isDisabled?: boolean,
   className?: string;
 };
 
@@ -11,6 +12,7 @@ export function SelectLocation({
   defaultValue,
   onChange,
   props,
+  isDisabled,
   className,
 }: SelectLocationProps) {
   const locations = getAllLocations();
@@ -28,6 +30,7 @@ export function SelectLocation({
       options={locations}
       className={`basic-multi-select ${className}`}
       onChange={handleChange}
+      isDisabled={isDisabled}
       defaultValue={
         defaultValue
           ? locations.find((location) => location.value == defaultValue)
