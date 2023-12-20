@@ -86,18 +86,18 @@ model locations {
 }
 
 model request_types {
-  id                    Int      @id @default(autoincrement()) @db.UnsignedInt
-  user_id               Int
-  name                  String   @db.VarChar(255)
-  form                  Json?
-  description           String?  @db.Text
-  default_approvers     String   @db.Text
-  default_followers     String   @db.Text
-  allow_direct_approval Boolean
-  approval_follow       String   @db.VarChar(255)
-  status                Boolean
-  since                 DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update           DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id                     Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id                Int?
+  name                   String   @db.VarChar(255)
+  form                   Json?
+  description            String?  @db.Text
+  default_approvers      Json
+  default_followers      Json
+  allow_change_approvers Boolean
+  approval_follow        String   @db.VarChar(255)
+  status                 Boolean
+  since                  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model requests {

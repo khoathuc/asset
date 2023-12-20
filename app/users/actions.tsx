@@ -156,6 +156,14 @@ export async function changeStatus(checked: boolean, user: users) {
   });
 }
 
+export async function getUserById(id: number){
+  return await prisma.users.findUnique({
+    where:{
+      id: id
+    }
+  })
+}
+
 export async function addUser(formData: FormData) {
   const {
     first_name,
