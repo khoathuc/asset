@@ -81,6 +81,14 @@ async function readDefaultFollowers(formData: FormData) {
   return follower_ids;
 }
 
+function readCForm(formData: FormData){
+  const form = formData.get("form")?.toString();
+  if(!form){
+    return ;
+  }
+  return JSON.parse(form)
+}
+
 async function readData(formData: FormData) {
   const name = readName(formData);
   const default_approvers = await readDefaultApprovers(formData);
@@ -192,4 +200,30 @@ export async function getAllRequestTypes(query: string | null = null) {
       },
     },
   });
+}
+
+export async function editCform(formData: FormData) {
+  const id = parseInt(formData.get("id")?.toString() ?? "");
+  const type = await prisma.request_types.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!type) {
+    throw new Error("Invalid type");
+  }
+
+  const form = readCForm(formData);
+
+  await prisma.request_types.update({
+    where: {
+      id: id,
+    },
+    data: {
+      form:form || null
+    },
+  });
+  
+  revalidatePath("/settings/request_types");
 }

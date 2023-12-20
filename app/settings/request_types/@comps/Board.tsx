@@ -6,6 +6,7 @@ import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
 import { getUser } from "@/lib/user";
 import EditButton from "./EditButton";
+import { CFormButton } from "./CFormButton";
 
 function RequestTypeName({ requestType }: { requestType: request_types }) {
   return (
@@ -83,9 +84,9 @@ export default async function RequestTypeBoard({
                           <EditButton requestType={requestType} />
                         </li>
 
-                        {/* <li>
-                        <CFormButton type={type}/>
-                      </li> */}
+                        <li>
+                          <CFormButton requestType={requestType} />
+                        </li>
 
                         <li>
                           <button className="flex items-center justify-start text-error hover:bg-error hover:text-neutral-50">
