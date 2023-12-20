@@ -31,8 +31,8 @@ model asset_logs {
   changes       Json?
   file          String?  @db.Text
   description   String?  @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([metatype], map: "asset_logs_metatype_index")
   @@index([object_id, object_type], map: "asset_logs_object_id_object_type_index")
@@ -79,8 +79,8 @@ model locations {
   status      Boolean
   image       String?  @db.Text
   data        String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "locations_name_index")
 }
@@ -96,8 +96,8 @@ model request_types {
   allow_direct_approval Boolean
   approval_follow       String   @db.VarChar(255)
   status                Boolean
-  since                 DateTime @default(now()) @db.Timestamp(0)
-  last_update           DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since                 DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update           DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model requests {
@@ -113,8 +113,8 @@ model requests {
   files            String   @db.Text
   form             Json?
   description      String?  @db.Text
-  since            DateTime @default(now()) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([request_group_id], map: "requests_request_group_id_index")
   @@index([status], map: "requests_status_index")
@@ -211,8 +211,8 @@ model statuses {
   default     Boolean
   color       String     @db.VarChar(32)
   data        String?    @db.Text
-  since       DateTime   @default(now()) @db.Timestamp(0)
-  last_update DateTime   @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime   @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime   @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "statuses_name_index")
 }
@@ -238,8 +238,8 @@ model stock {
   images           String   @db.Text
   stats            String   @db.Text
   description      String?  @db.Text
-  since            DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([is_inventory], map: "stock_is_inventory_index")
   @@index([location_id, vendor_id, type_id], map: "stock_location_id_vendor_id_type_id_index")
@@ -253,8 +253,8 @@ model tags {
   color       String   @db.VarChar(32)
   description String?  @db.Text
   data        String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "tags_name_index")
 }
@@ -269,8 +269,8 @@ model types {
   prefix      String   @db.VarChar(32)
   description String?  @db.Text
   data        String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 enum UserRoles {
@@ -297,8 +297,8 @@ model users {
   city        String?   @db.VarChar(255)
   state       String?   @db.VarChar(255)
   zip         String?   @db.VarChar(255)
-  since       DateTime  @default(now()) @db.Timestamp(0)
-  last_update DateTime  @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model vendors {
@@ -313,8 +313,8 @@ model vendors {
   description String?  @db.Text
   image       String?  @db.Text
   files       String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "vendor_name_index")
 }
