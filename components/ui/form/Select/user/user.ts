@@ -11,12 +11,14 @@ export function getAllUsers() {
 
   var userOptions: UserOption[] = [];
 
-  users.forEach((user: any) => {
-    userOptions.push({
-      value: user.id,
-      label: user.username,
+  if (users) {
+    users.forEach((user: any) => {
+      userOptions.push({
+        value: user.id,
+        label: user.username,
+      });
     });
-  });
+  }
 
   return userOptions;
 }
