@@ -89,18 +89,24 @@ function readCForm(formData: FormData){
   return JSON.parse(form)
 }
 
+function readDescription(formData: FormData){
+  return formData.get("description")?.toString();
+}
+
 async function readData(formData: FormData) {
   const name = readName(formData);
   const default_approvers = await readDefaultApprovers(formData);
   const default_followers = await readDefaultFollowers(formData);
   const allow_change_approvers = readAllowChangeApprovers(formData);
   const approval_follow = readApprovalFlow(formData);
+  const description = readDescription(formData);
 
   return {
     name,
     default_approvers,
     default_followers,
     allow_change_approvers,
+    description,
     approval_follow,
   };
 }
@@ -111,6 +117,7 @@ export async function addRequestType(formData: FormData) {
     default_approvers,
     default_followers,
     allow_change_approvers,
+    description,
     approval_follow,
   } = await readData(formData);
 
@@ -124,6 +131,7 @@ export async function addRequestType(formData: FormData) {
       default_followers,
       allow_change_approvers,
       approval_follow,
+      description,
       status: true,
     },
   });
@@ -167,6 +175,7 @@ export async function editRequestType(formData: FormData) {
     default_followers,
     allow_change_approvers,
     approval_follow,
+    description
   } = await readData(formData);
 
   await prisma.request_types.update({
@@ -178,6 +187,7 @@ export async function editRequestType(formData: FormData) {
       default_approvers,
       default_followers,
       allow_change_approvers,
+      description,
       approval_follow,
     },
   });
