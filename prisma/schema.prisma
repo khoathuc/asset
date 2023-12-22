@@ -101,22 +101,23 @@ model request_types {
 }
 
 model requests {
-  id               Int      @id @default(autoincrement()) @db.UnsignedInt
-  name             String   @db.VarChar(256)
-  user_id          Int
-  request_group_id Int
-  approvals        String   @db.Text
-  approvers        String   @db.Text
-  rejections       String   @db.Text
-  followers        String   @db.Text
-  status           String   @db.VarChar(255)
-  files            String   @db.Text
-  form             Json?
-  description      String?  @db.Text
-  since            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id              Int      @id @default(autoincrement()) @db.UnsignedInt
+  name            String   @db.VarChar(256)
+  user_id         Int
+  request_type_id Int
+  approval_follow String   @db.VarChar(255)
+  approvals       Json?
+  approvers       Json
+  rejections      Json?
+  followers       Json
+  status          String?  @db.VarChar(255)
+  files           String?   @db.Text
+  form            Json?
+  description     String?  @db.Text
+  since           DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
-  @@index([request_group_id], map: "requests_request_group_id_index")
+  @@index([request_type_id], map: "requests_request_type_id_index")
   @@index([status], map: "requests_status_index")
 }
 
