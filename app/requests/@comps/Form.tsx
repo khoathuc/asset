@@ -42,8 +42,8 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
       const request_type = await getRequestType(request_type_id);
 
       if (request_type) {
-        setRequestType(request_type);
         setCform(request_type.form as cfieldValue[]);
+        setRequestType(request_type);
       }
     } catch (error) {
       if (error instanceof Error) {
