@@ -11,6 +11,7 @@ export default function RequestBoard({ requests }: { requests: requests[] }) {
               <tr>
                 <th>#</th>
                 <th>Request</th>
+                <th>Creator</th>
                 <th>Request Type</th>
                 <th>Status</th>
                 <th>Approvers</th>
