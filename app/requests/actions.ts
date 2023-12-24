@@ -3,6 +3,8 @@ import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { getUserById } from "../users/actions";
 import { uploadFile } from "../base/file";
+import { getPendingStatus } from "./statuses";
+import { revalidatePath } from "next/cache";
 
 async function readFile(formData: FormData) {
   const file: File | null = formData.get("file") as unknown as File;
@@ -26,7 +28,7 @@ function readName(formData: FormData) {
 function readCForm(formData: FormData) {
   const form = formData.get("form")?.toString();
 
-  console.log(form)
+  console.log(form);
   if (!form) {
     return;
   }
@@ -143,9 +145,13 @@ export async function addRequest(formData: FormData) {
       followers: data.followers,
       files: data.file_url,
       form: data.form,
+      status: getPendingStatus()?.value,
       description: data.description,
     },
   });
+
+  
+  revalidatePath("/requests");
 }
 
 export async function getAllRequests(query: string | null = null) {

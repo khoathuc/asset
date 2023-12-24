@@ -6,14 +6,15 @@ import Empty from "./empty";
 import FilterButton from "./@comps/FilterButton";
 import { getAllRequests } from "./actions";
 import CreateButton from "./@comps/CreateButton";
+import RequestBoard from "./@comps/@board/Board";
 
 export default async function Page(){
     const requests = await getAllRequests();
 
     var html = <Empty />;
-    // if(requests && requests.length > 0){
-    //     html = <RequestBoard requests={requests}/>;
-    // }
+    if(requests && requests.length > 0){
+        html = <RequestBoard requests={requests}/>;
+    }
 
     return (
         <>

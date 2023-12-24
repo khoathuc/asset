@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/form/textarea";
 import { SelectRequestType } from "@/components/ui/form/Select/request_type/SelectRequestType";
 import { toast } from "react-toastify";
 import { addRequest, getRequestType } from "../actions";
-import { request_types } from "@prisma/client";
+import { request_types, requests } from "@prisma/client";
 import { SelectUsers } from "@/components/ui/form/Select/user/SelectUsers";
 import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
 
@@ -42,8 +42,8 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
       const request_type = await getRequestType(request_type_id);
 
       if (request_type) {
-        setRequestType(request_type);
         setCform(request_type.form as cfieldValue[]);
+        setRequestType(request_type);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -210,6 +210,37 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           />
         </div>
       </ModalForm>
+    </FormProvider>
+  );
+}
+
+export function EditForm({ request, onClose }: { request: requests, onClose: () => void }) {
+  const methods = useForm<RequestFormSchema>({
+    resolver: zodResolver(requestSchema),
+  });
+
+  const { register, formState, reset, setValue, watch } = methods;
+  const { errors, isSubmitSuccessful } = formState;
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  const onSubmit = async (data: RequestFormSchema) => {
+    console.log(data);
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <ModalForm
+        label="EDIT REQUEST"
+        onSubmit={onSubmit}
+        onClose={onClose}
+        noValidate={true}
+      ></ModalForm>
     </FormProvider>
   );
 }

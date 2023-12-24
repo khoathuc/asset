@@ -14,7 +14,7 @@ export function CFormInput({
 }) {
   const [formData, setFormData] = useState<cfieldValue[] | []>(form);
 
-  const handleChange = (field: cfieldValue) => {
+  const handleChange = (field: cfieldValue) => {  
     setFormData((arr) => {
       return arr.map((item) =>
         item.id === field.id ? { ...item, ...field } : item,
@@ -24,7 +24,7 @@ export function CFormInput({
 
   useEffect(()=>{
     setFormData(form);
-  }, []);
+  });
 
   useEffect(() => {
     onInputChange(formData);
