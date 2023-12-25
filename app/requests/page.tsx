@@ -4,7 +4,7 @@ import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
 import Empty from "./empty";
 import FilterButton from "./@comps/FilterButton";
-import { getAllRequests } from "./actions";
+import { getAllRequests } from "./actions";   
 import CreateButton from "./@comps/CreateButton";
 import RequestBoard from "./@comps/@board/Board";
 

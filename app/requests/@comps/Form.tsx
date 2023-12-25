@@ -12,10 +12,11 @@ import { Input } from "@/components/ui/form/Input";
 import { Textarea } from "@/components/ui/form/textarea";
 import { SelectRequestType } from "@/components/ui/form/Select/request_type/SelectRequestType";
 import { toast } from "react-toastify";
-import { addRequest, getRequestType } from "../actions";
+import { addRequest} from "../actions";
 import { request_types, requests } from "@prisma/client";
 import { SelectUsers } from "@/components/ui/form/Select/user/SelectUsers";
 import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
+import { getRequestType } from "@/app/settings/request_types/action";
 
 type RequestFormSchema = z.infer<typeof requestSchema>;
 

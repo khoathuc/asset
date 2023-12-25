@@ -5,6 +5,7 @@ import { getUserById } from "../users/actions";
 import { uploadFile } from "../base/file";
 import { getPendingStatus } from "./statuses";
 import { revalidatePath } from "next/cache";
+import { getRequestType } from "../settings/request_types/action";
 
 async function readFile(formData: FormData) {
   const file: File | null = formData.get("file") as unknown as File;
@@ -150,7 +151,6 @@ export async function addRequest(formData: FormData) {
     },
   });
 
-  
   revalidatePath("/requests");
 }
 
@@ -171,8 +171,8 @@ export async function getAllRequests(query: string | null = null) {
   });
 }
 
-export async function getRequestType(id: number) {
-  return await prisma.request_types.findUnique({
+export async function getRequestById(id: number) {
+  return await prisma.requests.findUnique({
     where: {
       id: id,
     },

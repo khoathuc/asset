@@ -237,3 +237,12 @@ export async function editCform(formData: FormData) {
   
   revalidatePath("/settings/request_types");
 }
+
+
+export async function getRequestType(id: number) {
+  return await prisma.request_types.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
