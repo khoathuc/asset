@@ -2,6 +2,7 @@ import { getAllRequests, getRequestById } from "@/app/requests/actions";
 import PageBody from "@/components/layout/PageBody";
 import { notFound } from "next/navigation";
 import RequestDisplay from "../@comps/RequestDisplay";
+import RequestSidebar from "../@comps/RequestSidebar";
 
 export async function generateStaticParams(){
     const requests = await getAllRequests();
@@ -17,9 +18,10 @@ export default async function Page({params}: {params: {id: string}}){
         return notFound();
     }
 
-
     return (
         <PageBody
+            side={<RequestSidebar request={request}/>}
+            side_20
             compact
             scroll-y
             className="bg-base-200"

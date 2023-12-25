@@ -32,7 +32,7 @@ export default function UserInfo({
   return (
     <div className="flex gap-2 items-center">
       <UserAva user_id={user_id} size={6}/>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 -user-content">
         <span className="font-semibold">{user.username.toString()}</span>
         <span className="font-light text-gray-600">
           {user.email.toString()}
