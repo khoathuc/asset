@@ -1,6 +1,17 @@
 import "@/styles/request.sidebar.css";
 import UserInfo from "@/components/ui/user/UserInfo";
 import { requests, users } from "@prisma/client";
+import Info from "@/public/question_mark.svg";
+
+import {
+  ONE_APPROVER_FLOW,
+  PARALLEL_FLOW,
+  SEQUENTIAL_FLOW,
+} from "@/components/ui/form/Select/approval_flow/approval.flow";
+import {
+  ApprovalFlowDesc,
+  ApprovalFlowName,
+} from "@/components/ui/form/Select/approval_flow/attrs";
 
 function getStatus(request: requests, approver_id: any) {
   var status = { label: "Pending", color: `bg-warning` };
@@ -14,7 +25,7 @@ function getStatus(request: requests, approver_id: any) {
     }
   }
 
-  return status
+  return status;
 }
 function RequestApprovers({ request }: { request: requests }) {
   if (!request.approvers) {
@@ -29,7 +40,7 @@ function RequestApprovers({ request }: { request: requests }) {
         <div className="request-sidebar-user">
           <UserInfo user_id={approver_id} />
           <div
-            className="approval-status tooltip absolute flex h-3 w-3"
+            className="approval-status tooltip hover:cursor-pointer absolute flex h-3 w-3"
             data-tip={`${status.label}`}
           >
             <span
@@ -62,9 +73,39 @@ function RequestFollowers({ request }: { request: requests }) {
   }
 }
 
+function RequestApprovalFlow({ request }: { request: requests }) {
+  if (!request) {
+    return <></>;
+  }
+  return (
+    <div className="flex gap-2">
+      <span className="font-bold">
+
+      <ApprovalFlowName approval_flow={request.approval_follow} />
+      </span>
+      <div
+        className="tooltip hover:cursor-pointer"
+        data-tip={<ApprovalFlowDesc approval_flow={request.approval_follow} />}
+      >
+        <div
+          tabIndex={0}
+          role="button"
+          className="btn btn-circle btn-ghost btn-xs text-info"
+        >
+          <Info className='h-6 w-6'/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function RequestSidebar({ request }: { request: requests }) {
   return (
     <div className="request-sidebar flex flex-col justify-start">
+      <div className="flex flex-col border-b-2 px-4 pb-4">
+        <span className="uppercase">Approval flow</span>
+        <RequestApprovalFlow request={request} />
+      </div>
       <div className="flex flex-col border-b-2 px-4 pb-4">
         <span className="uppercase">Approvers</span>
         <RequestApprovers request={request} />
