@@ -4,14 +4,13 @@ import { requests, users } from "@prisma/client";
 import Info from "@/public/question_mark.svg";
 
 import {
-  ONE_APPROVER_FLOW,
-  PARALLEL_FLOW,
-  SEQUENTIAL_FLOW,
-} from "@/components/ui/form/Select/approval_flow/approval.flow";
-import {
   ApprovalFlowDesc,
   ApprovalFlowName,
 } from "@/components/ui/form/Select/approval_flow/attrs";
+import { approvable } from "../[id]/request";
+import { ApproveButton } from "./ApproveButton";
+import { RejectButton } from "./RejectButton";
+import { getCurrentUser } from "@/lib/session";
 
 function getStatus(request: requests, approver_id: any) {
   var status = { label: "Pending", color: `bg-warning` };
@@ -40,7 +39,7 @@ function RequestApprovers({ request }: { request: requests }) {
         <div className="request-sidebar-user">
           <UserInfo user_id={approver_id} />
           <div
-            className="approval-status tooltip hover:cursor-pointer absolute flex h-3 w-3"
+            className="approval-status tooltip absolute flex h-3 w-3 hover:cursor-pointer"
             data-tip={`${status.label}`}
           >
             <span
@@ -80,8 +79,7 @@ function RequestApprovalFlow({ request }: { request: requests }) {
   return (
     <div className="flex gap-2">
       <span className="font-bold">
-
-      <ApprovalFlowName approval_flow={request.approval_follow} />
+        <ApprovalFlowName approval_flow={request.approval_follow} />
       </span>
       <div
         className="tooltip hover:cursor-pointer"
@@ -92,21 +90,29 @@ function RequestApprovalFlow({ request }: { request: requests }) {
           role="button"
           className="btn btn-circle btn-ghost btn-xs text-info"
         >
-          <Info className='h-6 w-6'/>
+          <Info className="h-6 w-6" />
         </div>
       </div>
     </div>
   );
 }
 
-export default function RequestSidebar({ request }: { request: requests }) {
+export default async function RequestSidebar({ request }: { request: requests }) {
+  const is_approvable = await approvable(request);
   return (
     <div className="request-sidebar flex flex-col justify-start">
-      <div className="flex flex-col border-b-2 px-4 pb-4">
+      {is_approvable && <div className="flex flex-col px-4 py-4 bg-info rounded-xl">
+          <span className="text-sm text-white">You are requested to approve for this request</span>
+          <div className="flex justify-between gap-2 px-8 pt-2">
+            <ApproveButton request={request}/>
+            <RejectButton request={request} />
+          </div>
+        </div>}
+      <div className="flex flex-col border-b-2 px-4 py-4">
         <span className="uppercase">Approval flow</span>
         <RequestApprovalFlow request={request} />
       </div>
-      <div className="flex flex-col border-b-2 px-4 pb-4">
+      <div className="flex flex-col border-b-2 px-4 py-4">
         <span className="uppercase">Approvers</span>
         <RequestApprovers request={request} />
       </div>

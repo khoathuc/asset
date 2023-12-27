@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ReduxProvider from "./redux/provider";
 import { DataProvider } from "@/context/data.context";
 import AuthProvider from "@/context/auth.context";
+import { SessionProvider } from "next-auth/react";
 
 const openSans = Open_Sans({ weight: "400", subsets: ["latin"] });
 
