@@ -178,3 +178,14 @@ export async function getRequestById(id: number) {
     },
   });
 }
+
+export async function getRequestLogs(id: number){
+  return await prisma.request_logs.findMany({
+    orderBy:{id:'desc'},
+    where:{
+      request_id:{
+        equals: id
+      },
+    }
+  })
+}

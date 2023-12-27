@@ -26,7 +26,7 @@ export default function UserAva({ user_id, size }: { user_id: any, size: number 
   }
 
   return (
-    <div className="avatar">
+    <div className="avatar tooltip hover:cursor-pointer" data-tip={user.username}>
       {avatar}
     </div>
   );

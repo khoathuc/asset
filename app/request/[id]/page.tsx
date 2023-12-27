@@ -1,8 +1,9 @@
-import { getAllRequests, getRequestById } from "@/app/requests/actions";
+import { getAllRequests, getRequestById, getRequestLogs } from "@/app/requests/actions";
 import PageBody from "@/components/layout/PageBody";
 import { notFound } from "next/navigation";
 import RequestDisplay from "../@comps/RequestDisplay";
 import RequestSidebar from "../@comps/RequestSidebar";
+import LogsDisplay from "../@comps/Logs/LogsDisplay";
 
 export async function generateStaticParams(){
     const requests = await getAllRequests();
@@ -18,6 +19,8 @@ export default async function Page({params}: {params: {id: string}}){
         return notFound();
     }
 
+    const logs = await getRequestLogs(parseInt(params.id));
+
     return (
         <PageBody
             side={<RequestSidebar request={request}/>}
@@ -28,6 +31,7 @@ export default async function Page({params}: {params: {id: string}}){
         >
             <div className="request-display flex flex-col items-center justify-center gap-10 px-10 py-5 pb-32">
                 <RequestDisplay request={request}/>
+                <LogsDisplay logs={logs} />
             </div>
         </PageBody>
     )
