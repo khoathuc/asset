@@ -7,10 +7,9 @@ import {
   ApprovalFlowDesc,
   ApprovalFlowName,
 } from "@/components/ui/form/Select/approval_flow/attrs";
-import { approvable } from "../[id]/request";
+import { approvable, approved } from "../[id]/request";
 import { ApproveButton } from "./ApproveButton";
 import { RejectButton } from "./RejectButton";
-import { getCurrentUser } from "@/lib/session";
 
 function getStatus(request: requests, approver_id: any) {
   var status = { label: "Pending", color: `bg-warning` };
@@ -43,10 +42,10 @@ function RequestApprovers({ request }: { request: requests }) {
             data-tip={`${status.label}`}
           >
             <span
-              className={`absolute inline-flex h-full w-full animate-ping rounded-full bg-warning opacity-75 ${status.color}`}
+              className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${status.color}`}
             ></span>
             <span
-              className={`relative inline-flex h-3 w-3 rounded-full bg-warning ${status.color}`}
+              className={`relative inline-flex h-3 w-3 rounded-full ${status.color}`}
             ></span>
           </div>
         </div>
@@ -97,17 +96,33 @@ function RequestApprovalFlow({ request }: { request: requests }) {
   );
 }
 
-export default async function RequestSidebar({ request }: { request: requests }) {
+export default async function RequestSidebar({
+  request,
+}: {
+  request: requests;
+}) {
   const is_approvable = await approvable(request);
+  const is_approved = await approved(request);
   return (
     <div className="request-sidebar flex flex-col justify-start">
-      {is_approvable && <div className="flex flex-col px-4 py-4 bg-info rounded-xl">
-          <span className="text-sm text-white">You are requested to approve for this request</span>
+      {is_approved && (
+        <div className="flex flex-col rounded-xl border-2 border-white bg-success px-4 py-4">
+          <span className="text-sm text-white">
+            You have approved this request
+          </span>
+        </div>
+      )}
+      {is_approvable && (
+        <div className="flex flex-col rounded-xl border-2 border-white bg-info px-4 py-4">
+          <span className="text-sm text-white">
+            You are requested to approve for this request
+          </span>
           <div className="flex justify-between gap-2 px-8 pt-2">
-            <ApproveButton request={request}/>
+            <ApproveButton request={request} />
             <RejectButton request={request} />
           </div>
-        </div>}
+        </div>
+      )}
       <div className="flex flex-col border-b-2 px-4 py-4">
         <span className="uppercase">Approval flow</span>
         <RequestApprovalFlow request={request} />

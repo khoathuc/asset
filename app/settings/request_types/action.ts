@@ -125,7 +125,7 @@ export async function addRequestType(formData: FormData) {
 
   await prisma.request_types.create({
     data: {
-      user_id: parseInt(user ? user.id : "0"),
+      user_id: user ? user.id : 0,
       name,
       default_approvers,
       default_followers,
