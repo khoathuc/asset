@@ -5,30 +5,14 @@ import prisma from "@/lib/db/prisma";
 import { locations } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-async function readData(formData: FormData) {
-  const description = formData.get("description")?.toString();
-  const address = formData.get("address")?.toString();
+import { Location } from "@/models/location/location";
 
-  const file: File | null = formData.get("file") as unknown as File;
-  var image_url;
-  if (file) {
-    image_url = await uploadFile(file);
-  }
-
-  const name = formData.get("name")?.toString();
-  if (!name) {
-    throw Error("Name is required");
-  }
-
-  return { name, description, address, image_url };
-}
-
-export async function getLocation(id: number){
+export async function getLocation(id: number) {
   return await prisma.locations.findUnique({
-    where:{
-      id: id
-    }
-  })
+    where: {
+      id: id,
+    },
+  });
 }
 
 export async function getAllLocations(query: string | null = null) {
@@ -37,7 +21,7 @@ export async function getAllLocations(query: string | null = null) {
       orderBy: { id: "desc" },
     });
   }
-  
+
   return await prisma.locations.findMany({
     orderBy: { id: "desc" },
     where: {
@@ -49,17 +33,13 @@ export async function getAllLocations(query: string | null = null) {
 }
 
 export async function addLocation(formData: FormData) {
-  const { name, description, address, image_url } = await readData(formData);
+  const location = new Location();
+  await location.init();
 
-  await prisma.locations.create({
-    data: {
-      name,
-      description,
-      address,
-      image: image_url,
-      status: true,
-    },
-  });
+  const data = await Location.reader().read(formData);
+  location.setLocation(data);
+
+  await location.save();
 
   revalidatePath("/settings/locations");
 }
@@ -81,28 +61,16 @@ export async function changeStatus(checked: boolean, location: locations) {
 
 export async function editLocation(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
-  const location = await prisma.locations.findUnique({
-    where: {
-      id,
-    },
-  });
-
+  const location = await Location.loader().getById(id);
   if (!location) {
-    throw new Error("Invalid Location");
+    throw new Error("Invalid location");
   }
 
-  const { name, description, address, image_url } = await readData(formData);
+  const data = await Location.reader().read(formData);
 
   await prisma.locations.update({
-    where: {
-      id: id,
-    },
-    data: {
-      name: name,
-      description,
-      address,
-      image: image_url,
-    },
+    where: { id },
+    data: data,
   });
 
   revalidatePath("/settings/locations");

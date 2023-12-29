@@ -1,17 +1,14 @@
 import Pagination from "@/components/layout/Pagination";
-import prisma from "@/lib/db/prisma";
 import Image from "next/image";
 import { changeStatus } from "../actions";
-import ToggleStatus from "@/app/settings/locations/@comps/ToggleStatus";
+import ToggleStatus from "@/app/settings/locations/@buttons/ToggleStatus";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
-import EditButton from "@/app/settings/locations/@comps/EditButton";
+import EditButton from "@/app/settings/locations/@buttons/EditButton";
+import { Location } from "@/models/location/location";
 
 export default async function LocationBoard({}: {}) {
-  const locations = await prisma.locations.findMany({
-    orderBy: { id: "desc" },
-    take: 10,
-  });
+  const locations = await Location.loader().paginate();
 
   return (
     <div className="w-full">

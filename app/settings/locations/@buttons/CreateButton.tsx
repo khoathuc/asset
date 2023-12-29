@@ -1,7 +1,7 @@
 "use client";
 import { Modal } from "@/components/layout/Modal";
 import React, { useState } from "react";
-import { CreateForm } from "./Form";
+import { CreateForm } from "../@form/CreateForm";
 
 export default function CreateButton() {
   const [showModal, setShowModal] = useState(false);
