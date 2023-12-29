@@ -33,13 +33,11 @@ export async function getAllLocations(query: string | null = null) {
 }
 
 export async function addLocation(formData: FormData) {
-  const location = new Location();
-  await location.init();
-
   const data = await Location.reader().read(formData);
-  location.setLocation(data);
 
-  await location.save();
+  await prisma.locations.create({
+    data: { ...data, status: true },
+  });
 
   revalidatePath("/settings/locations");
 }
