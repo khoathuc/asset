@@ -4,7 +4,7 @@ import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 import { getType } from "../settings/types/actions";
-import { getLocation } from "../settings/locations/actions";
+import { Location } from "@/models/location/location";
 import { getVendor } from "../settings/vendors/actions";
 import { getStatus, getDefaultStatus } from "../settings/statuses/actions";
 import { isValidDateFormat } from "@/lib/utils/datetime";
@@ -91,7 +91,7 @@ async function readType(formData: FormData) {
 async function readLocation(formData: FormData) {
   const location_id = formData.get("location_id")?.toString();
   if (location_id) {
-    const location = await getLocation(parseInt(location_id));
+    const location = await Location.loader().getById(parseInt(location_id));
     
     if(!location){
       throw new Error("This location is not exist");

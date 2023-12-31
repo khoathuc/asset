@@ -1,35 +1,12 @@
 "use server";
-
-import { uploadFile } from "../../base/file";
 import prisma from "@/lib/db/prisma";
 import { locations } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 import { Location } from "@/models/location/location";
 
-export async function getLocation(id: number) {
-  return await prisma.locations.findUnique({
-    where: {
-      id: id,
-    },
-  });
-}
-
 export async function getAllLocations(query: string | null = null) {
-  if (!query || query === "") {
-    return await prisma.locations.findMany({
-      orderBy: { id: "desc" },
-    });
-  }
-
-  return await prisma.locations.findMany({
-    orderBy: { id: "desc" },
-    where: {
-      name: {
-        contains: query,
-      },
-    },
-  });
+  return await Location.loader().getAllLocations();
 }
 
 export async function addLocation(formData: FormData) {

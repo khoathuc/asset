@@ -26,4 +26,25 @@ export class Loader {
       },
     });
   }
+
+  /**
+   * @desc get all locations
+   * @return locations
+   */
+  public static async getAllLocations(query: string | null = null) {
+    if (!query || query === "") {
+      return await prisma.locations.findMany({
+        orderBy: { id: "desc" },
+      });
+    }
+  
+    return await prisma.locations.findMany({
+      orderBy: { id: "desc" },
+      where: {
+        name: {
+          contains: query,
+        },
+      },
+    });
+  }
 }
