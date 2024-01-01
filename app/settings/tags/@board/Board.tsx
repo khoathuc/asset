@@ -2,7 +2,7 @@ import prisma from "@/lib/db/prisma";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
 import { tags } from "@prisma/client";
-import EditButton from "./EditButton";
+import EditButton from "../@buttons/EditButton";
 import { rgba } from "polished";
 
 function TagName({tag}:{tag: tags}){
