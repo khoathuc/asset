@@ -1,7 +1,7 @@
 "use server";
-import { getUserById } from "@/app/users/actions.tsx";
 import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { User } from "@/models/user/user";
 import { request_types } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -49,7 +49,7 @@ async function readDefaultApprovers(formData: FormData) {
 
   const approver_ids = JSON.parse(default_approvers);
   approver_ids.forEach(async (approver_id: string | number) => {
-    const user = await getUserById(parseInt(approver_id.toString()));
+    const user = await User.loader().getById(parseInt(approver_id.toString()));
     if (!user) {
       throw new Error("Invalid approvers");
     }
@@ -69,7 +69,7 @@ async function readDefaultFollowers(formData: FormData) {
 
   const follower_ids = JSON.parse(default_followers);
   follower_ids.forEach(async (follower_id: string | number) => {
-    const user = await getUserById(parseInt(follower_id.toString()));
+    const user = await User.loader().getById(parseInt(follower_id.toString()));
     if (!user) {
       throw new Error("Invalid followers");
     }
@@ -125,7 +125,7 @@ export async function addRequestType(formData: FormData) {
 
   await prisma.request_types.create({
     data: {
-      user_id: parseInt(user ? user.id : "0"),
+      user_id: user ? user.id : 0,
       name,
       default_approvers,
       default_followers,
@@ -236,4 +236,13 @@ export async function editCform(formData: FormData) {
   });
   
   revalidatePath("/settings/request_types");
+}
+
+
+export async function getRequestType(id: number) {
+  return await prisma.request_types.findUnique({
+    where: {
+      id: id,
+    },
+  });
 }

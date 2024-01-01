@@ -1,8 +1,8 @@
 import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
-import CreateButton from './@comps/CreateButton'
-import TypeBoard from "./@comps/Board";
+import CreateButton from './@buttons/CreateButton'
+import TypeBoard from "./@board/Board";
 
 export default function Page() {
   return (

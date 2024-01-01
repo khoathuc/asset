@@ -23,7 +23,7 @@ export default function RequestAttrStatus({ request }: { request: requests }) {
 
   return (
     <div
-      className={`badge p-2 text-xs text-white bg-${requestStatus.color}`}
+      className={`badge p-2 text-xs text-white`}
       style={{ backgroundColor: requestStatus.color }}
     >
       {requestStatus.label}

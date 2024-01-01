@@ -61,7 +61,7 @@ export async function addAction(formData: FormData) {
     data: {
       name,
       change_fields,
-      user_id: Number(user?.id),
+      user_id: user?.id,
       conditions,
       status: true,
     },

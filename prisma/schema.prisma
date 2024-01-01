@@ -111,7 +111,7 @@ model requests {
   rejections      Json?
   followers       Json
   status          String?  @db.VarChar(255)
-  files           String?   @db.Text
+  files           String?  @db.Text
   form            Json?
   description     String?  @db.Text
   since           DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
@@ -128,6 +128,7 @@ model request_logs {
   object_export Json?
   object_id     Int
   object_type   String   @db.VarChar(255)
+  note          String?  @db.Text
   metatype      String   @db.VarChar(255)
   changes       Json?
   description   String?  @db.Text

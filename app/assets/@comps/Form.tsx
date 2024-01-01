@@ -7,17 +7,17 @@ import { assetSchema } from "@/lib/validations/asset";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/form/Input";
-import { SelectLocation } from "@/components/ui/form/Select/location/SelectLocation";
-import { SelectAssetType } from "@/components/ui/form/Select/asset_type/SelectAssetType";
-import { SelectVendor } from "@/components/ui/form/Select/vendor/SelectVendor";
-import { getType } from "@/app/settings/types/actions";
+import { InputSelectLocation } from "@/app/settings/locations/@input/InputSelectLocation";
+import { InputSelectAssetType } from "@/app/settings/types/@input/InputSelectAssetType";
+import { InputSelectVendor } from "@/app/settings/vendors/@input/InputSelectVendor";
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
 import { addAsset } from "../actions";
 import { assets } from "@prisma/client";
 import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
-import { SelectTags } from "@/components/ui/form/Select/tag/SelectTag";
+import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
+import { Type } from "@/models/type/type";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -45,7 +45,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
   const handleTypeChange = async (type_id: number) => {
     try {
-      const type = await getType(type_id);
+      const type = await Type.loader().getById(type_id);
       if (type) {
         setCform(type.form as cfieldValue[]);
       }
@@ -133,7 +133,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
             <label className="pb-1 text-sm font-bold text-current">
               Location *
             </label>
-            <SelectLocation
+            <InputSelectLocation
               onChange={(value: number) => {
                 setValue("location_id", value.toString());
               }}
@@ -144,7 +144,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
             <label className="pb-1 text-sm font-bold text-current">
               Vendor
             </label>
-            <SelectVendor
+            <InputSelectVendor
               onChange={(value: number) => {
                 setValue("vendor_id", value.toString());
               }}
@@ -187,7 +187,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">Type *</label>
-          <SelectAssetType
+          <InputSelectAssetType
             onChange={(value: number) => {
               setValue("type_id", value.toString());
               handleTypeChange(value);
@@ -226,7 +226,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
               <label className="pb-1 text-sm font-bold text-current">
                 Tags
               </label>
-              <SelectTags />
+              <InputSelectTags />
             </div>
 
             <div className="form-control flex flex-col">

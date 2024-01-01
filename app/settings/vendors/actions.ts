@@ -2,60 +2,20 @@
 
 import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
+import { Vendor } from "@/models/vendor/vendor";
 import { revalidatePath } from "next/cache";
 
-async function readData(formData: FormData) {
-  const phone = formData.get("phone")?.toString();
-  const contact = formData.get("contact")?.toString();
-  const url = formData.get("url")?.toString();
-  const address = formData.get("address")?.toString();
-  const email = formData.get("email")?.toString();
-  const description = formData.get("description")?.toString();
-
-  const file: File | null = formData.get("image") as unknown as File;
-  var image_url;
-  if (file) {
-    image_url = await uploadFile(file);
-  }
-
-  const name = formData.get("name")?.toString();
-  if (!name) {
-    throw Error("Name is required");
-  }
-
-  return { name, phone, contact, url, address, email, description, image_url };
+export async function getVendor(id: number) {
+  return await Vendor.loader().getById(id);
 }
-
-
-export async function getVendor(id: number){
-  return await prisma.vendors.findUnique({
-    where:{
-      id: id
-    }
-  })
-}
-
 
 export async function getAllVendors(query: string | null = null) {
-  if (!query || query === "") {
-    return await prisma.vendors.findMany({
-      orderBy: { id: "desc" },
-    });
-  }
-  
-  return await prisma.vendors.findMany({
-    orderBy: { id: "desc" },
-    where: {
-      name: {
-        contains: query,
-      },
-    },
-  });
+  return await Vendor.loader().paginate(query);
 }
 
 export async function addVendor(formData: FormData) {
   const { name, phone, contact, url, address, email, description, image_url } =
-    await readData(formData);
+    await Vendor.reader(formData).read();
 
   await prisma.vendors.create({
     data: {
@@ -75,18 +35,14 @@ export async function addVendor(formData: FormData) {
 
 export async function editVendor(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
-  const vendor = await prisma.vendors.findUnique({
-    where: {
-      id,
-    },
-  });
+  const vendor = await Vendor.loader().getById(id);
 
   if (!vendor) {
     throw new Error("Invalid Vendor");
   }
 
   const { name, phone, contact, url, address, email, description, image_url } =
-    await readData(formData);
+    await Vendor.reader(formData).read();
 
   await prisma.vendors.update({
     where: {

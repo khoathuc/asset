@@ -9,8 +9,8 @@ export interface FlowOption {
 
 export function getAllApprovalFlows() {
     return [
-        {label: "Sequential", value: SEQUENTIAL_FLOW},
-        {label: "Parallel", value: PARALLEL_FLOW},
-        {label: "One Approver", value: ONE_APPROVER_FLOW},
+        {label: "Sequential", value: SEQUENTIAL_FLOW, desc:'Step-by-step evaluation and authorization'},
+        {label: "Parallel", value: PARALLEL_FLOW, desc:'Simultaneous evaluation of requests'},
+        {label: "One Approver", value: ONE_APPROVER_FLOW, desc:'Single-stage evaluation'},
     ]
 }

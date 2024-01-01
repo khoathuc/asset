@@ -1,10 +1,11 @@
 "use server";
 import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
-import { getUserById } from "../users/actions";
 import { uploadFile } from "../base/file";
-import { getPendingStatus } from "./statuses";
+import { APPROVED_STATUS, PENDING_STATUS, getStatus } from "./statuses";
 import { revalidatePath } from "next/cache";
+import { getRequestType } from "../settings/request_types/action";
+import { User } from "@/models/user/user";
 
 async function readFile(formData: FormData) {
   const file: File | null = formData.get("file") as unknown as File;
@@ -61,6 +62,19 @@ function readApprovalFlow(formData: FormData) {
   return approval_follow;
 }
 
+export async function validateUser(user_id: number){
+  const user = await User.loader().getById(user_id);
+
+  if (!user) {
+    throw new Error("Invalid approvers");
+  }
+  if (!user.activated) {
+    throw new Error("One approver is not activate anymore");
+  }
+
+  return user;
+}
+
 async function readApprovers(formData: FormData) {
   const approvers = formData.get("approvers")?.toString();
   if (!approvers || approvers.length == 0) {
@@ -69,13 +83,7 @@ async function readApprovers(formData: FormData) {
 
   const approver_ids = JSON.parse(approvers);
   approver_ids.forEach(async (approver_id: string | number) => {
-    const user = await getUserById(parseInt(approver_id.toString()));
-    if (!user) {
-      throw new Error("Invalid approvers");
-    }
-    if (!user.activated) {
-      throw new Error("One approver is not activate anymore");
-    }
+    await validateUser(parseInt(approver_id.toString()));
   });
 
   return approver_ids;
@@ -89,13 +97,7 @@ async function readFollowers(formData: FormData) {
 
   const follower_ids = JSON.parse(followers);
   follower_ids.forEach(async (follower_id: string | number) => {
-    const user = await getUserById(parseInt(follower_id.toString()));
-    if (!user) {
-      throw new Error("Invalid followers");
-    }
-    if (!user.activated) {
-      throw new Error("One follower is not activate anymore");
-    }
+    await validateUser(parseInt(follower_id.toString()));
   });
 
   return follower_ids;
@@ -137,7 +139,7 @@ export async function addRequest(formData: FormData) {
 
   await prisma.requests.create({
     data: {
-      user_id: parseInt(user ? user.id : "0"),
+      user_id: user? user.id : 0,
       name: data.name,
       request_type_id: data.request_type_id,
       approval_follow: data.approval_follow,
@@ -145,12 +147,11 @@ export async function addRequest(formData: FormData) {
       followers: data.followers,
       files: data.file_url,
       form: data.form,
-      status: getPendingStatus()?.value,
+      status: getStatus(PENDING_STATUS)?.value,
       description: data.description,
     },
   });
 
-  
   revalidatePath("/requests");
 }
 
@@ -171,10 +172,21 @@ export async function getAllRequests(query: string | null = null) {
   });
 }
 
-export async function getRequestType(id: number) {
-  return await prisma.request_types.findUnique({
+export async function getRequestById(id: number) {
+  return await prisma.requests.findUnique({
     where: {
       id: id,
+    },
+  });
+}
+
+export async function getRequestLogs(id: number) {
+  return await prisma.request_logs.findMany({
+    orderBy: { id: "desc" },
+    where: {
+      request_id: {
+        equals: id,
+      },
     },
   });
 }

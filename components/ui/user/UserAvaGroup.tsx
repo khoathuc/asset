@@ -30,7 +30,7 @@ export function UserAvaGroup({ user_ids }: { user_ids: any }) {
     }
 
     return (
-      <div className="avatar">
+      <div className="avatar tooltip hover:cursor-pointer" data-tip={user.username}>
         {avatar}
       </div>
     );
