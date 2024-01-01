@@ -4,9 +4,9 @@ import Trash from "@/public/trash.svg";
 import Image from "next/image";
 import NoAvatar from "@/public/no_avatar.svg";
 import { ADMIN_ROLE } from "@/app/api/auth/[...nextauth]/options";
-import ToggleStatus from "./ToggleStatus";
+import ToggleStatus from "../@buttons/ToggleStatus";
 import { changeStatus } from "../actions";
-import EditButton from "./EditButton";
+import EditButton from "../@buttons/EditButton";
 
 export default function UserItem({ user }: { user: users }) {
   var avatar = <NoAvatar className="h-8" />;
@@ -21,7 +21,7 @@ export default function UserItem({ user }: { user: users }) {
     );
   }
 
-  var role = "";
+  var role = <></>;
   if (user.role == ADMIN_ROLE) {
     role = (
       <span className="w-15 badge badge-success badge-xs p-2 text-white">

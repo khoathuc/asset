@@ -14,7 +14,7 @@ import { SelectRequestType } from "@/components/ui/form/Select/request_type/Sele
 import { toast } from "react-toastify";
 import { addRequest} from "../actions";
 import { request_types, requests } from "@prisma/client";
-import { SelectUsers } from "@/components/ui/form/Select/user/SelectUsers";
+import { InputSelectUsers } from "@/app/users/@input/InputSelectUsers";
 import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
 import { getRequestType } from "@/app/settings/request_types/action";
 
@@ -138,7 +138,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
               <label className="pb-1 text-sm font-bold text-current">
                 Approvers *
               </label>
-              <SelectUsers
+              <InputSelectUsers
                 name="approvers"
                 defaultValue={request_type.default_approvers}
                 isDisabled={request_type.allow_change_approvers}
@@ -167,7 +167,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
               <label className="pb-1 text-sm font-bold text-current">
                 Default followers
               </label>
-              <SelectUsers
+              <InputSelectUsers
                 name="followers"
                 defaultValue={request_type.default_followers}
                 onChange={(values: Array<string>) => {

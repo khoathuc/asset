@@ -1,6 +1,6 @@
 import { InputSelectLocation } from "../../../app/settings/locations/@input/InputSelectLocation";
-import { SelectStatus } from "../../../app/settings/statuses/@input/SelectStatus";
-import { SelectUser } from "../form/Select/user/SelectUser";
+import { InputSelectStatus } from "../../../app/settings/statuses/@input/InputSelectStatus";
+import { InputSelectUser } from "../../../app/users/@input/InputSelectUser";
 
 type ChangeFieldInputProps = {
   field: string;
@@ -15,11 +15,11 @@ export function ChangeFieldValueInput({
   onChange,
 }: ChangeFieldInputProps) {
   if (field == "status") {
-    return <SelectStatus defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
+    return <InputSelectStatus defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 
   if (field == "assignee") {
-    return <SelectUser defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
+    return <InputSelectUser defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 
   if (field == "location") {

@@ -1,7 +1,7 @@
 "use client";
 import { InputSelectLocation } from "@/app/settings/locations/@input/InputSelectLocation";
-import { SelectStatus } from "@/app/settings/statuses/@input/SelectStatus";
-import { SelectUser } from "@/components/ui/form/Select/user/SelectUser";
+import { InputSelectStatus } from "@/app/settings/statuses/@input/InputSelectStatus";
+import { InputSelectUser } from "@/app/users/@input/InputSelectUser";
 import { useEffect, useState } from "react";
 
 type AssetActionChangeFieldProps = {
@@ -31,7 +31,6 @@ export default function AssetActionChangeField({
 
   useEffect(()=>{
     if(change_field.isSetValue){
-      console.log("zsdfasdfasdf")
       onChange(field, change_field.value);
     }
   }, []);
@@ -41,7 +40,7 @@ export default function AssetActionChangeField({
   switch (field) {
     case "status":
       html = (
-        <SelectStatus
+        <InputSelectStatus
           isDisabled={change_field.isSetValue}
           defaultValue={change_field.isSetValue ? change_field.value : null}
           onChange={handleValueChange}
@@ -59,7 +58,7 @@ export default function AssetActionChangeField({
       break;
     case "assignee":
       html = (
-        <SelectUser
+        <InputSelectUser
           isDisabled={change_field.isSetValue}
           defaultValue={change_field.isSetValue ? change_field.value : null}
           onChange={handleValueChange}

@@ -4,6 +4,7 @@ import { users } from "@prisma/client";
 import { uploadFile } from "../base/file";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+import { User } from "@/models/user/user";
 interface UserData {
   first_name: string;
   last_name: string;
@@ -125,20 +126,7 @@ async function readFile(formData: FormData) {
 }
 
 export async function getAllUsers(query: string | null = null) {
-  if (!query || query === "") {
-    return await prisma.users.findMany({
-      orderBy: { id: "desc" },
-    });
-  }
-
-  return await prisma.users.findMany({
-    orderBy: { id: "desc" },
-    where: {
-      username: {
-        contains: query,
-      },
-    },
-  });
+  return await User.loader().all();
 }
 
 export async function changeStatus(checked: boolean, user: users) {
@@ -154,14 +142,6 @@ export async function changeStatus(checked: boolean, user: users) {
       activated: checked,
     },
   });
-}
-
-export async function getUserById(id: number){
-  return await prisma.users.findUnique({
-    where:{
-      id: id
-    }
-  })
 }
 
 export async function addUser(formData: FormData) {
@@ -197,6 +177,8 @@ export async function addUser(formData: FormData) {
       state,
     },
   });
+
+  revalidatePath("/users");
 }
 
 export async function editUser(formData: FormData) {

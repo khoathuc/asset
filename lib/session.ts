@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next"
 
 import { options } from "@/app/api/auth/[...nextauth]/options"
-import { getUserById } from "@/app/users/actions";
+import { User } from "@/models/user/user";
 
 export async function getCurrentUser() {
   const session = await getServerSession(options);
@@ -10,6 +10,6 @@ export async function getCurrentUser() {
     return null;
   }
 
-  const user = await getUserById(parseInt(user_id));
+  const user = await User.loader().getById(parseInt(user_id));
   return user;
 }

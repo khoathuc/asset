@@ -2,7 +2,7 @@
 import "@/styles/form.css";
 import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/form/Input";
-import { SelectUsers } from "@/components/ui/form/Select/user/SelectUsers";
+import { InputSelectUsers } from "@/app/users/@input/InputSelectUsers";
 import { Textarea } from "@/components/ui/form/textarea";
 import { requestTypeSchema } from "@/lib/validations/request.types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -86,7 +86,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           <label className="pb-1 text-sm font-bold text-current">
             Default approvers *
           </label>
-          <SelectUsers
+          <InputSelectUsers
             name="default_approvers"
             onChange={(values: Array<string>) => {
               setValue("default_approvers", JSON.stringify(values));
@@ -125,7 +125,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           <label className="pb-1 text-sm font-bold text-current">
             Default followers
           </label>
-          <SelectUsers
+          <InputSelectUsers
             name="default_followers"
             defaultValue={default_followers}
             onChange={(values: Array<string>) => {
@@ -223,7 +223,7 @@ export function EditForm({
           <label className="pb-1 text-sm font-bold text-current">
             Default approvers *
           </label>
-          <SelectUsers
+          <InputSelectUsers
             name="default_approvers"
             defaultValue={requestType.default_approvers}
             onChange={(values: Array<string>) => {
@@ -264,7 +264,7 @@ export function EditForm({
           <label className="pb-1 text-sm font-bold text-current">
             Default followers
           </label>
-          <SelectUsers
+          <InputSelectUsers
             name="default_followers"
             defaultValue={default_followers}
             onChange={(values: Array<string>) => {

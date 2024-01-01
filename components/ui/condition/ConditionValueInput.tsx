@@ -1,6 +1,6 @@
 import { InputSelectLocation } from "../../../app/settings/locations/@input/InputSelectLocation";
-import { SelectStatus } from "../../../app/settings/statuses/@input/SelectStatus";
-import { SelectUser } from "../form/Select/user/SelectUser";
+import { InputSelectStatus } from "../../../app/settings/statuses/@input/InputSelectStatus";
+import { InputSelectUser } from "../../../app/users/@input/InputSelectUser";
 import { Condition } from "./ConditionBuilder";
 
 export function ConditionValueInput({
@@ -8,23 +8,41 @@ export function ConditionValueInput({
   className,
   onChange,
   condition,
-  defaultValue
+  defaultValue,
 }: {
   field: string;
   className: string;
-  onChange: (e: any)=>void;
-  condition?:Condition
-  defaultValue?:any
+  onChange: (e: any) => void;
+  condition?: Condition;
+  defaultValue?: any;
 }) {
   if (field == "status") {
-    return <SelectStatus className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>;
+    return (
+      <InputSelectStatus
+        className={`${className}`}
+        onChange={onChange}
+        defaultValue={defaultValue}
+      />
+    );
   }
 
-  if (field == "assignee"){
-    return <SelectUser className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
+  if (field == "assignee") {
+    return (
+      <InputSelectUser
+        className={`${className}`}
+        onChange={onChange}
+        defaultValue={defaultValue}
+      />
+    );
   }
 
-  if (field == "location"){
-    return <InputSelectLocation className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
+  if (field == "location") {
+    return (
+      <InputSelectLocation
+        className={`${className}`}
+        onChange={onChange}
+        defaultValue={defaultValue}
+      />
+    );
   }
 }

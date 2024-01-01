@@ -1,5 +1,5 @@
 import Select, { ActionMeta } from "react-select";
-import { UserOption, getAllUsers } from "./user";
+import { UserOption, getAllUsers } from "../user";
 type SelectUserProps = {
   defaultValue?: any;
   onChange?: (value: any) => void;
@@ -8,7 +8,7 @@ type SelectUserProps = {
   className?: string;
 };
 
-export function SelectUser({
+export function InputSelectUser({
   defaultValue,
   onChange,
   props,

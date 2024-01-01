@@ -4,8 +4,8 @@ import PageHeader from "@/components/layout/PageHeader";
 import Side from "@/components/layout/Side";
 import PageBody from "@/components/layout/PageBody";
 import { getAllUsers } from "./actions";
-import UserBoard from "./@comps/UserBoard";
-import CreateButton from "./@comps/CreateButton";
+import UserBoard from "./@board/UserBoard";
+import CreateButton from "./@buttons/CreateButton";
 
 export default async function Page() {
   const users = await getAllUsers();

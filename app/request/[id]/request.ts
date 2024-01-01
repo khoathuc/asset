@@ -1,12 +1,11 @@
-import { getUserById } from "@/app/users/actions";
 import { getCurrentUser } from "@/lib/session";
-import { getUser } from "@/lib/user";
+import { User } from "@/models/user/user";
 import { requests } from "@prisma/client";
 
 
 export async function approved(request: requests, user_id: number|null = null){
   if (user_id) {
-    var user = await getUserById(user_id);
+    var user = await User.loader().getById(user_id);
   }else{
     user = await getCurrentUser();
   }
@@ -26,7 +25,7 @@ export async function approved(request: requests, user_id: number|null = null){
 
 export async function approvable(request: requests, user_id: number | null = null) {
   if (user_id) {
-    var user = await getUserById(user_id);
+    var user = await User.loader().getById(user_id);
   }else{
     user = await getCurrentUser();
   }
@@ -48,7 +47,7 @@ export async function approvable(request: requests, user_id: number | null = nul
 
 export async function followable(request: requests, user_id: number | null = null) {
   if (user_id) {
-    var user = await getUserById(user_id);
+    var user = await User.loader().getById(user_id);
   }else{
     user = await getCurrentUser();
   }

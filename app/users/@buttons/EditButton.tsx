@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { users } from "@prisma/client";
 import { Modal } from "@/components/layout/Modal";
 import Edit from "@/public/edit.svg";
-import { EditForm } from "./Form";
+import { EditForm } from "../@form/EditForm";
 
 export default function EditButton({ user }: { user: users }) {
   const [showModal, setShowModal] = useState(false);

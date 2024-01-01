@@ -63,7 +63,7 @@ const colourStyles: StylesConfig<StatusOption, true> = {
   }),
 };
 
-export function SelectStatus({
+export function InputSelectStatus({
   defaultValue,
   onChange,
   props,

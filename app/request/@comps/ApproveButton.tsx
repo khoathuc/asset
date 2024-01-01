@@ -1,15 +1,16 @@
 "use client";
 
-import { approveRequest } from "@/app/requests/actions";
 import { viewer } from "@/lib/user";
 import { requests } from "@prisma/client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import router from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 
 export function ApproveButton({ request }: { request: requests }) {
   const user = viewer();
-
+  const router = useRouter()
   if(!user){
     return <></>;
   }
@@ -33,12 +34,15 @@ export function ApproveButton({ request }: { request: requests }) {
       if(response.data.success == false){
         throw new Error(response.data.message);
       }
+
+      toast.success("You have approved this request successfully")
     }catch(error){
         if(error instanceof Error){
             toast.error(error.message);
         }
     }
 
+    router.refresh();
     setIsLoading(false);
   };
 

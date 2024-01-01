@@ -1,13 +1,11 @@
 "use server";
 import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
-import { getUserById } from "../users/actions";
 import { uploadFile } from "../base/file";
 import { APPROVED_STATUS, PENDING_STATUS, getStatus } from "./statuses";
 import { revalidatePath } from "next/cache";
 import { getRequestType } from "../settings/request_types/action";
-import { requests } from "@prisma/client";
-import { PARALLEL_FLOW } from "@/components/ui/form/Select/approval_flow/approval.flow";
+import { User } from "@/models/user/user";
 
 async function readFile(formData: FormData) {
   const file: File | null = formData.get("file") as unknown as File;
@@ -65,7 +63,7 @@ function readApprovalFlow(formData: FormData) {
 }
 
 export async function validateUser(user_id: number){
-  const user = await getUserById(user_id);
+  const user = await User.loader().getById(user_id);
 
   if (!user) {
     throw new Error("Invalid approvers");

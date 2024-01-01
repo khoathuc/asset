@@ -1,6 +1,6 @@
 "use client"
 import Select, { ActionMeta, MultiValue } from "react-select";
-import { UserOption, getAllUsers } from "./user";
+import { UserOption, getAllUsers } from "../user";
 import { useEffect } from "react";
 type SelectUserProps = {
   name?: string;
@@ -11,7 +11,7 @@ type SelectUserProps = {
   className?: string;
 };
 
-export function SelectUsers({
+export function InputSelectUsers({
   name = "users",
   defaultValue,
   onChange,
