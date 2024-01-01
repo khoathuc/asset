@@ -2,13 +2,11 @@ import prisma from "@/lib/db/prisma";
 import Image from "next/image";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
-import EditButton from "./EditButton";
+import EditButton from "../@buttons/EditButton";
+import { Vendor } from "@/models/vendor/vendor";
 
 export default async function VendorBoard() {
-  const vendors = await prisma.vendors.findMany({
-    orderBy: { id: "desc" },
-    take: 10,
-  });
+  const vendors = await Vendor.loader().all();
 
   return (
     <div className="w-full overflow-auto">

@@ -1,6 +1,6 @@
 "use client";
 import { Modal } from "@/components/layout/Modal";
-import { CreateForm } from "./Form";
+import { CreateForm } from "../@form/CreateForm";
 import { useState } from "react";
 
 export default function CreateButton() {
