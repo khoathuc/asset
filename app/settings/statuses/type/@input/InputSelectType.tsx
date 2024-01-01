@@ -3,14 +3,14 @@ import Select, { ActionMeta, StylesConfig } from "react-select";
 import { rgba } from "polished";
 import { StatusType } from "@prisma/client";
 import { useState } from "react";
-import {TypeOption, getOption, typeOptions} from "../../../../components/ui/form/Select/status/type";
+import {TypeOption, getOption, typeOptions} from "../type";
 
 type SelectTypeProps = {
   value?: StatusType | undefined;
   onChange: (value: string) => void;
 }
 
-export function SelectType({
+export function InputSelectType({
   value,
   onChange,
 }: SelectTypeProps) {

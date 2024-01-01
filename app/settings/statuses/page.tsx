@@ -1,8 +1,8 @@
 import PageHeader from "@/components/layout/PageHeader";
 import Side from "@/components/layout/Side";
-import CreateButton from "./@comps/CreateButton";
+import CreateButton from "./@buttons/CreateButton";
 import Sidebar from "./@comps/Sidebar";
-import StatusBoard from "./@comps/Board";
+import StatusBoard from "./@board/Board";
 
 export default function Page() {
   return (

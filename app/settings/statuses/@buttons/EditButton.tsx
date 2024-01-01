@@ -2,7 +2,7 @@
 import Edit from "@/public/edit.svg";
 import {Modal} from "@/components/layout/Modal";
 import { statuses } from "@prisma/client";
-import { EditForm } from "./Form";
+import { EditForm } from "../@form/EditForm";
 import { useState } from "react";
 
 export default function EditButton({status}:{status: statuses}) {

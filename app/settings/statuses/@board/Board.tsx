@@ -1,59 +1,19 @@
-import prisma from "@/lib/db/prisma";
 import { randomInt } from "crypto";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
 import Checked from "@/public/checked.svg";
 import XMark from "@/public/x-mark.svg";
-import EditButton from "./EditButton";
-import { getOption } from "../../../../components/ui/form/Select/status/type";
+import EditButton from "../@buttons/EditButton";
+import { getOption } from "../type/type";
 import { rgba } from "polished";
+import { Status } from "@/models/status/status";
+import StatusType from "../@attr/status.type";
 
 //TODO: Implement status type here
-function StatusType({ status }: { status: string }) {
-  const statusDetail = getOption(status);
-  if (!statusDetail) {
-    return;
-  }
-
-  switch (statusDetail.code) {
-    case "DEPLOYABLE":
-      return (
-        <div>
-          <div className="badge badge-success badge-xs mr-1"></div>
-          {statusDetail?.label}
-        </div>
-      );
-    case "PENDING":
-      return (
-        <div>
-          <div className="badge badge-warning badge-xs mr-1"></div>
-          {statusDetail?.label}
-        </div>
-      );
-    case "UNDEPLOYABLE":
-      return (
-        <div>
-          <div className="badge badge-error badge-xs mr-1"></div>
-          {statusDetail?.label}
-        </div>
-      );
-    case "ARCHIVED":
-      return (
-        <div>
-          <div className="badge badge-error badge-xs mr-1"></div>
-          {statusDetail?.label}
-        </div>
-      );
-    default:
-      return;
-  }
-}
 
 export default async function StatusBoard() {
-  const statuses = await prisma.statuses.findMany({
-    orderBy: { id: "desc" },
-    take: 10,
-  });
+  const statuses = await Status.loader().all();
+
   return (
     <div className="w-full">
       <table className="table table-xs table-auto">
