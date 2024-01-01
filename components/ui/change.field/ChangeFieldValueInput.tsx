@@ -1,5 +1,5 @@
 import { SelectLocation } from "../form/Select/location/SelectLocation";
-import { SelectStatus } from "../form/Select/status/SelectStatus";
+import { SelectStatus } from "../../../app/settings/statuses/@input/SelectStatus";
 import { SelectUser } from "../form/Select/user/SelectUser";
 
 type ChangeFieldInputProps = {

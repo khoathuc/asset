@@ -1,6 +1,6 @@
 "use client";
 import { SelectLocation } from "@/components/ui/form/Select/location/SelectLocation";
-import { SelectStatus } from "@/components/ui/form/Select/status/SelectStatus";
+import { SelectStatus } from "@/app/settings/statuses/@input/SelectStatus";
 import { SelectUser } from "@/components/ui/form/Select/user/SelectUser";
 import { assets } from "@prisma/client";
 import { useEffect, useState } from "react";

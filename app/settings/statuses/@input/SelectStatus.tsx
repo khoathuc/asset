@@ -1,4 +1,4 @@
-import { StatusOption, getAllStatuses } from "./status";
+import { StatusOption, getAllStatuses } from "../status";
 import Select, { ActionMeta, StylesConfig } from "react-select";
 import chroma from "chroma-js";
 
