@@ -3,12 +3,12 @@
 import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
-import { getType } from "../settings/types/actions";
 import { Location } from "@/models/location/location";
 import { getVendor } from "../settings/vendors/actions";
 import { getStatus, getDefaultStatus } from "../settings/statuses/actions";
 import { isValidDateFormat } from "@/lib/utils/datetime";
 import { isValidPriceFormat } from "@/lib/utils/price";
+import { Type } from "@/models/type/type";
 
 var randomstring = require("randomstring");
 
@@ -78,7 +78,7 @@ function readCForm(formData: FormData) {
 async function readType(formData: FormData) {
   const type_id = formData.get("type_id")?.toString();
   if (type_id) {
-    const type = await getType(parseInt(type_id));
+    const type = await Type.loader().getById(parseInt(type_id));
     if (!type) {
       throw new Error("This type is not exist");
     }

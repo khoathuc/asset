@@ -1,28 +1,13 @@
-import prisma from "@/lib/db/prisma";
-import { types } from "@prisma/client";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
-import EditButton from "./EditButton";
-import{CFormButton} from './CFormButton';
-
-function TypeName({ type }: { type: types }) {
-  return (
-    <div
-      className="flex flex-col pl-2"
-    >
-      <div className="text-sm">{type.name.toString()}</div>
-      <span className="truncate text-xs font-light max-w-sm">
-        {type.description ? type.description.toString() : "No description"}
-      </span>
-    </div>
-  );
-}
+import EditButton from "../@buttons/EditButton";
+import CFormButton from "../@buttons/CFormButton";
+import { Type } from "@/models/type/type";
+import Name from "../@attr/name";
 
 export default async function TypeBoard() {
-  const types = await prisma.types.findMany({
-    orderBy: { id: "desc" },
-    take: 10,
-  });
+  const types = await Type.loader().all();
+
   return (
     <div className="w-full">
       <table className="table table-zebra table-xs table-auto">
@@ -40,7 +25,7 @@ export default async function TypeBoard() {
                 <th>{index + 1}</th>
 
                 <th>
-                  <TypeName type={type} />
+                  <Name type={type} />
                 </th>
 
                 <th>
@@ -60,7 +45,7 @@ export default async function TypeBoard() {
                       </li>
 
                       <li>
-                        <CFormButton type={type}/>
+                        <CFormButton type={type} />
                       </li>
 
                       <li>

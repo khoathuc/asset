@@ -1,5 +1,5 @@
 import Select, { ActionMeta } from "react-select";
-import { LocationOption, getAllLocations } from "./location";
+import { LocationOption, getAllLocations } from "../location";
 type SelectLocationProps = {
   defaultValue?: any;
   onChange?: (value: any) => void;
@@ -8,7 +8,7 @@ type SelectLocationProps = {
   className?: string;
 };
 
-export function SelectLocation({
+export function InputSelectLocation({
   defaultValue,
   onChange,
   props,

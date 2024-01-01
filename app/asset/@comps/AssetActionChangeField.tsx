@@ -1,8 +1,7 @@
 "use client";
-import { SelectLocation } from "@/components/ui/form/Select/location/SelectLocation";
+import { InputSelectLocation } from "@/app/settings/locations/@input/InputSelectLocation";
 import { SelectStatus } from "@/app/settings/statuses/@input/SelectStatus";
 import { SelectUser } from "@/components/ui/form/Select/user/SelectUser";
-import { assets } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 type AssetActionChangeFieldProps = {
@@ -51,7 +50,7 @@ export default function AssetActionChangeField({
       break;
     case "location":
       html = (
-        <SelectLocation
+        <InputSelectLocation
           isDisabled={change_field.isSetValue}
           defaultValue={change_field.isSetValue ? change_field.value : null}
           onChange={handleValueChange}

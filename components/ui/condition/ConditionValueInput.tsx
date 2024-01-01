@@ -1,4 +1,4 @@
-import { SelectLocation } from "../form/Select/location/SelectLocation";
+import { InputSelectLocation } from "../../../app/settings/locations/@input/InputSelectLocation";
 import { SelectStatus } from "../../../app/settings/statuses/@input/SelectStatus";
 import { SelectUser } from "../form/Select/user/SelectUser";
 import { Condition } from "./ConditionBuilder";
@@ -25,6 +25,6 @@ export function ConditionValueInput({
   }
 
   if (field == "location"){
-    return <SelectLocation className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
+    return <InputSelectLocation className={`${className}`} onChange={onChange} defaultValue={defaultValue}/>
   }
 }

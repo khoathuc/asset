@@ -1,28 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
-import { getAllVendors } from "@/vendors/actions";
+import { getAllTypes } from "@/app/settings/types/actions";
 import { toast } from "react-toastify";
 import { ActionMeta } from "react-select";
 
-export interface VendorOption {
+export interface TypeOption {
   readonly value: number;
   readonly label: string;
 }
 
-type SelectVendorProps = {
+type SelectTypeProps = {
     value?: number | undefined;
     onChange: (value: number) => void;
 }
 
-export function SelectVendor({value, onChange}: SelectVendorProps) {
-  const [initialOptions, setInitialOptions] = useState<VendorOption[]>([]);
+export function InputSelectAssetType({value, onChange}: SelectTypeProps) {
+  const [initialOptions, setInitialOptions] = useState<TypeOption[]>([]);
 
-  const fetchVendors = async (inputValue: string) => {
+  const fetchTypes = async (inputValue: string) => {
     try {
-      const vendors = await getAllVendors(inputValue);
+      const asset_types = await getAllTypes(inputValue);
 
-      const mappedOptions: VendorOption[] = vendors.map((item) => ({
+      const mappedOptions: TypeOption[] = asset_types.map((item) => ({
         label: item.name,
         value: item.id,
       }));
@@ -40,15 +40,15 @@ export function SelectVendor({value, onChange}: SelectVendorProps) {
   };
 
   const promiseOptions = (inputValue: string) => {
-    return new Promise<VendorOption[]>((resolve) => {
+    return new Promise<TypeOption[]>((resolve) => {
       setTimeout(() => {
-        const options = fetchVendors(inputValue);
+        const options = fetchTypes(inputValue);
         resolve(options);
       }, 1000);
     });
   };
 
-  const handleChange = (selected: VendorOption | null, actionMeta: ActionMeta<VendorOption>)=>{
+  const handleChange = (selected: TypeOption | null, actionMeta: ActionMeta<TypeOption>)=>{
     if(selected){
         onChange(selected.value);
     }
@@ -56,7 +56,7 @@ export function SelectVendor({value, onChange}: SelectVendorProps) {
 
   // useEffect to trigger data fetching on component mount
   useEffect(() => {
-    fetchVendors("");
+    fetchTypes("");
   }, []);
 
   return (

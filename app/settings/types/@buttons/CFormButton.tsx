@@ -12,7 +12,7 @@ import { JsonValue } from "@prisma/client/runtime/library";
 import { editCform } from "../actions";
 import { toast } from "react-toastify";
 
-export function CFormButton({ type }: { type: types }) {
+export default function CFormButton({ type }: { type: types }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
 

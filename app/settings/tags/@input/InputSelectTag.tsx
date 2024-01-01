@@ -3,7 +3,7 @@
 import React from "react";
 import Select, { StylesConfig } from "react-select";
 import { useData } from "@/context/data.context";
-import { TagOption, getAllTags } from "./tag";
+import { TagOption, getAllTags } from "../tag";
 import chroma from "chroma-js";
 
 type SelectTagsProps = {
@@ -64,7 +64,7 @@ const colourStyles: StylesConfig<TagOption, true> = {
   }),
 };
 
-export function SelectTags({ value, onChange }: SelectTagsProps) {
+export function InputSelectTags({ value, onChange }: SelectTagsProps) {
   const tags = getAllTags();
 
   return (

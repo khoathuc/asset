@@ -1,4 +1,4 @@
-import { SelectLocation } from "../form/Select/location/SelectLocation";
+import { InputSelectLocation } from "../../../app/settings/locations/@input/InputSelectLocation";
 import { SelectStatus } from "../../../app/settings/statuses/@input/SelectStatus";
 import { SelectUser } from "../form/Select/user/SelectUser";
 
@@ -23,6 +23,6 @@ export function ChangeFieldValueInput({
   }
 
   if (field == "location") {
-    return <SelectLocation defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
+    return <InputSelectLocation defaultValue={defaultValue} className={`${className}`} onChange={onChange} />;
   }
 }
