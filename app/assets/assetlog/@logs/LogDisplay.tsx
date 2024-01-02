@@ -5,7 +5,6 @@ import { asset_logs } from "@prisma/client";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Asset from "@/public/inbox.svg";
-import Location from "@/public/building_storeforge.svg";
 import Date from "@/public/calendar.svg";
 import Currency from "@/public/currency_dollar.svg";
 import Note from "@/public/bar_3_center_left.svg";
@@ -39,7 +38,7 @@ export default function LogDisplay({
     user = getUser(log.user_id);
   }
 
-  var object = null;
+  var object:any = null;
   if (log.object_export) {
     object = log.object_export;
   }

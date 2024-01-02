@@ -2,7 +2,7 @@
 import { Modal } from "@/components/layout/Modal";
 import { actions, assets } from "@prisma/client";
 import { useState } from "react";
-import { ActionForm } from "./Form";
+import { ActionForm } from "./@form/Form";
 
 type AssetActionProps = {
   asset: assets;

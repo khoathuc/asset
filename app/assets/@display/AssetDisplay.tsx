@@ -2,24 +2,23 @@ import "@/styles/asset.display.css";
 import ListRow from "@/components/ui/list/ListRow";
 import List from "@/components/ui/list/List";
 import { assets } from "@prisma/client";
-import { Assignee } from "../attrs/Assignee";
-import { Status } from "../attrs/Status";
-import { Vendor } from "../attrs/Vendor";
-import { Location } from "../attrs/Location";
-import { Type } from "../attrs/Type";
-import { Date } from "../attrs/Date";
-import { AcquisitionCost } from "../attrs/AcquisitionCost";
+import { Assignee } from "../@attrs/Assignee";
+import { Status } from "../@attrs/Status";
+import { Vendor } from "../@attrs/Vendor";
+import { Location } from "../@attrs/Location";
+import { Type } from "../@attrs/Type";
+import { Date } from "../@attrs/Date";
+import { AcquisitionCost } from "../@attrs/AcquisitionCost";
 import DisplaySection from "@/components/layout/DisplaySection";
 import Side from "@/components/layout/Side";
 import More from "@/public/more.svg";
-import Trash from "@/public/trash.svg";
-import AssetActions from "./AssetActions";
+import AssetActions from "../assetaction/AssetActions";
 
 type AssetDisplayProps = {
   asset: assets;
 };
 
-export default function AssetDisplay({ asset }: AssetDisplayProps) {
+export default async function AssetDisplay({ asset }: AssetDisplayProps) {
   return (
     <DisplaySection label="Detail" className="relative px-6 py-4">
       <List>

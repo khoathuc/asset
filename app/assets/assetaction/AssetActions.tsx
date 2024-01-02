@@ -39,7 +39,6 @@ function checkCondition(asset: assets, conditions: any) {
         }
         break;
       case "assignee":
-        console.log(condition.condition, condition.value);
         if (condition.condition == "not equal") {
           if (asset.assignee_id == condition.value) {
             return false;

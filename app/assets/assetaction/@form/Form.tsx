@@ -12,7 +12,7 @@ import ModalForm from "@/components/layout/ModalForm";
 import { Input } from "@/components/ui/form/Input";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/form/textarea";
-import AssetActionChangeField from "./AssetActionChangeField";
+import AssetActionChangeField from "../AssetActionChangeField";
 import axios from "axios"
 
 type AssetLogForm = z.infer<typeof assetLogSchema>;

@@ -296,11 +296,3 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     </FormProvider>
   );
 }
-
-export function EditForm({
-  asset,
-  onClose,
-}: {
-  asset: assets;
-  onClose: () => void;
-}) {}

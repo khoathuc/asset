@@ -4,7 +4,7 @@ import { asset_logs } from "@prisma/client";
 import Edit from "@/public/pencil_square.svg";
 import { getUser } from "@/lib/user";
 import { Currency } from "@/utils/currency";
-import { ShowLogButton } from "./ShowLogButton";
+import { ShowLogButton } from "../@buttons/ShowLogButton";
 
 export default function LogsDisplay({ logs }: { logs: asset_logs[] }) {
   return (
@@ -32,7 +32,7 @@ export default function LogsDisplay({ logs }: { logs: asset_logs[] }) {
               </div>
               <div className="flex gap-2">
                 <div className="flex-start flex flex-col">{icon_html}</div>
-                <div className="flex flex flex-1 justify-between">
+                <div className="flex flex-1 justify-between">
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold">{log.name}</span>
                     <span className="text-xs font-normal">

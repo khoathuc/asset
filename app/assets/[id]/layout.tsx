@@ -1,8 +1,9 @@
 import "@/styles/asset.css";
 import { notFound } from "next/navigation";
-import { getAllAssets, getAssetById } from "@/app/assets/actions";
+import { getAllAssets } from "@/app/assets/actions";
 import PageHeader from "@/components/layout/PageHeader";
-import { AssetNav } from "../@comps/AssetNav";
+import { AssetNav } from "../@display/AssetNav";
+import { getAssetById } from "../actions";
 
 export async function generateStaticParams() {
   const assets = await getAllAssets();

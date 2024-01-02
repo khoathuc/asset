@@ -1,11 +1,20 @@
+import { getAllAssets, getAssetById } from "@/app/assets/actions";
+import { notFound, redirect } from "next/navigation";
+import { getAssetLogs } from "../assetlog/action";
 import PageBody from "@/components/layout/PageBody";
-import AssetSidebar from "../../@comps/AssetSidebar";
-import AssetDisplay from "../../@comps/AssetDisplay";
-import { notFound } from "next/navigation";
-import { getAssetById, getAssetLogs } from "@/app/assets/actions";
-import LogsDisplay from "../../@comps/LogsDisplay";
+import AssetSidebar from "../@display/AssetSidebar";
+import AssetDisplay from "../@display/AssetDisplay";
+import LogsDisplay from "../assetlog/@logs/LogsDisplay";
 
-export default async function InfoPage({ params }: { params: { id: string } }) {
+export async function generateStaticParams() {
+  const assets = await getAllAssets();
+
+  return assets.map((asset) => ({
+    id: asset.id.toString(),
+  }));
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
   const asset = await getAssetById(parseInt(params.id));
   if (!asset) {
     return notFound();
