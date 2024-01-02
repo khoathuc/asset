@@ -1,10 +1,10 @@
 import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
-import ActionBoard from "./@comps/@board/Board";
+import ActionBoard from "./@board/Board";
 import { getAllActions } from "./action";
 import Empty from "./empty";
-import CreateButton from "./@comps/CreateButton";
+import CreateButton from "./@buttons/CreateButton";
 
 export default async function Page() {
   const actions = await getAllActions();

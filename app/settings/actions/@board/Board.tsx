@@ -2,10 +2,10 @@
 import { actions } from "@prisma/client";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
-import ToggleStatus from "../ToggleStatus";
-import { changeStatus } from "../../action";
+import ToggleStatus from "../@buttons/ToggleStatus";
+import { changeStatus } from "../action";
 import { getUser } from "@/lib/user";
-import EditButton from "../EditButton";
+import EditButton from "../@buttons/EditButton";
 
 
 export default function ActionBoard({ actions }: { actions: actions[] }) {
