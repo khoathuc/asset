@@ -1,12 +1,12 @@
 import PageHeader from "@/components/layout/PageHeader";
 import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
-import CreateButton from "./@comps/CreateButton";
-import AssetBoard from "./@comps/@board/Board";
+import CreateButton from "./@buttons/CreateButton";
+import AssetBoard from "./@board/Board";
 import { getAllAssets } from "./actions";
 import PageBody from "@/components/layout/PageBody";
+import FilterButton from "./@buttons/FilterButton";
 import Empty from "./empty";
-import FilterButton from "./@comps/FilterButton";
 
 export default async function Page() {
   const assets = await getAllAssets();

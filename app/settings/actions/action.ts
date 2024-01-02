@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { Action } from "@/models/action/action";
 import { actions } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -22,39 +23,9 @@ export async function getAllActions(query: string | null = null) {
   });
 }
 
-function readChangeFields(formData: FormData) {
-  const change_fields = formData.get("change_fields")?.toString();
-  if (!change_fields) {
-    return;
-  }
-
-  return JSON.parse(change_fields);
-}
-
-function readConditions(formData: FormData) {
-  const conditions = formData.get("conditions")?.toString();
-  if (!conditions) {
-    return;
-  }
-
-  return JSON.parse(conditions);
-}
-
-async function readData(formData: FormData) {
-  const name = formData.get("name")?.toString();
-  if (!name) {
-    throw new Error("Name is required");
-  }
-
-  const change_fields = readChangeFields(formData);
-
-  const conditions = readConditions(formData);
-
-  return { name, change_fields, conditions };
-}
-
 export async function addAction(formData: FormData) {
-  const { name, change_fields, conditions } = await readData(formData);
+  const { name, change_fields, conditions } = await Action.reader(formData).read();
+  
   const user = await getCurrentUser();
 
   await prisma.actions.create({
@@ -72,17 +43,13 @@ export async function addAction(formData: FormData) {
 
 export async function editAction(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
-  const action = await prisma.actions.findUnique({
-    where: {
-      id,
-    },
-  });
+  const action = await Action.loader().getById(id);
 
   if(!action){
     throw new Error("Invalid action");
   }
 
-  const { name, change_fields, conditions } = await readData(formData);
+  const { name, change_fields, conditions } = await Action.reader(formData).read();
   const user = await getCurrentUser();
 
   await prisma.actions.update({
@@ -103,7 +70,7 @@ export async function editAction(formData: FormData) {
 
 export async function changeStatus(checked: boolean, action: actions) {
   if (!action) {
-    throw new Error("Actoin is invalid");
+    throw new Error("Action is invalid");
   }
 
   return await prisma.actions.update({

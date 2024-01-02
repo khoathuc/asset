@@ -1,12 +1,4 @@
 "use client";
-import { getAllActions } from "@/app/settings/actions/action";
-import { getAllRequestTypes } from "@/app/settings/request_types/action";
-import { getAllLocations } from "@/app/settings/locations/actions";
-import { getAllStatuses } from "@/app/settings/statuses/actions";
-import { getAllTags } from "@/app/settings/tags/action";
-import { getAllTypes } from "@/app/settings/types/actions";
-import { getAllVendors } from "@/app/settings/vendors/actions";
-import { getAllUsers } from "@/app/users/actions";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface DataContextProps {
@@ -25,14 +17,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(()=>{
     const fetchContext = async()=>{
-      const locations =  await getAllLocations();
-      const types = await getAllTypes();
-      const statuses = await getAllStatuses();
-      const users = await getAllUsers();
-      const tags = await getAllTags();
-      const vendors = await getAllVendors();
-      const actions = await getAllActions();
-      const requestTypes = await getAllRequestTypes();
+      const res = await fetch('/api/datacontext');
+      const {locations, requestTypes, types, statuses, actions, users, tags, vendors} = await res.json();
       
       setContextData({locations, requestTypes, types, statuses, actions, users, tags, vendors});
     }

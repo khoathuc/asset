@@ -7,4 +7,22 @@ export class Loader {
       take: 10,
     });
   }
+
+
+  static async getDefault(){
+    return await prisma.statuses.findFirst({
+      where:{
+        default: true
+      }
+    })
+  }
+  
+
+  static async getById(id: number){
+    return await prisma.statuses.findUnique({
+      where:{
+        id: id
+      }
+    })
+  }
 }

@@ -1,5 +1,5 @@
 import EmptyImg from "@/public/empty.svg";
-import CreateButton from "./@comps/CreateButton";
+import CreateButton from "./@buttons/CreateButton";
 
 export default function Empty(){
     return (

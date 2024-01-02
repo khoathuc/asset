@@ -1,6 +1,6 @@
 import { uploadFile } from "@/app/base/file";
 import prisma from "@/lib/db/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 
 export class Reader {
   public formData?: FormData;
