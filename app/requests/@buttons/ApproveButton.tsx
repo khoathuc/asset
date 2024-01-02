@@ -4,7 +4,6 @@ import { viewer } from "@/lib/user";
 import { requests } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import router from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 

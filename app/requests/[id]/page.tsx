@@ -1,14 +1,14 @@
 import {
   getAllRequests,
   getRequestById,
-  getRequestLogs,
 } from "@/app/requests/actions";
 import PageBody from "@/components/layout/PageBody";
 import { notFound } from "next/navigation";
-import RequestDisplay from "../../request/@comps/RequestDisplay";
-import RequestSidebar from "../../request/@comps/RequestSidebar";
-import LogsDisplay from "../../request/@comps/Logs/LogsDisplay";
+import RequestDisplay from "../@display/RequestDisplay";
+import RequestSidebar from "../@display/RequestSidebar";
+import LogsDisplay from "../logs/LogsDisplay";
 import { viewable } from "./request";
+import { getRequestLogs } from "../logs/actions";
 
 export async function generateStaticParams() {
   const requests = await getAllRequests();

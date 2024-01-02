@@ -1,7 +1,7 @@
-import { validateUser } from "@/app/requests/actions";
 import { APPROVED_STATUS } from "@/app/requests/statuses";
 import { PARALLEL_FLOW } from "@/app/settings/request_types/approval_flow/approval.flow";
 import prisma from "@/lib/db/prisma";
+import { User } from "@/models/user/user";
 import { requests } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -50,8 +50,13 @@ async function approveRequest(formData: FormData) {
   }
 
   const approver_id = parseInt(formData.get("approval_id")?.toString() ?? "");
-
-  await validateUser(approver_id);
+  const approver = await User.loader().getById(approver_id);
+  if (!approver) {
+    throw new Error("Invalid approvers");
+  }
+  if (!approver.activated) {
+    throw new Error("One approver is not activate anymore");
+  }
 
   if (!request.approvers || !Array.isArray(request.approvers)) {
     throw new Error("Request do not have approvers");

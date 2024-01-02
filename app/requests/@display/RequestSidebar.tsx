@@ -7,9 +7,9 @@ import {
   ApprovalFlowDesc,
   ApprovalFlowName,
 } from "@/app/settings/request_types/approval_flow/attrs";
-import { approvable, approved } from "../../requests/[id]/request";
-import { ApproveButton } from "./ApproveButton";
-import { RejectButton } from "./RejectButton";
+import { approvable, approved } from "../[id]/request";
+import { ApproveButton } from "../@buttons/ApproveButton";
+import { RejectButton } from "../@buttons/RejectButton";
 
 function getStatus(request: requests, approver_id: any) {
   var status = { label: "Pending", color: `bg-warning` };

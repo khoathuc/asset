@@ -1,7 +1,7 @@
 import { Loader } from "./loader";
 import { Reader } from "./reader";
 
-export class Action{
+export class Request{
     public static loader(){
         return Loader;
     }

@@ -1,15 +1,15 @@
 import DisplaySection from "@/components/layout/DisplaySection";
 import DisplayField from "@/components/ui/display.field/DisplayField";
 import { requests } from "@prisma/client";
-import RequestAttrRequestType from "../../requests/@attrs/request.type";
+import RequestAttrRequestType from "../@attrs/request.type";
 import RequestIcon from "@/public/document_text.svg";
 import StatusIcon from "@/public/check_badge.svg";
 import RequestTypeIcon from "@/public/code_bracket_square.svg";
 import BarIcon from "@/public/bar_3_center_left.svg";
 import UserIcon from "@/public/user.svg";
 import UserInfo from "@/components/ui/user/UserInfo";
-import RequestAttrTitle from "../../requests/@attrs/title";
-import RequestAttrStatus from "../../requests/@attrs/status";
+import RequestAttrTitle from "../@attrs/title";
+import RequestAttrStatus from "../@attrs/status";
 type RequestDisplayProps = {
   request: requests;
 };
