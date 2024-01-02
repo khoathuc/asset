@@ -4,8 +4,8 @@ import { getCurrentUser } from "@/lib/session";
 import { uploadFile } from "../base/file";
 import { APPROVED_STATUS, PENDING_STATUS, getStatus } from "./statuses";
 import { revalidatePath } from "next/cache";
-import { getRequestType } from "../settings/request_types/action";
 import { User } from "@/models/user/user";
+import { RequestType } from "@/models/request_type/request_type";
 
 async function readFile(formData: FormData) {
   const file: File | null = formData.get("file") as unknown as File;
@@ -39,7 +39,7 @@ function readCForm(formData: FormData) {
 async function readRequestType(formData: FormData) {
   const request_type_id = formData.get("request_type_id")?.toString();
   if (request_type_id) {
-    const request_type = await getRequestType(parseInt(request_type_id));
+    const request_type = await RequestType.loader().getById(parseInt(request_type_id));
     if (!request_type) {
       throw new Error("This request type is not exist");
     }

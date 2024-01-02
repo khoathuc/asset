@@ -10,13 +10,13 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Input } from "@/components/ui/form/Input";
 import { Textarea } from "@/components/ui/form/textarea";
-import { SelectRequestType } from "@/components/ui/form/Select/request_type/SelectRequestType";
+import { InputSelectRequestType } from "@/app/settings/request_types/@input/InputSelectRequestType";
 import { toast } from "react-toastify";
-import { addRequest} from "../actions";
+import { addRequest } from "../actions";
 import { request_types, requests } from "@prisma/client";
 import { InputSelectUsers } from "@/app/users/@input/InputSelectUsers";
 import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
-import { getRequestType } from "@/app/settings/request_types/action";
+import { getRequestTypeById } from "@/app/settings/request_types/action";
 
 type RequestFormSchema = z.infer<typeof requestSchema>;
 
@@ -40,7 +40,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
   const handleTypeChange = async (request_type_id: number) => {
     try {
-      const request_type = await getRequestType(request_type_id);
+      const request_type = await getRequestTypeById(request_type_id);
 
       if (request_type) {
         setCform(request_type.form as cfieldValue[]);
@@ -123,7 +123,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">Type *</label>
-          <SelectRequestType
+          <InputSelectRequestType
             onChange={(value: number) => {
               setValue("request_type_id", value.toString());
               handleTypeChange(value);
@@ -215,7 +215,13 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function EditForm({ request, onClose }: { request: requests, onClose: () => void }) {
+export function EditForm({
+  request,
+  onClose,
+}: {
+  request: requests;
+  onClose: () => void;
+}) {
   const methods = useForm<RequestFormSchema>({
     resolver: zodResolver(requestSchema),
   });

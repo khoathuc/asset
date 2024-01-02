@@ -3,9 +3,9 @@ import SearchInput from "@/components/layout/SearchInput";
 import Side from "@/components/layout/Side";
 
 import Empty from "./empty";
-import CreateButton from "./@comps/CreateButton";
+import CreateButton from "./@buttons/CreateButton";
 import { getAllRequestTypes } from "./action";
-import RequestTypeBoard from "./@comps/Board";
+import RequestTypeBoard from "./@board/Board";
 
 export default async function Page() {
   const request_types = await getAllRequestTypes();

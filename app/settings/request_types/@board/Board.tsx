@@ -1,25 +1,12 @@
 "use client";
 import { request_types } from "@prisma/client";
-import ToggleStatus from "./ToggleStatus";
+import ToggleStatus from "../@buttons/ToggleStatus";
 import { changeStatus } from "../action";
 import More from "@/public/more.svg";
 import Trash from "@/public/trash.svg";
 import { getUser } from "@/lib/user";
-import EditButton from "./EditButton";
-import { CFormButton } from "./CFormButton";
-
-function RequestTypeName({ requestType }: { requestType: request_types }) {
-  return (
-    <div className="flex flex-col pl-2">
-      <div className="font-bold">{requestType.name.toString()}</div>
-      <span className="max-w-sm truncate text-xs font-light">
-        {requestType.description
-          ? requestType.description.toString()
-          : "No description"}
-      </span>
-    </div>
-  );
-}
+import EditButton from "../@buttons/EditButton";
+import { CFormButton } from "../@buttons/CFormButton";
 
 export default async function RequestTypeBoard({
   requestTypes,

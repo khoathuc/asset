@@ -15,7 +15,7 @@ type SelectRequestTypeProps = {
     onChange: (value: number) => void;
 }
 
-export function SelectRequestType({value, onChange}: SelectRequestTypeProps) {
+export function InputSelectRequestType({value, onChange}: SelectRequestTypeProps) {
   const [initialOptions, setInitialOptions] = useState<RequestTypeOption[]>([]);
 
   const fetchTypes = async (inputValue: string) => {
