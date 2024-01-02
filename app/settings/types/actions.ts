@@ -64,3 +64,8 @@ export async function editCform(formData: FormData) {
   
   revalidatePath("/settings/types");
 }
+
+
+export async function getTypeById(type_id: number){
+  return await Type.loader().getById(type_id)
+}

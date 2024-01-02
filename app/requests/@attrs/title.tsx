@@ -1,5 +1,5 @@
+'use client'
 import { requests } from "@prisma/client";
-import Link from "next/link";
 
 export default function RequestAttrTitle({
   request,
@@ -13,9 +13,9 @@ export default function RequestAttrTitle({
   var html;
   if (props.hasOwnProperty("compact")) {
     html = (
-      <Link href={`/request/${request.id}`} className="link-neutral hover:link">
+      <>
         {request.name}
-      </Link>
+      </>
     );
   }
 

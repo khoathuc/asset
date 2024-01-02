@@ -5,9 +5,9 @@ import {
 } from "@/app/requests/actions";
 import PageBody from "@/components/layout/PageBody";
 import { notFound } from "next/navigation";
-import RequestDisplay from "../@comps/RequestDisplay";
-import RequestSidebar from "../@comps/RequestSidebar";
-import LogsDisplay from "../@comps/Logs/LogsDisplay";
+import RequestDisplay from "../../request/@comps/RequestDisplay";
+import RequestSidebar from "../../request/@comps/RequestSidebar";
+import LogsDisplay from "../../request/@comps/Logs/LogsDisplay";
 import { viewable } from "./request";
 
 export async function generateStaticParams() {

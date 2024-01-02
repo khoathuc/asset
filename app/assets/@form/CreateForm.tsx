@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
 import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
 import { Type } from "@/models/type/type";
+import { getTypeById } from "@/app/settings/types/actions";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -45,13 +46,13 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
 
   const handleTypeChange = async (type_id: number) => {
     try {
-      const type = await Type.loader().getById(type_id);
+      const type = await getTypeById(type_id);
       if (type) {
         setCform(type.form as cfieldValue[]);
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error("Invalid type");
+        toast.error(error.message);
       }
     }
   };

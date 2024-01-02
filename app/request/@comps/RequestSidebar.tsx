@@ -7,7 +7,7 @@ import {
   ApprovalFlowDesc,
   ApprovalFlowName,
 } from "@/app/settings/request_types/approval_flow/attrs";
-import { approvable, approved } from "../[id]/request";
+import { approvable, approved } from "../../requests/[id]/request";
 import { ApproveButton } from "./ApproveButton";
 import { RejectButton } from "./RejectButton";
 

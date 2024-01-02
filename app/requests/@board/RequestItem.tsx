@@ -1,11 +1,13 @@
-import RequestAttrRequestType from "@/app/request/attrs/request.type";
-import RequestAttrStatus from "@/app/request/attrs/status";
-import RequestAttrTitle from "@/app/request/attrs/title";
+"use client"
+import RequestAttrRequestType from "@/app/requests/@attrs/request.type";
+import RequestAttrStatus from "@/app/requests/@attrs/status";
+import RequestAttrTitle from "@/app/requests/@attrs/title";
 import { UserAvaGroup } from "@/components/ui/user/UserAvaGroup";
 import { requests } from "@prisma/client";
-import { MoreButton } from "../MoreButton";
+import { MoreButton } from "../@buttons/MoreButton";
 import UserAva from "@/components/ui/user/UserAva";
 import UserInfo from "@/components/ui/user/UserInfo";
+import Link from "next/link";
 
 export function RequestItem({
   index,
@@ -23,12 +25,17 @@ export function RequestItem({
       </th>
       <td>
         <div className="font-semibold">
-        <RequestAttrTitle request={request} compact />
+          <Link
+            href={`/requests/${request.id}`}
+            className="link-neutral hover:link"
+          >
+            <RequestAttrTitle request={request} compact />
+          </Link>
         </div>
       </td>
       <td>
         <div className="flex gap-2">
-          <UserInfo user_id={request.user_id}/>
+          <UserInfo user_id={request.user_id} />
         </div>
       </td>
       <td>
