@@ -6,7 +6,7 @@ import Info from "@/public/question_mark.svg";
 import {
   ApprovalFlowDesc,
   ApprovalFlowName,
-} from "@/components/ui/form/Select/approval_flow/attrs";
+} from "@/app/settings/request_types/approval_flow/attrs";
 import { approvable, approved } from "../[id]/request";
 import { ApproveButton } from "./ApproveButton";
 import { RejectButton } from "./RejectButton";

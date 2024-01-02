@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { addRequest } from "../actions";
 import { request_types, requests } from "@prisma/client";
 import { InputSelectUsers } from "@/app/users/@input/InputSelectUsers";
-import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
+import { InputSelectApprovalFlow } from "@/app/settings/request_types/approval_flow/InputSelectApprovalFlow";
 import { getRequestTypeById } from "@/app/settings/request_types/action";
 
 type RequestFormSchema = z.infer<typeof requestSchema>;
@@ -152,7 +152,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
               <label className="pb-1 text-sm font-bold text-current">
                 Approval flow *
               </label>
-              <SelectApprovalFlow
+              <InputSelectApprovalFlow
                 onChange={(value: string) => {
                   setValue("approval_follow", value);
                 }}

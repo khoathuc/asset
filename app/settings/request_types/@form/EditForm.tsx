@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
+import { InputSelectApprovalFlow } from "@/app/settings/request_types/approval_flow/InputSelectApprovalFlow";
 import { editRequestType } from "../action";
 import { request_types } from "@prisma/client";
 import { JsonArray } from "@prisma/client/runtime/library";
@@ -123,7 +123,7 @@ export function EditForm({
           <label className="pb-1 text-sm font-bold text-current">
             Approval flow *
           </label>
-          <SelectApprovalFlow
+          <InputSelectApprovalFlow
             onChange={(value: string) => {
               setValue("approval_follow", value);
             }}

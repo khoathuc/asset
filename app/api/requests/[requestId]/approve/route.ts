@@ -1,6 +1,6 @@
 import { validateUser } from "@/app/requests/actions";
 import { APPROVED_STATUS } from "@/app/requests/statuses";
-import { PARALLEL_FLOW } from "@/components/ui/form/Select/approval_flow/approval.flow";
+import { PARALLEL_FLOW } from "@/app/settings/request_types/approval_flow/approval.flow";
 import prisma from "@/lib/db/prisma";
 import { requests } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";

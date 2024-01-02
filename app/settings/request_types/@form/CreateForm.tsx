@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { SelectApprovalFlow } from "@/components/ui/form/Select/approval_flow/SelectApprovalFlow";
+import { InputSelectApprovalFlow } from "@/app/settings/request_types/approval_flow/InputSelectApprovalFlow";
 import { addRequestType } from "../action";
 
 type RequestTypeFormData = z.infer<typeof requestTypeSchema>;
@@ -111,7 +111,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           <label className="pb-1 text-sm font-bold text-current">
             Approval flow *
           </label>
-          <SelectApprovalFlow
+          <InputSelectApprovalFlow
             onChange={(value: string) => {
               setValue("approval_follow", value);
             }}

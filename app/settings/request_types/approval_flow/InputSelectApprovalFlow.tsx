@@ -11,7 +11,7 @@ type SelectApprovalFlowProps = {
   className?: string;
 };
 
-export function SelectApprovalFlow({
+export function InputSelectApprovalFlow({
   name = "flow",
   defaultValue,
   onChange,
