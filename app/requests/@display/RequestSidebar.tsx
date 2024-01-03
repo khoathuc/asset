@@ -7,7 +7,7 @@ import {
   ApprovalFlowDesc,
   ApprovalFlowName,
 } from "@/app/settings/request_types/approval_flow/attrs";
-import { approvable, approved } from "../[id]/request";
+import { approvable, approved, rejected } from "../[id]/request";
 import { ApproveButton } from "../@buttons/ApproveButton";
 import { RejectButton } from "../@buttons/RejectButton";
 
@@ -103,12 +103,20 @@ export default async function RequestSidebar({
 }) {
   const is_approvable = await approvable(request);
   const is_approved = await approved(request);
+  const is_rejected = await rejected(request);
   return (
     <div className="request-sidebar flex flex-col justify-start">
       {is_approved && (
         <div className="flex flex-col rounded-xl border-2 border-white bg-success px-4 py-4">
           <span className="text-sm text-white">
             You have approved this request
+          </span>
+        </div>
+      )}
+      {is_rejected && (
+        <div className="flex flex-col rounded-xl border-2 border-white bg-error px-4 py-4">
+          <span className="text-sm text-white">
+            You have rejected this request
           </span>
         </div>
       )}

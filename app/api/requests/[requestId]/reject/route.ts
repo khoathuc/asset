@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
-    await approveRequest(data);
+    await rejectRequest(data);
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function approveRequest(formData: FormData) {
+async function rejectRequest(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
   const request = await prisma.requests.findUnique({
     where: {
@@ -28,16 +28,16 @@ async function approveRequest(formData: FormData) {
     throw new Error("Invalid request");
   }
 
-  const approver_id = parseInt(formData.get("approval_id")?.toString() ?? "");
-  //Check if approver is validate user
-  const approver = await User.loader().getById(approver_id);
-  const req_checkout = Request.checkout(request, approver);
-  const verify = req_checkout.verifyApprove();
+  const rejector_id = parseInt(formData.get("approval_id")?.toString() ?? "");
+  //Check if rejector is validate user
+  const rejector = await User.loader().getById(rejector_id);
+  const req_checkout = Request.checkout(request,null,rejector);
+  const verify = req_checkout.verifyReject();
   if(!verify.res){
     throw new Error(verify.message);
   }
 
-  req_checkout.approve();
+  req_checkout.reject();
   const status = req_checkout.checkout();
 
   await prisma.requests.update({
@@ -45,7 +45,7 @@ async function approveRequest(formData: FormData) {
       id: id,
     },
     data: {
-      approvals: req_checkout.getApprovals() as any,
+      rejections: req_checkout.getRejections() as any,
       status: status,
     },
   });
