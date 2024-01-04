@@ -18,7 +18,7 @@ export class Listener {
       throw new Error("Invalid asset");
     }
 
-    await prisma.asset_logs.create({
+    return await prisma.asset_logs.create({
       data: {
         name: "Create",
         user_id: Number(user?.id),

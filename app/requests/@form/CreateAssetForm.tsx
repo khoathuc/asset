@@ -63,6 +63,7 @@ export function CreateAssetForm({
     setIsLoading(true);
 
     var formData = new FormData();
+    formData.append("request_id", request?.id.toString());
 
     for (const key in data) {
       if (data.hasOwnProperty(key)) {

@@ -1,10 +1,22 @@
 import prisma from "@/lib/db/prisma";
 import { Asset } from "@/models/asset/asset";
+import { Request } from "@/models/request/request";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const formData = await request.formData();
+    const formData = await req.formData();
+    const request_id = formData.get('request_id')?.toString();
+    if(!request_id){
+      throw new Error("Invalid request");
+    }
+
+    const request = await Request.loader().getById(parseInt(request_id));
+    
+    if(!request){
+      throw new Error('Invalid Request');
+    }
+
     const data = await Asset.reader(formData).read();
 
     const asset = await prisma.assets.create({
@@ -25,7 +37,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const asset_log = await Asset.on(asset).create();
     
+    Request.on(request).onCreateAsset(asset, asset_log);
+
     return NextResponse.json({ success: true });
   } catch (error) {
     if (error instanceof Error) {

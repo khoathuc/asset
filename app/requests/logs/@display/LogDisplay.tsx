@@ -5,8 +5,9 @@ import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CreateLogDisplay from "./CreateLogDisplay";
 import ApproveLogDisplay from "./ApproveLogDisplay";
-import { APPROVED_TYPE, CREATE_TYPE, REJECTED_TYPE } from "../request_log";
+import { APPROVED_TYPE, CREATE_ASSET_TYPE, CREATE_TYPE, REJECTED_TYPE } from "../request_log";
 import RejectLogDisplay from "./RejectLogDisplay";
+import CreateAssetLogDisplay from "./CreateAssetLogDisplay";
 
 export default function LogDisplay({
   onClose,
@@ -37,6 +38,8 @@ export default function LogDisplay({
     html = <ApproveLogDisplay log={log}></ApproveLogDisplay>
   }else if(log.metatype == REJECTED_TYPE){
     html = <RejectLogDisplay log={log}></RejectLogDisplay>
+  }else if(log.metatype == CREATE_ASSET_TYPE){
+    html = <CreateAssetLogDisplay log={log}></CreateAssetLogDisplay>
   }
 
   return (
