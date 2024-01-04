@@ -1,9 +1,10 @@
 'use client'
 import { Modal } from "@/components/layout/Modal";
 import { useState } from "react";
-import { CreateForm } from "@/app/assets/@form/CreateForm";
+import { CreateAssetForm } from "../@form/CreateAssetForm";
+import { requests } from "@prisma/client";
 
-export default function CreateButton() {
+export default function CreateAssetButton({request}:{request: requests}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -14,7 +15,7 @@ export default function CreateButton() {
       >
         Create new asset
       </button>
-      {showModal && Modal.initModal(<CreateForm onClose={()=>setShowModal(false)}/>)}
+      {showModal && Modal.initModal(<CreateAssetForm onClose={()=>setShowModal(false)} request={request} />)}
     </>
   );
 }

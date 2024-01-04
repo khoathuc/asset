@@ -1,4 +1,5 @@
 import { useData } from "@/context/data.context";
+import { types } from "@prisma/client";
 
 export interface AssetTypeOption {
   readonly value: string;
@@ -19,4 +20,13 @@ export function getAllAssetTypes() {
   });
 
   return assetTypeOptions;
+}
+
+export function getTypeById(id: number|string) {
+  const { contextData } = useData();
+  const { types } = contextData;
+  
+  const res = types.find((type: types)=>type.id == id);
+
+  return res;
 }

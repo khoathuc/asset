@@ -12,26 +12,29 @@ import { InputSelectAssetType } from "@/app/settings/types/@input/InputSelectAss
 import { InputSelectVendor } from "@/app/settings/vendors/@input/InputSelectVendor";
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
-import { addAsset } from "../actions";
 import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
 import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
 import { useData } from "@/context/data.context";
-import { assets } from "@prisma/client";
+import { requests } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
-export function CreateForm({
+export function CreateAssetForm({
   onClose,
-  callback,
+  request,
 }: {
   onClose: () => void;
-  callback?: (asset: assets) => void;
+  request: requests;
 }) {
   const [cform, setCform] = useState<cfieldValue[]>([]);
   const [showAdditional, setShowAdditional] = useState(false);
   const { contextData } = useData();
   const { types } = contextData;
+
+  const router = useRouter();
 
   const methods = useForm<AssetFormData>({
     resolver: zodResolver(assetSchema),
@@ -83,7 +86,20 @@ export function CreateForm({
     }
 
     try {
-      await addAsset(formData);
+      const response = await axios.post(
+        `/api/requests/${request.id}/create_asset`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (response.data.success == false) {
+        throw new Error(response.data.message);
+      }
+
       toast.success("Added asset successfully");
     } catch (error) {
       if (error instanceof Error) {
@@ -91,6 +107,7 @@ export function CreateForm({
       }
     }
 
+    router.refresh();
     setIsLoading(false);
   };
 

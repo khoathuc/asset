@@ -18,7 +18,7 @@ export default function FollowUpButton({ request }: { request: requests }) {
         className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
       >
         <li>
-          <CreateAssetButton />
+          <CreateAssetButton request={request}/>
         </li>
         {/* <CreateTransactionButton /> */}
       </ul>
