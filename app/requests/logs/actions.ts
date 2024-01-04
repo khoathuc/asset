@@ -1,14 +1,9 @@
 "use server"
 
 import prisma from "@/lib/db/prisma";
+import { requests } from "@prisma/client";
+import { Request } from "@/models/request/request";
 
-export async function getRequestLogs(id: number) {
-    return await prisma.request_logs.findMany({
-      orderBy: { id: "desc" },
-      where: {
-        request_id: {
-          equals: id,
-        },
-      },
-    });
+export async function getRequestLogs(request: requests) {
+    return await Request.loader().getLog(request.id);
   }
