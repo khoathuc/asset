@@ -43,7 +43,7 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
           field="Request By"
           icon={<UserIcon className="h-5 w-5" />}
         >
-          <UserInfo user_id={request.user_id} compact />
+          <UserInfo user_id={request.user_id} compact className="font-semibold"/>
         </DisplayField>
       </div>
 

@@ -4,6 +4,9 @@ import { request_logs } from "@prisma/client";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CreateLogDisplay from "./CreateLogDisplay";
+import ApproveLogDisplay from "./ApproveLogDisplay";
+import { APPROVED_TYPE, CREATE_TYPE, REJECTED_TYPE } from "../request_log";
+import RejectLogDisplay from "./RejectLogDisplay";
 
 export default function LogDisplay({
   onClose,
@@ -28,10 +31,12 @@ export default function LogDisplay({
   });
 
   var html = <></>
-  if(log.metatype == "create"){
+  if(log.metatype == CREATE_TYPE){
     html = <CreateLogDisplay log={log}></CreateLogDisplay>
-  }else if(log.metatype == "approve"){
-
+  }else if(log.metatype == APPROVED_TYPE){
+    html = <ApproveLogDisplay log={log}></ApproveLogDisplay>
+  }else if(log.metatype == REJECTED_TYPE){
+    html = <RejectLogDisplay log={log}></RejectLogDisplay>
   }
 
   return (

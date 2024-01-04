@@ -6,7 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
-    await approveRequest(data);
+    const res = await approveRequest(data);
+
+    await Request.on(res).approve();
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -40,7 +42,7 @@ async function approveRequest(formData: FormData) {
   req_checkout.approve();
   const status = req_checkout.checkout();
 
-  await prisma.requests.update({
+  const res = await prisma.requests.update({
     where: {
       id: id,
     },
@@ -49,5 +51,7 @@ async function approveRequest(formData: FormData) {
       status: status,
     },
   });
+
+  return res
 }
 

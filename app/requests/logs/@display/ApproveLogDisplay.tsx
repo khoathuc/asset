@@ -2,12 +2,13 @@ import UserInfo from "@/components/ui/user/UserInfo";
 import { getUser } from "@/lib/user";
 import { request_logs } from "@prisma/client";
 
-export default function CreateLogDisplay({ log }: { log: request_logs }) {
+export default function ApproveLogDisplay({ log }: { log: request_logs }) {
   const user = getUser(log.user_id);
+
   return (
-    <div className="request-log-create">
+    <div className="request-log-approve">
       <div className="flex flex-col bg-base-200 p-4">
-        <span className="text-md font-semibold">Create</span>
+        <span className="text-md font-semibold">Approve</span>
         <div className="flex text-sm font-light">
           <span className="text-sm font-light">Approved by &nbsp;</span>
 

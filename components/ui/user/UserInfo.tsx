@@ -7,9 +7,11 @@ import UserAva from "./UserAva";
 
 export default function UserInfo({
   user_id,
+  className,
   ...props
 }: {
   user_id: any;
+  className?:string;
   props?: any;
 }) {
   const { contextData } = useData();
@@ -25,7 +27,7 @@ export default function UserInfo({
 
   if (props.hasOwnProperty("compact")) {
       return (<div>
-        <span className="font-semibold">{user.username.toString()}</span>
+        <span className={`${className}`}>{user.username.toString()}</span>
       </div>)
   }
 

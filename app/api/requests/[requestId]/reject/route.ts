@@ -6,8 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
-    await rejectRequest(data);
+    const res = await rejectRequest(data);
 
+    await Request.on(res).reject();
     return NextResponse.json({ success: true });
   } catch (error) {
     if (error instanceof Error) {
@@ -31,16 +32,16 @@ async function rejectRequest(formData: FormData) {
   const rejector_id = parseInt(formData.get("approval_id")?.toString() ?? "");
   //Check if rejector is validate user
   const rejector = await User.loader().getById(rejector_id);
-  const req_checkout = Request.checkout(request,null,rejector);
+  const req_checkout = Request.checkout(request, null, rejector);
   const verify = req_checkout.verifyReject();
-  if(!verify.res){
+  if (!verify.res) {
     throw new Error(verify.message);
   }
 
   req_checkout.reject();
   const status = req_checkout.checkout();
 
-  await prisma.requests.update({
+  return await prisma.requests.update({
     where: {
       id: id,
     },
@@ -50,4 +51,3 @@ async function rejectRequest(formData: FormData) {
     },
   });
 }
-
