@@ -18,7 +18,8 @@ export default function CreateAssetLogDisplay({ log }: { log: request_logs }) {
       const res = await fetch(`/api/assetlog/${log.ref}`);
 
       const result = await res.json();
-      setAssetLog(result);
+      console.log(result)
+      setAssetLog(result.asset_log);
     };
 
     getAssetLog();

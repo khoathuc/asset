@@ -1,5 +1,5 @@
 import Asset from "@/public/inbox.svg";
-import Date from "@/public/calendar.svg";
+import Calendar from "@/public/calendar.svg"
 import Currency from "@/public/currency_dollar.svg";
 import Note from "@/public/bar_3_center_left.svg";
 import { getLocation } from "@/lib/locations";
@@ -8,6 +8,10 @@ import { asset_logs } from "@prisma/client";
 import { getUser } from "@/lib/user";
 
 export default function LogDisplay({ log }: { log: asset_logs }) {
+  if (!(log.action_date instanceof Date)) {
+    log.action_date = new Date(log.action_date);
+  }
+
   var user = null;
   if (log.user_id) {
     user = getUser(log.user_id);
@@ -49,7 +53,7 @@ export default function LogDisplay({ log }: { log: asset_logs }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <Date className="h-4 w-4" />
+            <Calendar className="h-4 w-4" />
             <div className="flex flex-col">
               <span className="text-sm uppercase text-slate-500">
                 Transaction date
