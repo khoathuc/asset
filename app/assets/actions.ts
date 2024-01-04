@@ -2,6 +2,7 @@
 import prisma from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 import { Asset } from "@/models/asset/asset";
+import { AssetLog } from "@/models/asset/asset_log/asset_log";
 
 export async function getAssetById(id: number){
   return await prisma.assets.findUnique({
@@ -9,6 +10,10 @@ export async function getAssetById(id: number){
       id: id
     }
   })
+}
+
+export async function getAssetLogById(id: number|string){
+  return await AssetLog.loader().getById(id);
 }
 
 export async function getAllAssets(query: string | null = null){

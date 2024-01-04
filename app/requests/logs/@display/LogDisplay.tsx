@@ -1,6 +1,6 @@
 "use client";
 import { Modal } from "@/components/layout/Modal";
-import { request_logs } from "@prisma/client";
+import { asset_logs, request_logs } from "@prisma/client";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CreateLogDisplay from "./CreateLogDisplay";
@@ -12,9 +12,11 @@ import CreateAssetLogDisplay from "./CreateAssetLogDisplay";
 export default function LogDisplay({
   onClose,
   log,
+  asset_log
 }: {
   onClose: () => void;
   log: request_logs;
+  asset_log?: asset_logs
 }) {
   const ref = useRef<HTMLDialogElement | null>(null);
   const dialogId = uuidv4();

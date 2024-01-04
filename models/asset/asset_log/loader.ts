@@ -13,4 +13,15 @@ export class Loader{
             }
           })
     }
+
+    static async getById(id: any){
+      if(!id){
+        return ;
+      }
+      return await prisma.asset_logs.findUnique({
+        where: {
+          id: id,
+        },
+      });
+    }
 }
