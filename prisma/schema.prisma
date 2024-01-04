@@ -27,7 +27,7 @@ model asset_logs {
   object_id     Int
   object_type   String   @db.VarChar(255)
   action_cost   Decimal  @db.Decimal(8, 2)
-  action_date   DateTime @default(now()) @db.Timestamp(0)
+  action_date   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   changes       Json?
   file          String?  @db.Text
   description   String?  @db.Text
@@ -132,8 +132,8 @@ model request_logs {
   metatype      String   @db.VarChar(255)
   changes       Json?
   description   String?  @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model audits {
@@ -148,8 +148,8 @@ model audits {
   start_date  DateTime @db.Timestamp(0)
   end_date    DateTime @db.Timestamp(0)
   description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model audit_logs {
@@ -162,8 +162,8 @@ model audit_logs {
   is_correct    Boolean
   changes       Json?
   description   String?  @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model depreciations {
@@ -175,8 +175,8 @@ model depreciations {
   start_date   DateTime @db.Timestamp(0)
   end_date     DateTime @db.Timestamp(0)
   description  String?  @db.Text
-  since        DateTime @default(now()) @db.Timestamp(0)
-  last_update  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since        DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model depreciation_logs {
@@ -193,8 +193,8 @@ model depreciation_logs {
   ending_book_value   Decimal  @db.Decimal(8, 2)
   opening_book_value  Decimal  @db.Decimal(8, 2)
   description         String?  @db.Text
-  since               DateTime @default(now()) @db.Timestamp(0)
-  last_update         DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since               DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 enum StatusType {
@@ -232,7 +232,7 @@ model stock {
   type_id          Int
   is_inventory     Boolean
   form             Json?
-  purchase_date    DateTime @default(now()) @db.Timestamp(0)
+  purchase_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
   image            String?  @db.Text

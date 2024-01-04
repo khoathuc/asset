@@ -24,7 +24,7 @@ export async function addRequest(formData: FormData) {
 
   const user = await getCurrentUser();
 
-  await prisma.requests.create({
+  const request = await prisma.requests.create({
     data: {
       user_id: user? user.id : 0,
       name: data.name,
@@ -38,6 +38,8 @@ export async function addRequest(formData: FormData) {
       description: data.description,
     },
   });
+
+  await Request.on(request).create();
 
   revalidatePath("/requests");
 }
