@@ -9,8 +9,6 @@ export async function POST(request: NextRequest) {
     const data = await request.formData();
     const action_data = await readData(data);
 
-    const user = await getCurrentUser();
-
     const res = await prisma.assets.update({
       where: {
         id: action_data.asset.id,
