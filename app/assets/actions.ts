@@ -31,7 +31,7 @@ export async function getAllAssets(query: string | null = null){
 export async function addAsset(formData: FormData) {
   const data = await Asset.reader(formData).read();
 
-  await prisma.assets.create({
+  const asset = await prisma.assets.create({
     data: {
       name: data.name,
       description: data.description,
@@ -48,6 +48,8 @@ export async function addAsset(formData: FormData) {
       purchase_price: data.purchase_price,
     },
   });
+
+  await Asset.on(asset).create();
 
   revalidatePath("/assets");
 }
