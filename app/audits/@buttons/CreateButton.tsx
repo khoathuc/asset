@@ -1,6 +1,7 @@
 'use client'
 import { Modal } from "@/components/layout/Modal";
 import { useState } from "react";
+import { CreateForm } from "../@form/CreateForm";
 // import { CreateForm } from "../@form/CreateForm";
 
 export default function CreateButton() {
@@ -14,7 +15,7 @@ export default function CreateButton() {
       >
         Create new
       </button>
-      {/* {showModal && Modal.initModal(<CreateForm onClose={()=>setShowModal(false)}/>)} */}
+      {showModal && Modal.initModal(<CreateForm onClose={()=>setShowModal(false)}/>)}
     </>
   );
 }

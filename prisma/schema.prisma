@@ -138,19 +138,19 @@ model request_logs {
 }
 
 model audits {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  user_id     Int
-  location_id Int
-  auditors    String   @db.Text
-  files       String   @db.Text
-  data        String?  @db.Text
-  status      String?  @db.VarChar(32)
-  start_date  DateTime @db.Timestamp(0)
-  end_date    DateTime @db.Timestamp(0)
-  description String?  @db.Text
-  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id           Int      @id @default(autoincrement()) @db.UnsignedInt
+  name         String   @db.VarChar(255)
+  user_id      Int
+  locations String?  @db.Text
+  auditors     String   @db.Text
+  files        String   @db.Text
+  data         String?  @db.Text
+  status       String?  @db.VarChar(32)
+  start_date   DateTime @db.Timestamp(0)
+  end_date     DateTime @db.Timestamp(0)
+  description  String?  @db.Text
+  since        DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model audit_logs {
