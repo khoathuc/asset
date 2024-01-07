@@ -1,3 +1,4 @@
+'use client'
 import "@/styles/form.css";
 import { InputSelectLocation } from "@/app/settings/locations/@input/InputSelectLocation";
 import ModalForm from "@/components/layout/ModalForm";
@@ -9,6 +10,8 @@ import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { InputSelectUsers } from "@/app/users/@input/InputSelectUsers";
+import { toast } from "react-toastify";
+import { addAudit } from "../actions";
 
 type AuditFormSchema = z.infer<typeof auditSchema>;
 
@@ -31,6 +34,25 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     setIsLoading(true);
     var formData = new FormData();
 
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = (data as any)[key];
+        if (key == "file" && value instanceof FileList) {
+          formData.append("file", data.file[0]);
+        } else {
+          formData.append(key, value);
+        }
+      }
+    }
+
+    try {
+        await addAudit(formData);
+        toast.success("Create Audit successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
     setIsLoading(false);
   };
 
@@ -108,7 +130,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           />
           <p className="error">{errors.auditors?.message?.toString()}</p>
         </div>
-        
+
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
             Followers
