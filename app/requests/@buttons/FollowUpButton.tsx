@@ -1,6 +1,7 @@
 import { requests } from "@prisma/client";
 import ArrowDown from "@/public/arrow_down.svg";
 import CreateAssetButton from "./CreateAssetButton";
+import CreateTransactionButton from "./CreateTransactionButton";
 
 export default function FollowUpButton({ request }: { request: requests }) {
   return (
@@ -15,12 +16,14 @@ export default function FollowUpButton({ request }: { request: requests }) {
       </label>
       <ul
         tabIndex={0}
-        className="menu dropdown-content rounded-box z-[1] w-40 bg-base-100 p-2 shadow"
+        className="menu dropdown-content rounded-box z-[1] w-44 bg-base-100 p-2 shadow"
       >
-        <li>
+        <li className="tooltip tooltip-right" data-tip="Create new asset">
           <CreateAssetButton request={request}/>
         </li>
-        {/* <CreateTransactionButton /> */}
+        <li className="tooltip tooltip-right" data-tip="Make action with asset">
+          <CreateTransactionButton request={request}/>
+        </li>
       </ul>
     </div>
   );
