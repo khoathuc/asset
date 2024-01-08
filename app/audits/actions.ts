@@ -1,4 +1,4 @@
-'use server'
+"use server";
 import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { Audit } from "@/models/audit/audit";
@@ -11,6 +11,9 @@ export async function getAllAudits(query: string | null = null) {
 
 export async function addAudit(formData: FormData) {
   const data = await Audit.reader(formData).read();
+  if (!data) {
+    throw new Error("Can not read data");
+  }
 
   const user = await getCurrentUser();
 
@@ -29,5 +32,6 @@ export async function addAudit(formData: FormData) {
     },
   });
 
+  await Audit.on(audit).create();
   revalidatePath("/audits");
 }

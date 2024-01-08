@@ -78,6 +78,7 @@ model locations {
   description String?  @db.Text
   status      Boolean
   image       String?  @db.Text
+  auditing    Boolean
   data        String?  @db.Text
   since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
@@ -145,7 +146,7 @@ model audits {
   auditors    Json
   followers   Json?
   files       String?  @db.Text
-  data        String?  @db.Text
+  data        Json?
   status      String?  @db.VarChar(32)
   start_date  DateTime @db.Timestamp(0)
   end_date    DateTime @db.Timestamp(0)
@@ -159,10 +160,10 @@ model audit_logs {
   user_id       Int
   audit_id      Int
   object_export Json?
-  object_id     Int
-  object_type   String   @db.VarChar(255)
-  is_correct    Boolean
-  changes       Json?
+  asset_id      Int?
+  is_correct    Boolean?
+  ref           String?  @db.Text
+  metatype      String   @db.VarChar(255)
   description   String?  @db.Text
   since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)

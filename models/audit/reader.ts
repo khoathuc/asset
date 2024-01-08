@@ -2,6 +2,7 @@ import { uploadFile } from "@/app/base/file";
 import { isValidDateFormat } from "@/lib/utils/datetime";
 import { User } from "../user/user";
 import { Location } from "@/models/location/location";
+import { locations } from "@prisma/client";
 
 export class Reader {
   public formData?: FormData;
@@ -77,7 +78,11 @@ export class Reader {
       }
 
       if (!location.status) {
-        throw new Error("One location is not active");
+        throw new Error(`${location.name} is not active`);
+      }
+
+      if (location.auditing) {
+        throw new Error(`${location.name} is in another audit period`);
       }
     });
 
@@ -126,24 +131,46 @@ export class Reader {
     return follower_ids;
   }
 
-  async read() {
-    const name = this.readName();
-    const locations = await this.readLocations();
-    const auditors = await this.readAuditors();
-    const followers = await this.readFollowers();
-    const file_url = await this.readFile();
-    const description = this.readDesc();
-    const { start_date, end_date } = this.readAuditDate();
+  async readStat() {
+    const locations = this.formData?.get("locations")?.toString();
+    if(!locations){
+      throw new Error("Empty locations");
+    }
 
-    return {
-      name,
-      locations,
-      auditors,
-      followers,
-      file_url,
-      start_date,
-      end_date,
-      description,
-    };
+    const location_ids = JSON.parse(locations);
+    if (!location_ids || location_ids.length == 0) {
+      throw new Error("Empty or invalid locations");
+    }
+
+    
+  }
+
+  async read() {
+    try {
+      const name = this.readName();
+      const locations = await this.readLocations();
+      const auditors = await this.readAuditors();
+      const followers = await this.readFollowers();
+      const file_url = await this.readFile();
+      const description = this.readDesc();
+      const { start_date, end_date } = this.readAuditDate();
+      const stat = await this.readStat();
+
+      return {
+        name,
+        locations,
+        auditors,
+        followers,
+        file_url,
+        start_date,
+        end_date,
+        data: { stat },
+        description,
+      };
+    } catch (error) {
+      if(error instanceof Error){
+        throw new Error(error.message)
+      }
+    }
   }
 }

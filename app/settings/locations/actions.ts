@@ -13,7 +13,7 @@ export async function addLocation(formData: FormData) {
   const data = await Location.reader().read(formData);
 
   await prisma.locations.create({
-    data: { ...data, status: true },
+    data: { ...data, status: true, auditing: false },
   });
 
   revalidatePath("/settings/locations");
