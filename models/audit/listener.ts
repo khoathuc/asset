@@ -29,6 +29,7 @@ export class Listener {
         throw new Error("Invalid audit");
       }
 
+      //ADD AUDIT CREATE LOG
       await prisma.audit_logs.create({
         data: {
           metatype: "create",
@@ -37,6 +38,7 @@ export class Listener {
         },
       });
 
+      //ADD AUDIT ASSET LOG
       var audit_assets_data: auditAssetData[] = [];
       const location_assets = await Asset.loader().getInLocations(
         this.audit.locations as any,
@@ -55,10 +57,11 @@ export class Listener {
         data: audit_assets_data
       })
 
+
+      //UPDATE LOCATION STATUS
       if (!this.audit.locations || !Array.isArray(this.audit.locations)) {
         throw new Error("Invalid location");
       }
-
       await prisma.locations.updateMany({
         where: {
           id: {
