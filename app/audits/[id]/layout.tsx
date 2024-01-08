@@ -2,6 +2,9 @@ import "@/styles/audit.css";
 import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import { getAllAudits, getAuditById } from "../actions";
+import Side from "@/components/layout/Side";
+import Link from "next/link";
+import { OPEN_STATUS } from "../statuses";
 
 export async function generateStaticParams() {
   const audits = await getAllAudits();
@@ -30,7 +33,20 @@ export default async function Layout({
         label={`View audit ${audit?.name}`}
         compact
         className="audit-display-header text-sm font-medium"
-      ></PageHeader>
+      >
+        {audit &&(
+          <Side>
+            <div className="absolute right-2 top-[-18px] h-8">
+              <Link
+                href={`/audits/${audit.id}/audit`}
+                className="btn- btn h-full min-h-full bg-neutral-focus normal-case text-neutral-content hover:text-neutral-focus"
+              >
+                Audit
+              </Link>
+            </div>
+          </Side>
+        )}
+      </PageHeader>
       {children}
     </div>
   );

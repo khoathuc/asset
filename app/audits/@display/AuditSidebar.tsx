@@ -1,5 +1,8 @@
 import DisplaySection from "@/components/layout/DisplaySection";
+import Side from "@/components/layout/Side";
+import Arrow from "@/public/chevron_right.svg";
 import { audits } from "@prisma/client";
+import Link from "next/link";
 
 export default function AuditSideBar({ audit }: { audit: audits }) {
   const audit_assets = audit.data.stat.assets;
@@ -16,13 +19,13 @@ export default function AuditSideBar({ audit }: { audit: audits }) {
         </div>
 
         <div className="flex flex-col">
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <span
               className={`relative inline-flex h-3 w-3 rounded-full bg-success`}
             ></span>
             Correct: 1
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <span
               className={`relative inline-flex h-3 w-3 rounded-full bg-error`}
             ></span>
@@ -30,6 +33,13 @@ export default function AuditSideBar({ audit }: { audit: audits }) {
           </div>
         </div>
       </div>
+      <Side className="right-6 h-fit rounded-full p-2 hover:bg-base-300">
+        <div className="tooltip tooltip-right" data-tip="To Audit Page">
+          <Link href={`/audits/${audit.id}/audit`}>
+            <Arrow className="h-3 w-3" />
+          </Link>
+        </div>
+      </Side>
     </DisplaySection>
   );
 }
