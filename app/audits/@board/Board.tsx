@@ -10,6 +10,7 @@ export default function AuditBoard({ audits }: { audits: audits[] }) {
             <thead>
               <tr>
                 <th>#</th>
+                <th>Audit</th>
                 <th>Location</th>
                 <th>Start Date</th>
                 <th>End Date</th>
