@@ -36,4 +36,15 @@ export class Loader {
 
     return await AssetLog.loader().byAsset(request);
   }
+
+
+  static async getInLocations(location_ids: number[]){
+    return await prisma.assets.findMany({
+      where:{
+        location_id:{
+          in: location_ids
+        }
+      }
+    })
+  }
 }

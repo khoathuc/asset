@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import "@/styles/form.css";
 import { InputSelectLocation } from "@/app/settings/locations/@input/InputSelectLocation";
 import ModalForm from "@/components/layout/ModalForm";
@@ -46,8 +46,8 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     }
 
     try {
-        await addAudit(formData);
-        toast.success("Create Audit successfully");
+      await addAudit(formData);
+      toast.success("Create Audit successfully");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -165,6 +165,17 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
             {...register("description")}
           />
         </div>
+
+        {isLoading && (
+          <div className="absolute inset-0 pointer-events-none bg-gray-500 bg-opacity-25">
+            <div className="h-full flex items-center justify-center">
+              <div className="flex items-center justify-center gap-2">
+                <span className="loading loading-spinner loading-lg"></span>
+                Loading...
+              </div>
+            </div>
+          </div>
+        )}
       </ModalForm>
     </FormProvider>
   );

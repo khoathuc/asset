@@ -7,6 +7,7 @@ import { UserAvaGroup } from "@/components/ui/user/UserAvaGroup";
 import AuditAttrStatus from "../@attrs/AuditAttrStatus";
 import { MoreButton } from "../@buttons/MoreButton";
 import { getUser } from "@/lib/user";
+import AuditAttrAssetStat from "../@attrs/AuditAttrAssetStat";
 
 export function AuditItem({ index, audit }: { index: number; audit: audits }) {
   const user = getUser(audit.user_id);
@@ -44,7 +45,9 @@ export function AuditItem({ index, audit }: { index: number; audit: audits }) {
         </div>
       </td>
       <td>
-        <div>Asset stat</div>
+        <div>
+          <AuditAttrAssetStat audit={audit} />
+        </div>
       </td>
       <td>
         <UserAvaGroup user_ids={audit.auditors} />

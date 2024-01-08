@@ -27,6 +27,7 @@ export async function addAudit(formData: FormData) {
       files: data.file_url,
       start_date: data.start_date,
       end_date: data.end_date,
+      data: data.data,
       status: OPEN_STATUS,
       description: data.description,
     },

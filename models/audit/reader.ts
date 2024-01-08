@@ -3,8 +3,20 @@ import { isValidDateFormat } from "@/lib/utils/datetime";
 import { User } from "../user/user";
 import { Location } from "@/models/location/location";
 import { locations } from "@prisma/client";
+import { Asset } from "../asset/asset";
+
+type assetCompactType = {
+  id: number|string,
+  name: string,
+}
+
+type statType = {
+  assets?: assetCompactType[],
+  auditeds?: number[],
+}
 
 export class Reader {
+
   public formData?: FormData;
 
   constructor(formData: FormData) {
@@ -131,9 +143,9 @@ export class Reader {
     return follower_ids;
   }
 
-  async readStat() {
+  async readAuditLogs() {
     const locations = this.formData?.get("locations")?.toString();
-    if(!locations){
+    if (!locations) {
       throw new Error("Empty locations");
     }
 
@@ -142,7 +154,22 @@ export class Reader {
       throw new Error("Empty or invalid locations");
     }
 
-    
+    var assets:assetCompactType[] = [];
+    const location_assets = await Asset.loader().getInLocations(location_ids);
+    if(location_assets){
+      location_assets.forEach((location_asset)=>{
+        assets.push({
+          id: location_asset.id,
+          name: location_asset.name,
+        })
+      })
+    }
+
+    var stat: statType = {};
+    stat.assets = assets;
+    stat.auditeds = [];
+
+    return stat;
   }
 
   async read() {
@@ -154,7 +181,7 @@ export class Reader {
       const file_url = await this.readFile();
       const description = this.readDesc();
       const { start_date, end_date } = this.readAuditDate();
-      const stat = await this.readStat();
+      const stat = await this.readAuditLogs();
 
       return {
         name,
@@ -168,8 +195,8 @@ export class Reader {
         description,
       };
     } catch (error) {
-      if(error instanceof Error){
-        throw new Error(error.message)
+      if (error instanceof Error) {
+        throw new Error(error.message);
       }
     }
   }
