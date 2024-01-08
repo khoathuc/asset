@@ -3,6 +3,7 @@ import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { Audit } from "@/models/audit/audit";
 import { revalidatePath } from "next/cache";
+import { OPEN_STATUS } from "./statuses";
 
 export async function getAllAudits(query: string | null = null) {
   return await Audit.loader().all(query);
@@ -23,6 +24,7 @@ export async function addAudit(formData: FormData) {
       files: data.file_url,
       start_date: data.start_date,
       end_date: data.end_date,
+      status: OPEN_STATUS,
       description: data.description,
     },
   });

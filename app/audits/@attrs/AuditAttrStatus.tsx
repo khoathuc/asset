@@ -1,5 +1,5 @@
 "use client";
-import { auditStatuses } from "@/app/audits/statuses";
+import { CLOSED_STATUS, OPEN_STATUS, OVERDUE_STATUS, auditStatuses } from "@/app/audits/statuses";
 import StatusNotFound from "@/public/shield_check.svg";
 import { audits } from "@prisma/client";
 
@@ -14,7 +14,18 @@ function EmptyAuditStatus() {
 
 export default function AuditAttrStatus({ audit }: { audit: audits }) {
   const auditStatus = auditStatuses.find((status: any) => {
-    return status.value == audit.status;
+    if(audit.status == OPEN_STATUS){
+        const end_date = new Date(audit.end_date);
+        const current_date = new Date();
+
+        if(end_date < current_date){
+            return status.value == OVERDUE_STATUS;
+        }
+
+        else return status.value == OPEN_STATUS;
+    }
+
+    return status.value == CLOSED_STATUS;
   });
 
   if (!auditStatus) {

@@ -1,11 +1,11 @@
-export const PENDING_STATUS = 'pending';
-export const REJECTED_STATUS = 'rejected';
-export const APPROVED_STATUS = 'approved';
+export const OPEN_STATUS = 'open';
+export const CLOSED_STATUS = 'close';
+export const OVERDUE_STATUS = 'overdue';
 
 export const auditStatuses = [
-  { value: "pending", label: "Pending", color: "#ffbe00" },
-  { value: "rejected", label: "Reject", color: "#ff5861" },
-  { value: "approved", label: "Approved", color: "#00a96e" },
+  { value: OPEN_STATUS, label: "Open", color: "#ffbe00" },
+  { value: CLOSED_STATUS, label: "Closed", color: "#00a96e" },
+  { value: OVERDUE_STATUS, label: "OverDue", color: "#ff5861"}
 ];
 
 export function getStatus(value: any) {
