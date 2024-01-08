@@ -2,6 +2,8 @@ import DisplaySection from "@/components/layout/DisplaySection";
 import DisplayField from "@/components/ui/display.field/DisplayField";
 import { audits } from "@prisma/client";
 import AuditAttrTitle from "../@attrs/AuditAttrTitle";
+import Side from "@/components/layout/Side";
+import AuditActionsButton from "../@buttons/AuditActionsButton";
 
 export default function AuditDisplay({ audit }: { audit: audits }) {
   return (
@@ -48,6 +50,10 @@ export default function AuditDisplay({ audit }: { audit: audits }) {
 
           <DisplayField field="File">No File</DisplayField>
         </div>
+
+        <Side className="right-6">
+            <AuditActionsButton audit={audit}/>
+        </Side>
       </DisplaySection>
     </>
   );
