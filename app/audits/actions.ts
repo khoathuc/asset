@@ -9,6 +9,10 @@ export async function getAllAudits(query: string | null = null) {
   return await Audit.loader().all(query);
 }
 
+export async function getAuditById(id: number) {
+  return await Audit.loader().getById(id)
+}
+
 export async function addAudit(formData: FormData) {
   const data = await Audit.reader(formData).read();
   if (!data) {
