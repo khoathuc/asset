@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { Audit } from "@/models/audit/audit";
 import { revalidatePath } from "next/cache";
 import { OPEN_STATUS } from "./statuses";
+import { audits } from "@prisma/client";
 
 export async function getAllAudits(query: string | null = null) {
   return await Audit.loader().all(query);
@@ -39,4 +40,9 @@ export async function addAudit(formData: FormData) {
 
   await Audit.on(audit).create();
   revalidatePath("/audits");
+}
+
+
+export async function closeAudit(audit: audits){
+  
 }

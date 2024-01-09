@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { getAllAudits, getAuditById } from "../actions";
 import Side from "@/components/layout/Side";
 import Link from "next/link";
-import { OPEN_STATUS } from "../statuses";
+import { CLOSED_STATUS, OPEN_STATUS } from "../statuses";
+import { AuditCloseButton } from "../@buttons/AuditCloseButton";
 
 export async function generateStaticParams() {
   const audits = await getAllAudits();
@@ -37,12 +38,7 @@ export default async function Layout({
         {audit && (
           <Side>
             <div className="absolute right-12 top-[-18px] h-8 flex gap-2">
-              <Link
-                href={`/audits/${audit.id}/audit`}
-                className="btn- btn h-full min-h-full bg-success normal-case text-white"
-              >
-                Close audit
-              </Link>
+              {(audit.status == OPEN_STATUS) && <AuditCloseButton audit={audit}/>}
               <Link
                 href={`/audits/${audit.id}/audit`}
                 className="btn- btn h-full min-h-full bg-neutral-focus normal-case text-neutral-content hover:text-neutral-focus"
