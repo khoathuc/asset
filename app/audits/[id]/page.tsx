@@ -28,12 +28,11 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <PageBody compact scroll-y className="bg-base-200">
-      <div className="absolute inset-0 flex px-10 bg-base-200">
-        <div className="audit-display flex flex-col flex-1 items-center justify-center gap-10 px-10 py-5 pb-32">
+      <div className="absolute inset-0 flex px-10 pt-16 bg-base-200">
+        <div className="audit-display flex flex-col flex-1 items-center gap-10 px-10 py-5 pb-32">
           <AuditDisplay audit={audit} />
-          {/* <AuditAssetLog audit_logs={audit_logs} /> */}
         </div>
-        <div className="w-[30%] pt-16 h-fit">
+        <div className="w-[30%] h-fit pt-5">
           <AuditSideBar audit={audit} />
         </div>
       </div>

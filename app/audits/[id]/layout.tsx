@@ -34,9 +34,15 @@ export default async function Layout({
         compact
         className="audit-display-header text-sm font-medium"
       >
-        {audit &&(
+        {audit && (
           <Side>
-            <div className="absolute right-2 top-[-18px] h-8">
+            <div className="absolute right-12 top-[-18px] h-8 flex gap-2">
+              <Link
+                href={`/audits/${audit.id}/audit`}
+                className="btn- btn h-full min-h-full bg-success normal-case text-white"
+              >
+                Close audit
+              </Link>
               <Link
                 href={`/audits/${audit.id}/audit`}
                 className="btn- btn h-full min-h-full bg-neutral-focus normal-case text-neutral-content hover:text-neutral-focus"

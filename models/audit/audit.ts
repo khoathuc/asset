@@ -61,7 +61,6 @@ export class Audit {
       incorrects: incorrect_logs.length,
     };
 
-    console.log(stat)
     await prisma.audits.update({
       where: {
         id: audit.id,
