@@ -9,7 +9,7 @@ export default function AuditSideBar({ audit }: { audit: audits }) {
   const audit_auditeds = audit.data.stat.auditeds;
 
   return (
-    <DisplaySection label="Asset Stat" className="relative px-6 py-4">
+    <DisplaySection label="Asset Stat" className="relative px-6 py-4 !w-11/12">
       <div className="flex justify-between">
         <div className="flex flex-col items-center justify-center gap-2 font-semibold">
           <span>
@@ -23,13 +23,13 @@ export default function AuditSideBar({ audit }: { audit: audits }) {
             <span
               className={`relative inline-flex h-3 w-3 rounded-full bg-success`}
             ></span>
-            Correct: 1
+            Correct: {audit.data.stat.corrects || 0}
           </div>
           <div className="flex items-center gap-2">
             <span
               className={`relative inline-flex h-3 w-3 rounded-full bg-error`}
             ></span>
-            Incorrect: 0
+            Incorrect: {audit.data.stat.incorrects || 0}
           </div>
         </div>
       </div>

@@ -169,7 +169,7 @@ export class Reader {
     stat.assets = assets;
     stat.auditeds = [];
 
-    return stat;
+    return stat
   }
 
   async read() {

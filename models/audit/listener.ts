@@ -2,14 +2,7 @@ import prisma from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { audits } from "@prisma/client";
 import { Asset } from "../asset/asset";
-
-type auditAssetData = {
-  asset_id: number;
-  object_export: { id: number | string; name: string };
-  audit_id: number;
-  user_id: number;
-  metatype: string;
-};
+import { auditAssetLogData } from "./audit_log/audit_log";
 
 export class Listener {
   private audit?: audits;
@@ -39,14 +32,21 @@ export class Listener {
       });
 
       //ADD AUDIT ASSET LOG
-      var audit_assets_data: auditAssetData[] = [];
+      var audit_assets_data: auditAssetLogData[] = [];
       const location_assets = await Asset.loader().getInLocations(
         this.audit.locations as any,
       );
       location_assets.forEach((location_asset) => {
         audit_assets_data.push({
           asset_id: location_asset.id,
-          object_export: { id: location_asset.id, name: location_asset.name },
+          object_export: {
+            id: location_asset.id,
+            name: location_asset.name,
+            code: location_asset.code,
+            assignee_id: location_asset.assignee_id,
+            type_id: location_asset.type_id,
+            status_id: location_asset.status_id
+          },
           audit_id: this.audit?.id,
           user_id: user.id,
           metatype: "asset",
@@ -54,9 +54,8 @@ export class Listener {
       });
 
       await prisma.audit_logs.createMany({
-        data: audit_assets_data
-      })
-
+        data: audit_assets_data,
+      });
 
       //UPDATE LOCATION STATUS
       if (!this.audit.locations || !Array.isArray(this.audit.locations)) {

@@ -10,4 +10,12 @@ export class Loader {
       },
     });
   }
+
+  static async getById(id: number) {
+    return await prisma.audit_logs.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
 }
