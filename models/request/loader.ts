@@ -1,4 +1,5 @@
 import prisma from "@/lib/db/prisma";
+import { RequestLog } from "./request_log/request_log";
 
 export class Loader {
   static async paginate(query: string | null = null) {
@@ -24,5 +25,14 @@ export class Loader {
         id,
       },
     });
+  }
+
+  static async getLog(id: number) {
+    const request = await this.getById(id);
+    if (!request) {
+      throw new Error("Invalid request");
+    }
+
+    return await RequestLog.loader().byRequest(request);
   }
 }

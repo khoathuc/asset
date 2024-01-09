@@ -27,7 +27,7 @@ model asset_logs {
   object_id     Int
   object_type   String   @db.VarChar(255)
   action_cost   Decimal  @db.Decimal(8, 2)
-  action_date   DateTime @default(now()) @db.Timestamp(0)
+  action_date   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   changes       Json?
   file          String?  @db.Text
   description   String?  @db.Text
@@ -78,6 +78,7 @@ model locations {
   description String?  @db.Text
   status      Boolean
   image       String?  @db.Text
+  auditing    Boolean
   data        String?  @db.Text
   since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
@@ -130,26 +131,28 @@ model request_logs {
   object_type   String   @db.VarChar(255)
   note          String?  @db.Text
   metatype      String   @db.VarChar(255)
+  ref           String?  @db.Text
   changes       Json?
   description   String?  @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model audits {
   id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
   user_id     Int
-  location_id Int
-  auditors    String   @db.Text
-  files       String   @db.Text
-  data        String?  @db.Text
+  locations   Json
+  auditors    Json
+  followers   Json?
+  files       String?  @db.Text
+  data        Json?
   status      String?  @db.VarChar(32)
   start_date  DateTime @db.Timestamp(0)
   end_date    DateTime @db.Timestamp(0)
   description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model audit_logs {
@@ -157,13 +160,13 @@ model audit_logs {
   user_id       Int
   audit_id      Int
   object_export Json?
-  object_id     Int
-  object_type   String   @db.VarChar(255)
-  is_correct    Boolean
-  changes       Json?
+  asset_id      Int?
+  is_correct    Boolean?
+  ref           String?  @db.Text
+  metatype      String   @db.VarChar(255)
   description   String?  @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model depreciations {
@@ -175,8 +178,8 @@ model depreciations {
   start_date   DateTime @db.Timestamp(0)
   end_date     DateTime @db.Timestamp(0)
   description  String?  @db.Text
-  since        DateTime @default(now()) @db.Timestamp(0)
-  last_update  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since        DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model depreciation_logs {
@@ -193,8 +196,8 @@ model depreciation_logs {
   ending_book_value   Decimal  @db.Decimal(8, 2)
   opening_book_value  Decimal  @db.Decimal(8, 2)
   description         String?  @db.Text
-  since               DateTime @default(now()) @db.Timestamp(0)
-  last_update         DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since               DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 enum StatusType {
@@ -232,7 +235,7 @@ model stock {
   type_id          Int
   is_inventory     Boolean
   form             Json?
-  purchase_date    DateTime @default(now()) @db.Timestamp(0)
+  purchase_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
   image            String?  @db.Text

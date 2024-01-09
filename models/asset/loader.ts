@@ -1,4 +1,5 @@
 import prisma from "@/lib/db/prisma";
+import { AssetLog } from "./asset_log/asset_log";
 
 export class Loader {
   static async paginate(query: string | null = null) {
@@ -24,5 +25,26 @@ export class Loader {
         id,
       },
     });
+  }
+
+
+  static async getLog(id: number) {
+    const request = await this.getById(id);
+    if (!request) {
+      throw new Error("Invalid request");
+    }
+
+    return await AssetLog.loader().byAsset(request);
+  }
+
+
+  static async getInLocations(location_ids: number[]){
+    return await prisma.assets.findMany({
+      where:{
+        location_id:{
+          in: location_ids
+        }
+      }
+    })
   }
 }

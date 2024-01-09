@@ -6,7 +6,7 @@ import PageBody from "@/components/layout/PageBody";
 import { notFound } from "next/navigation";
 import RequestDisplay from "../@display/RequestDisplay";
 import RequestSidebar from "../@display/RequestSidebar";
-import LogsDisplay from "../logs/LogsDisplay";
+import LogsDisplay from "../logs/@board/LogsDisplay";
 import { viewable } from "./request";
 import { getRequestLogs } from "../logs/actions";
 
@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return notFound();
   }
 
-  const logs = await getRequestLogs(parseInt(params.id));
+  const logs = await getRequestLogs(request);
 
   return (
     <PageBody

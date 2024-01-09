@@ -1,3 +1,4 @@
+'use client'
 import DisplaySection from "@/components/layout/DisplaySection";
 import DisplayField from "@/components/ui/display.field/DisplayField";
 import { requests } from "@prisma/client";
@@ -10,11 +11,17 @@ import UserIcon from "@/public/user.svg";
 import UserInfo from "@/components/ui/user/UserInfo";
 import RequestAttrTitle from "../@attrs/title";
 import RequestAttrStatus from "../@attrs/status";
+import Side from "@/components/layout/Side";
+import { useState } from "react";
+import FollowUpButton from "../@buttons/FollowUpButton";
+
 type RequestDisplayProps = {
   request: requests;
 };
 
 export default function RequestDisplay({ request }: RequestDisplayProps) {
+  const [is_approved, setIsApprove] = useState(request.status == 'approved' ? true : false);
+
   return (
     <DisplaySection label="Detail" className="relative px-6 py-4">
       <div className="grid grid-cols-2 gap-2 border-b-2 py-4">
@@ -43,7 +50,11 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
           field="Request By"
           icon={<UserIcon className="h-5 w-5" />}
         >
-          <UserInfo user_id={request.user_id} compact />
+          <UserInfo
+            user_id={request.user_id}
+            compact
+            className="font-semibold"
+          />
         </DisplayField>
       </div>
 
@@ -78,6 +89,12 @@ export default function RequestDisplay({ request }: RequestDisplayProps) {
             );
           })}
       </div>
+
+      {is_approved && (
+        <Side className="right-6">
+          <FollowUpButton request={request} />
+        </Side>
+      )}
     </DisplaySection>
   );
 }

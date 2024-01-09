@@ -8,13 +8,14 @@ import React from "react";
 import { toast } from "react-toastify";
 
 export function ApproveButton({ request }: { request: requests }) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  
   const user = viewer();
   const router = useRouter()
   if(!user){
     return <></>;
   }
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const onClick = async () => {
     setIsLoading(true);

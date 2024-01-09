@@ -1,4 +1,4 @@
-import Empty from "./Empty";
+import Empty from "../Empty";
 import DisplaySection from "@/components/layout/DisplaySection";
 import { request_logs } from "@prisma/client";
 import Item from "./Item";

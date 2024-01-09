@@ -23,6 +23,26 @@ export async function approved(request: requests, user_id: number|null = null){
   return false;
 }
 
+export async function rejected(request: requests, user_id: number|null = null){
+  if (user_id) {
+    var user = await User.loader().getById(user_id);
+  }else{
+    user = await getCurrentUser();
+  }
+
+  if (!user) {
+    return false;
+  }
+
+  if(request.rejections && Array.isArray(request.rejections)){
+    if(request.rejections.includes(user?.id)){
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export async function approvable(request: requests, user_id: number | null = null) {
   if (user_id) {
     var user = await User.loader().getById(user_id);
@@ -34,7 +54,7 @@ export async function approvable(request: requests, user_id: number | null = nul
     return false;
   }
 
-  if(await approved(request, user.id)){
+  if(await approved(request, user.id) || await rejected(request, user.id)){
     return false;
   }
 
@@ -72,6 +92,7 @@ export async function viewable(request: requests, user_id: number | null = null)
   const is_followable = await followable(request, user_id);
   const is_approvable = await approvable(request, user_id);
   const is_approved = await approved(request, user_id);
+  const is_rejected = await rejected(request, user_id);
 
-  return is_followable || is_approvable || is_approved;
+  return is_followable || is_approvable || is_approved || is_rejected;
 }

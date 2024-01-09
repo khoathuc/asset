@@ -13,18 +13,25 @@ import { InputSelectVendor } from "@/app/settings/vendors/@input/InputSelectVend
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
 import { addAsset } from "../actions";
-import { assets } from "@prisma/client";
 import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
 import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
-import { Type } from "@/models/type/type";
-import { getTypeById } from "@/app/settings/types/actions";
+import { useData } from "@/context/data.context";
+import { assets } from "@prisma/client";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
-export function CreateForm({ onClose }: { onClose: () => void }) {
+export function CreateForm({
+  onClose,
+  callback,
+}: {
+  onClose: () => void;
+  callback?: (asset: assets) => void;
+}) {
   const [cform, setCform] = useState<cfieldValue[]>([]);
   const [showAdditional, setShowAdditional] = useState(false);
+  const { contextData } = useData();
+  const { types } = contextData;
 
   const methods = useForm<AssetFormData>({
     resolver: zodResolver(assetSchema),
@@ -44,17 +51,9 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     setValue("form", cform);
   }, [cform]);
 
-  const handleTypeChange = async (type_id: number) => {
-    try {
-      const type = await getTypeById(type_id);
-      if (type) {
-        setCform(type.form as cfieldValue[]);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    }
+  const handleTypeChange = (type_id: number) => {
+    const type = types.find((asset_type: any) => asset_type.id == type_id);
+    setCform(type.form as cfieldValue[]);
   };
 
   const onSubmit = async (data: AssetFormData) => {
@@ -91,6 +90,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
         toast.error(error.message);
       }
     }
+
     setIsLoading(false);
   };
 

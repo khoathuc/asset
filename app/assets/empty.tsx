@@ -3,12 +3,12 @@ import CreateButton from "./@buttons/CreateButton";
 
 export default function Empty(){
     return (
-        <>
+        <div className="flex flex-col">
             <EmptyImg className='h-72' />
             <div className="h-8 flex gap-5 items-center">
                 <div className="text-md font-bold">No Assets Found</div>
                 <CreateButton/>
             </div>
-        </>
+        </div>
     )
 }

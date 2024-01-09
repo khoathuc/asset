@@ -10,4 +10,10 @@ export default class KArray{
             return item.id == id;
         })
     }  
+
+    static find(arr:any, ids: Array<number|string>){
+        return arr.filter((item: any) => {
+            return ids.includes(item.id);
+        })
+    }
 }

@@ -3,9 +3,9 @@ export const REJECTED_STATUS = 'rejected';
 export const APPROVED_STATUS = 'approved';
 
 export const requestStatuses = [
+  { value: "approved", label: "Approved", color: "#00a96e" },
   { value: "pending", label: "Pending", color: "#ffbe00" },
   { value: "rejected", label: "Reject", color: "#ff5861" },
-  { value: "approved", label: "Approved", color: "#00a96e" },
 ];
 
 export function getStatus(value: any) {
