@@ -22,6 +22,7 @@ type TypeFormData = z.infer<typeof typeSchema>;
 export function CreateForm({ onClose }: { onClose: () => void }) {
   const [is_depreciable, setIsDepreciable] = useState(false);
   const [depreciation_method, setDepreciationMethod] = useState<string|null>(null);
+  const [default_useful_life, setDefaultUsefulLife] = useState<string|number|null>(null);
   const methods = useForm<TypeFormData>({
     resolver: zodResolver(typeSchema),
   });
@@ -44,6 +45,9 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
       formData.append("is_depreciable", is_depreciable);
       if(depreciation_method){
         formData.append("depreciation_method", depreciation_method)
+      }
+      if(default_useful_life){
+        formData.append("default_useful_life", default_useful_life)
       }
     }
 
@@ -137,6 +141,9 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
                 type="number"
                 placeholder="Useful life"
                 className="input input-bordered"
+                onChange={(e:any)=>{
+                  setDefaultUsefulLife(e.target.value)
+                }}
               />
             </div>
 

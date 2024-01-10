@@ -41,8 +41,8 @@ export class Reader {
     return is_depreciable == "true";
   }
 
-  private readDepreciationConf() {
-    const depreciation_method = this.formData
+  private readDepreciationMethod(){
+    var depreciation_method = this.formData
       ?.get("depreciation_method")
       ?.toString();
     if (!depreciation_method) {
@@ -54,10 +54,23 @@ export class Reader {
       depreciation_method != Depreciation.STRAIGHT_LINE_METHOD
     ) {
       throw new Error("Invalid depreciation method")
-    } 
+    }
+
+    return depreciation_method;
+  }
+
+  private readDefaultUsefulLife(){
+    return this.formData?.get("default_useful_life")?.toString();
+  }
+
+  private readDepreciationConf() {
+    const depreciation_method = this.readDepreciationMethod();
+
+    const default_useful_life = this.readDefaultUsefulLife();
 
     return {
-      depreciation_method
+      depreciation_method,
+      default_useful_life
     }
   }
 

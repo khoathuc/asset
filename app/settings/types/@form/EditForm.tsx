@@ -1,8 +1,9 @@
 "use client";
 import "@/styles/form.css";
+import Select from "react-select";
 import ModalForm from "@/components/layout/ModalForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { typeSchema } from "@/lib/validations/types";
@@ -12,6 +13,7 @@ import { Textarea } from "@/components/ui/form/textarea";
 import { toast } from "react-toastify";
 import { editType } from "../actions";
 import { types } from "@prisma/client";
+import { REDUCING_BALANCE_METHOD, STRAIGHT_LINE_METHOD } from "@/app/depreciations/depreciations";
 
 type TypeFormData = z.infer<typeof typeSchema>;
 export function EditForm({
@@ -21,6 +23,10 @@ export function EditForm({
   type: types;
   onClose: () => void;
 }) {
+  const [is_depreciable, setIsDepreciable] = useState(type.is_depreciable);
+  const [depreciation_method, setDepreciationMethod] = useState<string | null>(
+    type.depreciation_conf ? type.depreciation_conf.depreciation_method : null,
+  );
   const methods = useForm<TypeFormData>({
     resolver: zodResolver(typeSchema),
   });
@@ -109,6 +115,57 @@ export function EditForm({
             defaultValue={type.description || ""}
           />
         </div>
+
+        <div className="form-control flex">
+          <label className="flex gap-2 pb-1 text-sm font-bold text-current">
+            <Input
+              type="checkbox"
+              className="toggle toggle-sm"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setIsDepreciable(!is_depreciable);
+              }}
+            />
+            Track depreciation for asset of this type
+          </label>
+        </div>
+
+        {is_depreciable && (
+          <>
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Useful life *
+              </label>
+              <Input
+                type="number"
+                placeholder="Useful life"
+                className="input input-bordered"
+              />
+            </div>
+
+            <div className="flex-box form-control flex">
+              <label className="pb-1 text-sm font-bold text-current">
+                Depreciation method
+              </label>
+              <Select
+                options={[
+                  {
+                    value: STRAIGHT_LINE_METHOD,
+                    label: STRAIGHT_LINE_METHOD,
+                  },
+                  {
+                    value: REDUCING_BALANCE_METHOD,
+                    label: REDUCING_BALANCE_METHOD,
+                  },
+                ]}
+                onChange={(selected: { value: string; label: string }) => {
+                  if (selected) {
+                    setDepreciationMethod(selected.value);
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
       </ModalForm>
     </FormProvider>
   );
