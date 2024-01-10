@@ -1,3 +1,5 @@
+import { Depreciation } from "../depreciation/depreciation";
+
 export class Reader {
   public formData?: FormData;
 
@@ -34,12 +36,42 @@ export class Reader {
     return this.formData?.get("description")?.toString();
   }
 
+  private readIsDepreciable() {
+    const is_depreciable = this.formData?.get("is_depreciable")?.toString();
+    return is_depreciable == "true";
+  }
+
+  private readDepreciationConf() {
+    const depreciation_method = this.formData
+      ?.get("depreciation_method")
+      ?.toString();
+    if (!depreciation_method) {
+      throw new Error("Empty depreciation method");
+    }
+
+    if (
+      depreciation_method != Depreciation.REDUCING_BALANCE_METHOD &&
+      depreciation_method != Depreciation.STRAIGHT_LINE_METHOD
+    ) {
+      throw new Error("Invalid depreciation method")
+    } 
+
+    return {
+      depreciation_method
+    }
+  }
+
   async read() {
     const name = this.readName();
     const prefix = this.readPrefix();
     const description = this.readDesc();
+    const is_depreciable = this.readIsDepreciable();
+    var depreciation_conf = null;
+    if (is_depreciable) {
+      depreciation_conf = this.readDepreciationConf();
+    }
 
-    return { name, prefix, description };
+    return { name, prefix, description, is_depreciable, depreciation_conf };
   }
 
   readCForm() {

@@ -15,7 +15,6 @@ export default function AuditAssetCheckbox({
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log(asset_log.is_correct)
     if (asset_log.is_correct == null) {
       setChecked(false);
     }

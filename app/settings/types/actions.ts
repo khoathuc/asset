@@ -9,13 +9,15 @@ export async function getAllTypes(query: string | null = null){
 }
 
 export async function addType(formData: FormData) {
-  const { name, prefix, description } = await Type.reader(formData).read();
+  const { name, prefix, description, is_depreciable, depreciation_conf } = await Type.reader(formData).read();
 
   await prisma.types.create({
     data: {
       name,
       prefix,
       description,
+      is_depreciable,
+      depreciation_conf: depreciation_conf||undefined
     },
   });
 

@@ -265,17 +265,19 @@ model tags {
 }
 
 model types {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(256)
-  user_id     Int?
-  form        Json?
-  settings    String?  @db.Text
-  files       String?  @db.Text
-  prefix      String   @db.VarChar(32)
-  description String?  @db.Text
-  data        String?  @db.Text
-  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id                Int      @id @default(autoincrement()) @db.UnsignedInt
+  name              String   @db.VarChar(256)
+  user_id           Int?
+  form              Json?
+  settings          String?  @db.Text
+  files             String?  @db.Text
+  prefix            String   @db.VarChar(32)
+  is_depreciable    Boolean?
+  depreciation_conf Json?
+  description       String?  @db.Text
+  data              String?  @db.Text
+  since             DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 enum UserRoles {

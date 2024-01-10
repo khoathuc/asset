@@ -1,8 +1,9 @@
 "use client";
+import Select from "react-select";
 import "@/styles/form.css";
 import ModalForm from "@/components/layout/ModalForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { typeSchema } from "@/lib/validations/types";
@@ -11,10 +12,16 @@ import { Input } from "@/components/ui/form/Input";
 import { Textarea } from "@/components/ui/form/textarea";
 import { toast } from "react-toastify";
 import { addType } from "../actions";
+import {
+  REDUCING_BALANCE_METHOD,
+  STRAIGHT_LINE_METHOD,
+} from "@/app/depreciations/depreciations";
 
 type TypeFormData = z.infer<typeof typeSchema>;
 
 export function CreateForm({ onClose }: { onClose: () => void }) {
+  const [is_depreciable, setIsDepreciable] = useState(false);
+  const [depreciation_method, setDepreciationMethod] = useState<string|null>(null);
   const methods = useForm<TypeFormData>({
     resolver: zodResolver(typeSchema),
   });
@@ -33,6 +40,13 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
     setIsLoading(true);
 
     const formData = new FormData();
+    if(is_depreciable){
+      formData.append("is_depreciable", is_depreciable);
+      if(depreciation_method){
+        formData.append("depreciation_method", depreciation_method)
+      }
+    }
+
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];
@@ -99,6 +113,57 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
             {...register("description")}
           />
         </div>
+
+        <div className="form-control flex">
+          <label className="flex gap-2 pb-1 text-sm font-bold text-current">
+            <Input
+              type="checkbox"
+              className="toggle toggle-sm"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setIsDepreciable(!is_depreciable);
+              }}
+            />
+            Track depreciation for asset of this type
+          </label>
+        </div>
+
+        {is_depreciable && (
+          <>
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Useful life *
+              </label>
+              <Input
+                type="number"
+                placeholder="Useful life"
+                className="input input-bordered"
+              />
+            </div>
+
+            <div className="flex-box form-control flex">
+              <label className="pb-1 text-sm font-bold text-current">
+                Depreciation method
+              </label>
+              <Select
+                options={[
+                  {
+                    value: STRAIGHT_LINE_METHOD,
+                    label: STRAIGHT_LINE_METHOD,
+                  },
+                  {
+                    value: REDUCING_BALANCE_METHOD,
+                    label: REDUCING_BALANCE_METHOD,
+                  },
+                ]}
+                onChange={(selected: { value: string, label: string }) => {
+                  if(selected){
+                    setDepreciationMethod(selected.value);
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
       </ModalForm>
     </FormProvider>
   );
