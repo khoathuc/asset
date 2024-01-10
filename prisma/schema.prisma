@@ -57,11 +57,16 @@ model assets {
   image          String?  @db.Text
   purchase_date  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   purchase_price Decimal  @db.Decimal(8, 2)
-  stats          String?  @db.Text
-  token          String?  @db.VarChar(255)
-  data           String?  @db.Text
-  since          DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+
+  is_depreciable Boolean?
+  useful_life    Int?
+  salvage_price  Decimal? @db.Decimal(8, 2)
+
+  stats       String?  @db.Text
+  token       String?  @db.VarChar(255)
+  data        String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([location_id], map: "assets_location_id_index")
   @@index([meta_type], map: "assets_meta_type_index")

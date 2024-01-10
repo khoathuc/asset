@@ -93,7 +93,7 @@ export function CreateForm({
     }
 
     try {
-      // await addAsset(formData);
+      await addAsset(formData);
       toast.success("Added asset successfully");
     } catch (error) {
       if (error instanceof Error) {
