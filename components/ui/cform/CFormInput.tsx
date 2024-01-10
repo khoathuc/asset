@@ -32,7 +32,7 @@ export function CFormInput({
 
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-3">
         {form &&
           form.map((field, index) => {
             return (
