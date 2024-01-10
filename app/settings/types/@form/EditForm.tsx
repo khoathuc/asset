@@ -13,7 +13,10 @@ import { Textarea } from "@/components/ui/form/textarea";
 import { toast } from "react-toastify";
 import { editType } from "../actions";
 import { types } from "@prisma/client";
-import { REDUCING_BALANCE_METHOD, STRAIGHT_LINE_METHOD } from "@/app/depreciations/depreciations";
+import {
+  REDUCING_BALANCE_METHOD,
+  STRAIGHT_LINE_METHOD,
+} from "@/app/depreciations/depreciations";
 
 type TypeFormData = z.infer<typeof typeSchema>;
 export function EditForm({
@@ -27,6 +30,10 @@ export function EditForm({
   const [depreciation_method, setDepreciationMethod] = useState<string | null>(
     type.depreciation_conf ? type.depreciation_conf.depreciation_method : null,
   );
+  const [default_useful_life, setDefaultUsefulLife] = useState<
+    string | number | null
+  >(type.depreciation_conf ? type.depreciation_conf.default_useful_life : null);
+
   const methods = useForm<TypeFormData>({
     resolver: zodResolver(typeSchema),
   });
@@ -46,6 +53,15 @@ export function EditForm({
 
     const formData = new FormData();
     formData.append("id", type.id.toString());
+    if (is_depreciable) {
+      formData.append("is_depreciable", is_depreciable);
+      if (depreciation_method) {
+        formData.append("depreciation_method", depreciation_method);
+      }
+      if (default_useful_life) {
+        formData.append("default_useful_life", default_useful_life);
+      }
+    }
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         const value = (data as any)[key];
@@ -68,7 +84,7 @@ export function EditForm({
   return (
     <FormProvider {...methods}>
       <ModalForm
-        label="CREATE NEW ASSET TYPE"
+        label="EDIT ASSET TYPE"
         onSubmit={onSubmit}
         onClose={onClose}
         noValidate={true}
@@ -121,6 +137,7 @@ export function EditForm({
             <Input
               type="checkbox"
               className="toggle toggle-sm"
+              checked={is_depreciable}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setIsDepreciable(!is_depreciable);
               }}
@@ -139,6 +156,12 @@ export function EditForm({
                 type="number"
                 placeholder="Useful life"
                 className="input input-bordered"
+                value={
+                  default_useful_life ? parseFloat(default_useful_life) : null
+                }
+                onChange={(e:any)=>{
+                  setDefaultUsefulLife(e.target.value)
+                }}
               />
             </div>
 
@@ -161,6 +184,10 @@ export function EditForm({
                   if (selected) {
                     setDepreciationMethod(selected.value);
                   }
+                }}
+                defaultValue={{
+                  value: depreciation_method,
+                  label: depreciation_method,
                 }}
               />
             </div>
