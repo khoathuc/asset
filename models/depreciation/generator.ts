@@ -2,6 +2,7 @@ import { assets, depreciations } from "@prisma/client";
 import { Asset } from "../asset/asset";
 import { Depreciation } from "./depreciation";
 import { getDateOfBeginOfMonth } from "@/lib/utils/datetime";
+import { differenceInMonths } from "date-fns";
 
 export class Generator {
   private depreciation?: depreciations;
@@ -12,14 +13,23 @@ export class Generator {
     return this;
   }
 
-
   private async generateRecord(asset: assets, year: number, period: number) {
     const period_start_date = getDateOfBeginOfMonth(year, period);
+    const asset_active_date = new Date(asset.active_date);
 
-    const salvage_price = asset.salvage_price;
-    const opening_book_price = await Asset.caculate(asset).openingBookPrice(period_start_date);
+    //return if asset not in this depreciation period
+    const diff_in_months = differenceInMonths(
+      period_start_date,
+      asset_active_date,
+    );
+    if (diff_in_months < 0) {
+      return;
+    }
+    const opening_book_price =
+      await Asset.caculate(asset).openingBookPrice(period_start_date);
+
+    console.log("opening_book_price",opening_book_price);
   }
-
 
   async generateRecords() {
     if (!this.depreciation) {

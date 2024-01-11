@@ -2,6 +2,8 @@ import { assets } from "@prisma/client";
 import { Asset } from "./asset";
 import { Type } from "../type/type";
 import {
+  differenceInCalendarMonths,
+  differenceInMonths,
   getDaysInMonth,
   isSameMinute,
   isSameMonth,
@@ -47,8 +49,7 @@ export class Caculate {
     if (asset_active_day != 1) {
       const days_of_month = getDaysInMonth(asset_active_date);
       return (
-        (monthly_expense * (days_of_month - asset_active_day)) /
-        days_of_month
+        (monthly_expense * (days_of_month - asset_active_day)) / days_of_month
       );
     } else {
       return monthly_expense;
@@ -64,18 +65,19 @@ export class Caculate {
     }
 
     const asset_active_date = new Date(this.asset.active_date);
+    const diff_in_months = differenceInMonths(date, asset_active_date);
+    const monthly_expense = this.monthlyExpense();
 
-    console.log(date.getMonth(), this.firstMonthExpense(), this.monthlyExpense());
-
-    if (
-      isSameMonth(asset_active_date, date) &&
-      isSameYear(asset_active_date, date)
-    ) {
+    if (diff_in_months < 0) {
+      return;
     }
 
-    const depreciation_conf = (await Type.loader().getDepreciationConf(
-      this.asset?.type_id,
-    )) as any;
-    const depreciation_method = depreciation_conf?.depreciation_method;
+    if (diff_in_months == 0) {
+      return this.asset.purchase_price;
+    }
+
+    return (
+      Number(this.asset.purchase_price) - this.firstMonthExpense() - monthly_expense * (diff_in_months - 1)
+    );
   }
 }
