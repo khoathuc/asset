@@ -8,6 +8,8 @@ export class Listener {
     this.depreciation = depreciation;
   }
 
+
+  //Not doing somuch this time
   async create(){
     const user = await getCurrentUser();
     if (!user) {
@@ -17,6 +19,5 @@ export class Listener {
       throw new Error("Invalid depreciation");
     }
 
-    
   }
 }

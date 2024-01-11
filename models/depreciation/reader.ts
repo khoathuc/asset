@@ -40,7 +40,7 @@ export class Reader {
     this.year = parsedYear;
   }
 
-  private readStartDate() {
+  private readEndDate() {
     const period_to = this.formData?.get("period_to")?.toString();
 
     if (!period_to) {
@@ -61,7 +61,7 @@ export class Reader {
     return start_date;
   }
 
-  private readEndDate() {
+  private readStartDate() {
     const period_from = this.formData?.get("period_from")?.toString();
 
     if (!period_from) {
@@ -97,10 +97,6 @@ export class Reader {
 
       if (!location.status) {
         throw new Error(`${location.name} is not active`);
-      }
-
-      if (location.auditing) {
-        throw new Error(`${location.name} is in another audit period`);
       }
     });
 

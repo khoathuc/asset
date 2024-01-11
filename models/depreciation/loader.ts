@@ -17,4 +17,13 @@ export class Loader {
       },
     });
   }
+
+  static async getById(id: number){
+    return await prisma.depreciations.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
 }

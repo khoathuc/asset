@@ -26,6 +26,5 @@ export const assetSchema = z.object({
   image: z.any(),
   file: z.any(),
   form: z.any(),
-  // purchase_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   purchase_price: priceSchema,
 });
