@@ -16,8 +16,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     return notFound();
   }
 
-  const depreciation_logs = await getDepreciationRecords(depreciation);
+  const depreciation_records = await getDepreciationRecords(depreciation);
 
+  console.log(depreciation_records)
   return (
     <PageBody compact scroll-y className="bg-base-200">
       <div className="absolute inset-0 flex px-10 pt-16 bg-base-200">

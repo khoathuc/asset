@@ -40,4 +40,6 @@ export async function runDepreciation(formData: FormData) {
 
 export async function getDepreciationRecords(depreciation: depreciations){
   const records = await Depreciation.run(depreciation).generateRecords();
+
+  return records;
 }

@@ -17,7 +17,29 @@ export class Caculate {
     this.asset = asset;
   }
 
-  private monthlyExpense() {
+  getPeriodExpense(date: Date) {
+    if (!this.asset) {
+      throw new Error("Invalid asset");
+    }
+    if (!this.asset.is_depreciable) {
+      throw new Error("Asset is not depreciable");
+    }
+
+    const asset_active_date = new Date(this.asset.active_date);
+    const diff_in_months = differenceInMonths(date, asset_active_date);
+
+    if (diff_in_months < 0) {
+      return;
+    }
+
+    if (diff_in_months == 0) {
+      return this.firstMonthExpense();
+    }
+
+    return this.monthlyExpense();
+  }
+
+  monthlyExpense() {
     if (!this.asset) {
       throw new Error("Invalid asset");
     }
@@ -35,7 +57,7 @@ export class Caculate {
     return (purchase_price - salvage_price) / useful_months;
   }
 
-  private firstMonthExpense() {
+  firstMonthExpense() {
     if (!this.asset) {
       throw new Error("Invalid asset");
     }
@@ -56,7 +78,7 @@ export class Caculate {
     }
   }
 
-  async openingBookPrice(date: Date) {
+  openingBookPrice(date: Date) {
     if (!this.asset) {
       throw new Error("Invalid asset");
     }
@@ -77,7 +99,9 @@ export class Caculate {
     }
 
     return (
-      Number(this.asset.purchase_price) - this.firstMonthExpense() - monthly_expense * (diff_in_months - 1)
+      Number(this.asset.purchase_price) -
+      this.firstMonthExpense() -
+      monthly_expense * (diff_in_months - 1)
     );
   }
 }

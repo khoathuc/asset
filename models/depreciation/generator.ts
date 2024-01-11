@@ -1,7 +1,7 @@
 import { assets, depreciations } from "@prisma/client";
 import { Asset } from "../asset/asset";
 import { Depreciation } from "./depreciation";
-import { getDateOfBeginOfMonth } from "@/lib/utils/datetime";
+import { getDateOfBeginOfMonth, getDateOfEndOfMonth } from "@/lib/utils/datetime";
 import { differenceInMonths } from "date-fns";
 
 export class Generator {
@@ -13,22 +13,29 @@ export class Generator {
     return this;
   }
 
-  private async generateRecord(asset: assets, year: number, period: number) {
-    const period_start_date = getDateOfBeginOfMonth(year, period);
+  private generateRecord(asset: assets, year: number, period: number) {
+    const period_end_date = getDateOfEndOfMonth(year, period);
     const asset_active_date = new Date(asset.active_date);
 
     //return if asset not in this depreciation period
     const diff_in_months = differenceInMonths(
-      period_start_date,
+      period_end_date,
       asset_active_date,
     );
     if (diff_in_months < 0) {
       return;
     }
-    const opening_book_price =
-      await Asset.caculate(asset).openingBookPrice(period_start_date);
 
-    console.log("opening_book_price",opening_book_price);
+    //caculate opening book price
+    const caculate_engine = Asset.caculate(asset);
+
+    const opening_book_price = caculate_engine.openingBookPrice(period_end_date);
+
+    const depreciation_expense = caculate_engine.getPeriodExpense(period_end_date);
+
+    const ending_book_price = Number(opening_book_price) - Number(depreciation_expense);
+
+    return {asset, year, period, opening_book_price, depreciation_expense, ending_book_price}
   }
 
   async generateRecords() {
@@ -42,15 +49,20 @@ export class Generator {
       throw new Error("Invalid depreciation(2)");
     }
 
+    var depreciation_records: any = [];
     const { start_period, end_period, year } = depreciation_period;
     for (let i = start_period; i <= end_period; ++i) {
-      depreciation_assets.forEach(async (depreciation_asset) => {
-        const depreciation_record = await this.generateRecord(
+      depreciation_assets.forEach((depreciation_asset) => {
+        const depreciation_record = this.generateRecord(
           depreciation_asset,
           year,
           i,
         );
+
+        depreciation_records.push(depreciation_record);
       });
     }
+
+    return depreciation_records;
   }
 }
