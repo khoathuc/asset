@@ -168,6 +168,17 @@ export class Reader {
     return purchase_price;
   }
 
+
+  private readDepreciation(){
+    const depreciation =this.formData?.get("depreciation")?.toString();
+    
+    if(!depreciation){
+      return ;
+    }
+    
+    return JSON.parse(depreciation);
+  }
+
   async read() {
     const name = this.readName();
 
@@ -203,6 +214,8 @@ export class Reader {
 
     const purchase_price = this.readPurchasePrice();
 
+    const depreciation = this.readDepreciation();
+
     return {
       name,
       description,
@@ -216,6 +229,7 @@ export class Reader {
       active_date,
       form,
       image,
+      depreciation,
       purchase_price,
     };
   }

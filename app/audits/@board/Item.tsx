@@ -30,7 +30,7 @@ export function AuditItem({ index, audit }: { index: number; audit: audits }) {
         </div>
       </td>
       <td>
-        <div className="">
+        <div className="w-80">
           <AuditAttrLocation audit={audit} />
         </div>
       </td>

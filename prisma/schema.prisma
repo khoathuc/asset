@@ -55,13 +55,17 @@ model assets {
   active_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   file           String?  @db.Text
   image          String?  @db.Text
-  purchase_date  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   purchase_price Decimal  @db.Decimal(8, 2)
-  stats          String?  @db.Text
-  token          String?  @db.VarChar(255)
-  data           String?  @db.Text
-  since          DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+
+  is_depreciable Boolean?
+  useful_life    Int?
+  salvage_price  Decimal? @db.Decimal(8, 2)
+
+  stats       String?  @db.Text
+  token       String?  @db.VarChar(255)
+  data        String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([location_id], map: "assets_location_id_index")
   @@index([meta_type], map: "assets_meta_type_index")
@@ -170,16 +174,15 @@ model audit_logs {
 }
 
 model depreciations {
-  id           Int      @id @default(autoincrement()) @db.UnsignedInt
-  name         String   @db.VarChar(255)
-  user_id      Int
-  location_ids String?  @db.Text
-  status       Boolean
-  start_date   DateTime @db.Timestamp(0)
-  end_date     DateTime @db.Timestamp(0)
-  description  String?  @db.Text
-  since        DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  name        String   @db.VarChar(255)
+  user_id     Int
+  locations   Json?
+  start_date  DateTime @db.Timestamp(0)
+  end_date    DateTime @db.Timestamp(0)
+  description String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model depreciation_logs {
@@ -235,7 +238,6 @@ model stock {
   type_id          Int
   is_inventory     Boolean
   form             Json?
-  purchase_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
   image            String?  @db.Text
@@ -265,17 +267,19 @@ model tags {
 }
 
 model types {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(256)
-  user_id     Int?
-  form        Json?
-  settings    String?  @db.Text
-  files       String?  @db.Text
-  prefix      String   @db.VarChar(32)
-  description String?  @db.Text
-  data        String?  @db.Text
-  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  id                Int      @id @default(autoincrement()) @db.UnsignedInt
+  name              String   @db.VarChar(256)
+  user_id           Int?
+  form              Json?
+  settings          String?  @db.Text
+  files             String?  @db.Text
+  prefix            String   @db.VarChar(32)
+  is_depreciable    Boolean?
+  depreciation_conf Json?
+  description       String?  @db.Text
+  data              String?  @db.Text
+  since             DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 enum UserRoles {

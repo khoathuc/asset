@@ -11,7 +11,7 @@ export default function AuditAssetCheckbox({
 }: {
   asset_log: audit_logs;
 }) {
-  const [checked, setChecked] = useState<Boolean>(false);
+  const [checked, setChecked] = useState<Boolean>(true);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export default function AuditAssetCheckbox({
       setChecked(false);
     }
   }, []);
+
   async function handleClick(e: React.ChangeEvent<HTMLInputElement>) {
     setChecked(!checked);
     

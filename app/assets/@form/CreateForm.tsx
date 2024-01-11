@@ -17,7 +17,8 @@ import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
 import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
 import { useData } from "@/context/data.context";
-import { assets } from "@prisma/client";
+import { assets, types } from "@prisma/client";
+import InfoIcon from "@/public/information_circle.svg"
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -28,6 +29,7 @@ export function CreateForm({
   onClose: () => void;
   callback?: (asset: assets) => void;
 }) {
+  const [depreciation, setDepreciation] = useState<any>(null);
   const [cform, setCform] = useState<cfieldValue[]>([]);
   const [showAdditional, setShowAdditional] = useState(false);
   const { contextData } = useData();
@@ -52,14 +54,22 @@ export function CreateForm({
   }, [cform]);
 
   const handleTypeChange = (type_id: number) => {
-    const type = types.find((asset_type: any) => asset_type.id == type_id);
+    const type: types = types.find(
+      (asset_type: types) => asset_type.id == type_id,
+    );
+
     setCform(type.form as cfieldValue[]);
+
+    setDepreciation(type.depreciation_conf);
   };
 
   const onSubmit = async (data: AssetFormData) => {
     setIsLoading(true);
-
     var formData = new FormData();
+
+    if(depreciation){
+      formData.append("depreciation", JSON.stringify(depreciation))
+    }
 
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
@@ -156,7 +166,7 @@ export function CreateForm({
         <div className="flex justify-between">
           <div className="form-control flex w-[45%] flex-col">
             <label className="pb-1 text-sm font-bold text-current">
-              Purchase price
+              Purchase price *
             </label>
             <label className="input-group">
               <Input
@@ -165,7 +175,7 @@ export function CreateForm({
                 className="input input-bordered h-[38px] w-full rounded"
                 {...register("purchase_price")}
               />
-              <span>VND</span>
+              <span>USD</span>
             </label>
             <p className="error">
               {errors.purchase_price?.message?.toString()}
@@ -196,6 +206,51 @@ export function CreateForm({
           />
           <p className="error">{errors.type_id?.message?.toString()}</p>
         </div>
+
+        {depreciation && (
+          <>
+            <div className="flex justify-between">
+              <div className="form-control flex w-[45%] flex-col">
+                <label className="pb-1 text-sm font-bold text-current flex items-center gap-2">
+                  Salvage value *
+                  <span className="tooltip link" data-tip="Asset price when being disposed">
+                    <InfoIcon className="h-4 w-4" />
+                  </span>
+                </label>
+                <label className="input-group">
+                  <Input
+                    type="number"
+                    placeholder="Salvage value"
+                    className="input input-bordered h-[38px] w-full rounded"
+                    onChange={(e:any)=>{
+                      setDepreciation({...depreciation, salvage_value: e.target.value})
+                    }}
+                  />
+                  <span>USD</span>
+                </label>
+              </div>
+              <div className="form-control flex w-[45%] flex-col">
+                <label className="pb-1 text-sm font-bold text-current flex items-center gap-2">
+                  Useful life *
+                  <span className="tooltip link" data-tip="Useful life of this asset">
+                    <InfoIcon className="h-4 w-4" />
+                  </span>
+                </label>
+                <label className="input-group">
+                  <Input
+                    type="number"
+                    placeholder="Useful life"
+                    className="input input-bordered h-[38px] w-full rounded"
+                    onChange={(e:any)=>{
+                      setDepreciation({...depreciation, useful_life: e.target.value})
+                    }}
+                  />
+                  <span>Years</span>
+                </label>
+              </div>
+            </div>
+          </>
+        )}
 
         {cform && (
           <CFormInput

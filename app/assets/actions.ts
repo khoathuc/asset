@@ -50,6 +50,9 @@ export async function addAsset(formData: FormData) {
       active_date: data.active_date,
       image: data.image,
       form: data.form,
+      is_depreciable: data.depreciation?true: false,
+      useful_life: data.depreciation?parseInt(data.depreciation.useful_life):null,
+      salvage_price: data.depreciation?data.depreciation.salvage_value:null,
       purchase_price: data.purchase_price,
     },
   });

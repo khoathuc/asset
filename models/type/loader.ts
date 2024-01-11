@@ -32,4 +32,19 @@ export class Loader {
       },
     });
   }
+
+
+  static async getDepreciationConf(id: number){
+    const type = await this.getById(id);
+
+    if(!type){
+      throw new Error("Invalid type");
+    }
+
+    if(!type.is_depreciable){
+      throw new Error("This type is not depreciable");
+    }
+
+    return type.depreciation_conf;
+  }
 }

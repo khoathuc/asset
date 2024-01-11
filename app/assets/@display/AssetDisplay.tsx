@@ -55,7 +55,7 @@ export default async function AssetDisplay({ asset }: AssetDisplayProps) {
             );
           })}
         <ListRow label="Purchase Date">
-          <Date date={asset.purchase_date} />
+          <Date date={asset.active_date} />
         </ListRow>
         <ListRow label="Purchase Cost">
           <AcquisitionCost asset={asset} />
