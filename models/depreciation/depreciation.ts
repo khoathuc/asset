@@ -1,3 +1,5 @@
+import { depreciations } from "@prisma/client";
+import { Listener } from "./listener";
 import {Loader} from "./loader";
 import {Reader} from "./reader";
 
@@ -17,5 +19,9 @@ export class Depreciation{
      */
     public static reader(formData: FormData){
         return new Reader(formData);
+    }
+
+    public static on(depreciation: depreciations){
+        return new Listener(depreciation);
     }
 }

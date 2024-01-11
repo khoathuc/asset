@@ -163,12 +163,12 @@ export default function MasterMenu() {
         {isAdmin && (
           <li>
             <Link
-              href={"/depreciation"}
-              className={currentRoute === "/depreciation" ? "active" : ""}
+              href={"/depreciations"}
+              className={currentRoute === "/depreciations" ? "active" : ""}
             >
               <Depreciation
                 className={`${
-                  currentRoute === "/depreciation"
+                  currentRoute === "/depreciations"
                     ? styles.active_menu_svg
                     : "stroke-current"
                 } h-5 w-5`}
