@@ -68,6 +68,17 @@ export function InputSelectTags({ value, onChange }: SelectTagsProps) {
   const tags = getAllTags();
 
   return (
-    <Select isMulti name="tag_ids" options={tags} className="basic-multi-select" styles={colourStyles}/>
+    <Select
+      isMulti
+      name="tag_ids"
+      options={tags}
+      defaultValue={
+        value
+          ? tags.find((tag) => tag.value == value)
+          : null
+      }
+      className="basic-multi-select"
+      styles={colourStyles}
+    />
   );
 }
