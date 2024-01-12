@@ -33,6 +33,10 @@ export async function getAllAssets(query: string | null = null){
   })
 }
 
+export async function getMyAssets(){
+  return await Asset.loader().getUserAsset();
+}
+
 export async function addAsset(formData: FormData) {
   const data = await Asset.reader(formData).read();
 

@@ -34,7 +34,6 @@ export default async function Layout({
           compact
           className="asset-display-header text-sm font-medium"
         >
-          <AssetNav params={params} />
         </PageHeader>
         {children}
       </div>

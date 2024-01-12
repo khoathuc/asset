@@ -114,7 +114,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
           </label>
           <Input
             type="text"
-            placeholder="Asset name"
+            placeholder="Request name"
             className="input input-bordered"
             {...register("name")}
           />

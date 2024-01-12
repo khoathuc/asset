@@ -1,3 +1,4 @@
+'use server'
 import { getCurrentUser } from "@/lib/session";
 import { User } from "@/models/user/user";
 import { requests } from "@prisma/client";

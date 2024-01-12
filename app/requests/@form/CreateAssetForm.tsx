@@ -183,7 +183,7 @@ export function CreateAssetForm({
                 className="input input-bordered h-[38px] w-full rounded"
                 {...register("purchase_price")}
               />
-              <span>VND</span>
+              <span>USD</span>
             </label>
             <p className="error">
               {errors.purchase_price?.message?.toString()}
