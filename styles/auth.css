@@ -1,0 +1,13 @@
+.asset-auth-page{
+
+}
+
+
+.master-page:has(.asset-auth-page){
+    & > aside{
+        display: none;
+    }
+    & > main{
+        left: 0px;
+    }
+}

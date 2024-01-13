@@ -1,0 +1,8 @@
+.form-control {
+  .error {
+    color: red;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.75rem /* 12px */;
+    line-height: 1rem /* 16px */;
+  }
+}

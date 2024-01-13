@@ -1,0 +1,6 @@
+.page-header{
+    &.compact{
+        height: 3rem;
+    }
+}
+

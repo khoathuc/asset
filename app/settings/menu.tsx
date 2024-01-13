@@ -6,10 +6,9 @@ import Type from "@/public/type.svg";
 import Tag from "@/public/tag.svg";
 import Status from "@/public/status.svg";
 import Caction from "@/public/caction.svg";
-import PrintTemplate from "@/public/printTemplate.svg";
 import RequestPurpose from "@/public/requestPurpose.svg";
 import { usePathname } from "next/navigation";
-import styles from '../../styles/layout.module.scss'
+import styles from '@/styles/layout.module.scss'
 
 export default function SettingMenu({ className }: { className: string }) {
   const currentRoute = usePathname();
@@ -42,11 +41,8 @@ export default function SettingMenu({ className }: { className: string }) {
           <Link href={"/settings/actions"} className={currentRoute === '/settings/actions' ? 'active' : ''}>
             <Caction className={`${currentRoute === '/settings/actions' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Custom Actions
           </Link>
-          <Link href={"/settings/print"} className={currentRoute === '/settings/print' ? 'active' : ''}>
-            <PrintTemplate className={`${currentRoute === '/settings/print' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Print Template
-          </Link>
-          <Link href={"/settings/req_purpose"} className={currentRoute === '/settings/req_purpose' ? 'active' : ''}>
-            <RequestPurpose className={`${currentRoute === '/settings/req_purpose' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Request Purposes
+          <Link href={"/settings/request_types"} className={currentRoute === '/settings/request_types' ? 'active' : ''}>
+            <RequestPurpose className={`${currentRoute === '/settings/request_types' ? styles.active_menu_svg : 'stroke-current' } h-5 w-5`} /> Request Types
           </Link>
         </li>
       </ul>

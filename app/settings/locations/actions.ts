@@ -1,40 +1,26 @@
 "use server";
-
-import { uploadFile } from "../../base/file";
 import prisma from "@/lib/db/prisma";
 import { locations } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+import { Location } from "@/models/location/location";
+
+export async function getAllLocations(query: string | null = null) {
+  return await Location.loader().getAllLocations();
+}
+
 export async function addLocation(formData: FormData) {
-  const name = formData.get("name")?.toString();
-  const description = formData.get("description")?.toString();
-  const address = formData.get("address")?.toString();
-
-  const file: File | null = formData.get("file") as unknown as File;
-  var file_path;
-  if (file) {
-    file_path = await uploadFile(file);
-  }
-
-  if (!name) {
-    throw Error("Name is required");
-  }
+  const data = await Location.reader().read(formData);
 
   await prisma.locations.create({
-    data: {
-      name,
-      description,
-      address,
-      image: file_path,
-      status: true,
-    },
+    data: { ...data, status: true, auditing: false },
   });
 
   revalidatePath("/settings/locations");
 }
 
-export async function changeStatus(checked:boolean, location:locations) {
-  if(!location){
+export async function changeStatus(checked: boolean, location: locations) {
+  if (!location) {
     throw Error("Location is required");
   }
 
@@ -42,36 +28,25 @@ export async function changeStatus(checked:boolean, location:locations) {
     where: {
       id: location.id,
     },
-    data:{
-      status: checked
-    }
-  })
+    data: {
+      status: checked,
+    },
+  });
 }
 
-export async function editLocation(formData: FormData){
+export async function editLocation(formData: FormData) {
   const id = parseInt(formData.get("id")?.toString() ?? "");
-  const name = formData.get("name")?.toString();
-  const description = formData.get("description")?.toString();
-  const address = formData.get("address")?.toString();
-
-  const file: File | null = formData.get("file") as unknown as File;
-  var file_path;
-  if (file) {
-    file_path = await uploadFile(file);
+  const location = await Location.loader().getById(id);
+  if (!location) {
+    throw new Error("Invalid location");
   }
 
-  if (!name || !id) {
-    throw Error("Name is required");
-  }
+  const data = await Location.reader().read(formData);
 
   await prisma.locations.update({
-    where: {
-      id: id
-    },
-    data:{
-      name:name,
-      description,
-      address
-    }
-  })
+    where: { id },
+    data: data,
+  });
+
+  revalidatePath("/settings/locations");
 }
