@@ -5,6 +5,8 @@ import User from "@/public/user.svg";
 import Email from "@/public/at_symbol.svg";
 import Phone from "@/public/phone.svg";
 import qr_temp from "@/assets/qr_code.png";
+import QRCode from 'qrcode.react';
+import { usePathname,useRouter } from "next/navigation";
 
 type AssetSidebarProps = {
   asset: assets;
@@ -61,11 +63,8 @@ function AssetSidebarUser() {
   );
 }
 
-function AssetSidebarQr() {
-  return <Image className='self-end' src={qr_temp} width={150} height={150} alt={""}></Image>;
-}
-
 export default function AssetSidebar({ asset }: AssetSidebarProps) {
+  const pathname = usePathname()
   return (
     <div className="flex flex-col items-center justify-start">
       {asset.image && (
@@ -81,7 +80,7 @@ export default function AssetSidebar({ asset }: AssetSidebarProps) {
       </div>
       <div className="flex flex-col w-full text-xs">
         <AssetSidebarUser />
-        <AssetSidebarQr />
+        <QRCode value={`${pathname}`} className="self-end"/>;
       </div>
     </div>
   );

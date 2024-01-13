@@ -21,7 +21,6 @@ type RequestDisplayProps = {
 
 export default function RequestDisplay({ request }: RequestDisplayProps) {
   const [is_approved, setIsApprove] = useState(request.status == 'approved' ? true : false);
-
   return (
     <DisplaySection label="Detail" className="relative px-6 py-4">
       <div className="grid grid-cols-2 gap-2 border-b-2 py-4">

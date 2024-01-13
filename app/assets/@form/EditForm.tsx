@@ -12,29 +12,33 @@ import { InputSelectAssetType } from "@/app/settings/types/@input/InputSelectAss
 import { InputSelectVendor } from "@/app/settings/vendors/@input/InputSelectVendor";
 import { toast } from "react-toastify";
 import { cfieldValue, CFormInput } from "@/components/ui/cform/CFormInput";
+import { addAsset, editAsset } from "../actions";
 import { Textarea } from "@/components/ui/form/textarea";
 import Plus from "@/public/plus.svg";
 import { InputSelectTags } from "@/app/settings/tags/@input/InputSelectTag";
 import { useData } from "@/context/data.context";
-import { requests } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { assets, types } from "@prisma/client";
+import InfoIcon from "@/public/information_circle.svg";
+import Image from "next/image";
+
+import { id } from "date-fns/locale";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
-export function CreateAssetForm({
+export function EditForm({
+  asset,
   onClose,
-  request,
 }: {
+  asset: assets;
   onClose: () => void;
-  request: requests;
 }) {
-  const [cform, setCform] = useState<cfieldValue[]>([]);
+  const [depreciation, setDepreciation] = useState<any>(null);
+  const [cform, setCform] = useState<cfieldValue[]>(
+    asset.form as cfieldValue[],
+  );
   const [showAdditional, setShowAdditional] = useState(false);
   const { contextData } = useData();
   const { types } = contextData;
-
-  const router = useRouter();
 
   const methods = useForm<AssetFormData>({
     resolver: zodResolver(assetSchema),
@@ -54,16 +58,46 @@ export function CreateAssetForm({
     setValue("form", cform);
   }, [cform]);
 
+  useEffect(() => {
+    setValue("location_id", asset.location_id.toString());
+    setValue("vendor_id", asset.vendor_id.toString());
+    setValue("type_id", asset.type_id.toString());
+    const type: types = types.find(
+      (asset_type: types) => asset_type.id == asset.type_id,
+    );
+
+    setDepreciation(type.depreciation_conf);
+    if (asset.is_depreciable) {
+      var asset_depreciation: any = type.depreciation_conf;
+      if (asset.salvage_price) {
+        asset_depreciation = {
+          ...asset_depreciation,
+          salvage_value: asset.salvage_price,
+          useful_life: asset.useful_life,
+        };
+      }
+
+      setDepreciation(asset_depreciation);
+    }
+  }, []);
+
   const handleTypeChange = (type_id: number) => {
-    const type = types.find((asset_type: any) => asset_type.id == type_id);
+    const type: types = types.find(
+      (asset_type: types) => asset_type.id == type_id,
+    );
+
     setCform(type.form as cfieldValue[]);
+    setDepreciation(type.depreciation_conf);
   };
 
   const onSubmit = async (data: AssetFormData) => {
     setIsLoading(true);
-
     var formData = new FormData();
-    formData.append("request_id", request?.id.toString());
+
+    formData.append("id", asset.id.toString());
+    if (depreciation) {
+      formData.append("depreciation", JSON.stringify(depreciation));
+    }
 
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
@@ -87,20 +121,7 @@ export function CreateAssetForm({
     }
 
     try {
-      const response = await axios.post(
-        `/api/requests/${request.id}/create_asset`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-
-      if (response.data.success == false) {
-        throw new Error(response.data.message);
-      }
-
+      await editAsset(formData);
       toast.success("Added asset successfully");
     } catch (error) {
       if (error instanceof Error) {
@@ -108,43 +129,58 @@ export function CreateAssetForm({
       }
     }
 
-    router.refresh();
     setIsLoading(false);
   };
 
   return (
     <FormProvider {...methods}>
       <ModalForm
-        label="CREATE NEW ASSET"
+        label="EDIT ASSET"
         onSubmit={onSubmit}
         onClose={onClose}
         noValidate={true}
       >
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">
-            Asset Name *
-          </label>
-          <Input
-            type="text"
-            placeholder="Asset name"
-            className="input input-bordered"
-            {...register("name")}
-          />
-          <p className="error">{errors.name?.message?.toString()}</p>
-        </div>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col gap-2">
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Asset Name *
+              </label>
+              <Input
+                type="text"
+                placeholder="Asset name"
+                value={asset.name}
+                className="input input-bordered"
+                {...register("name")}
+              />
+              <p className="error">{errors.name?.message?.toString()}</p>
+            </div>
 
-        <div className="form-control flex flex-col">
-          <label className="pb-1 text-sm font-bold text-current">Code</label>
-          <Input
-            type="text"
-            placeholder="Leave blank for auto generate"
-            className="input input-bordered"
-            {...register("code")}
-          />
-          <p className="error">{errors.code?.message?.toString()}</p>
-          <p className="text-xs text-zinc-700">
-            * Custom Code Prefix for Assets and Accessories
-          </p>
+            <div className="form-control flex flex-col">
+              <label className="pb-1 text-sm font-bold text-current">
+                Code
+              </label>
+              <Input
+                type="text"
+                placeholder="Leave blank for auto generate"
+                className="input input-bordered"
+                value={asset.code}
+                {...register("code")}
+              />
+              <p className="error">{errors.code?.message?.toString()}</p>
+              <p className="text-xs text-zinc-700">
+                * Custom Code Prefix for Assets and Accessories
+              </p>
+            </div>
+          </div>
+          {asset.image && (
+            <Image
+              src={asset.image.toString()}
+              alt={asset.name?.toString()}
+              width={150}
+              height={150}
+            />
+          )}
         </div>
 
         <div className="flex justify-between">
@@ -153,6 +189,7 @@ export function CreateAssetForm({
               Location *
             </label>
             <InputSelectLocation
+              defaultValue={asset.location_id}
               onChange={(value: number) => {
                 setValue("location_id", value.toString());
               }}
@@ -164,6 +201,7 @@ export function CreateAssetForm({
               Vendor
             </label>
             <InputSelectVendor
+              value={asset.vendor_id}
               onChange={(value: number) => {
                 setValue("vendor_id", value.toString());
               }}
@@ -174,11 +212,12 @@ export function CreateAssetForm({
         <div className="flex justify-between">
           <div className="form-control flex w-[45%] flex-col">
             <label className="pb-1 text-sm font-bold text-current">
-              Purchase price
+              Purchase price *
             </label>
             <label className="input-group">
               <Input
                 type="number"
+                value={asset.purchase_price}
                 placeholder="Purchase price"
                 className="input input-bordered h-[38px] w-full rounded"
                 {...register("purchase_price")}
@@ -198,7 +237,10 @@ export function CreateAssetForm({
               type="date"
               className="input input-bordered h-[38px]"
               {...register("active_date")}
-              defaultValue={new Date().toISOString().split("T")[0]}
+              defaultValue={
+                asset.active_date.toISOString().split("T")[0] ||
+                new Date().toISOString().split("T")[0]
+              }
             />
             <p className="error">{errors.active_date?.message?.toString()}</p>
           </div>
@@ -207,6 +249,7 @@ export function CreateAssetForm({
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">Type *</label>
           <InputSelectAssetType
+            value={asset.type_id}
             onChange={(value: number) => {
               setValue("type_id", value.toString());
               handleTypeChange(value);
@@ -214,6 +257,65 @@ export function CreateAssetForm({
           />
           <p className="error">{errors.type_id?.message?.toString()}</p>
         </div>
+
+        {depreciation && (
+          <>
+            <div className="flex justify-between">
+              <div className="form-control flex w-[45%] flex-col">
+                <label className="flex items-center gap-2 pb-1 text-sm font-bold text-current">
+                  Salvage value *
+                  <span
+                    className="link tooltip"
+                    data-tip="Asset price when being disposed"
+                  >
+                    <InfoIcon className="h-4 w-4" />
+                  </span>
+                </label>
+                <label className="input-group">
+                  <Input
+                    type="number"
+                    placeholder="Salvage value"
+                    className="input input-bordered h-[38px] w-full rounded"
+                    value={depreciation.salvage_value}
+                    onChange={(e: any) => {
+                      setDepreciation({
+                        ...depreciation,
+                        salvage_value: e.target.value,
+                      });
+                    }}
+                  />
+                  <span>USD</span>
+                </label>
+              </div>
+              <div className="form-control flex w-[45%] flex-col">
+                <label className="flex items-center gap-2 pb-1 text-sm font-bold text-current">
+                  Useful life *
+                  <span
+                    className="link tooltip"
+                    data-tip="Useful life of this asset"
+                  >
+                    <InfoIcon className="h-4 w-4" />
+                  </span>
+                </label>
+                <label className="input-group">
+                  <Input
+                    type="number"
+                    placeholder="Useful life"
+                    className="input input-bordered h-[38px] w-full rounded"
+                    value={depreciation.useful_life}
+                    onChange={(e: any) => {
+                      setDepreciation({
+                        ...depreciation,
+                        useful_life: e.target.value,
+                      });
+                    }}
+                  />
+                  <span>Years</span>
+                </label>
+              </div>
+            </div>
+          </>
+        )}
 
         {cform && (
           <CFormInput
@@ -245,7 +347,7 @@ export function CreateAssetForm({
               <label className="pb-1 text-sm font-bold text-current">
                 Tags
               </label>
-              <InputSelectTags />
+              <InputSelectTags value={asset.tag_ids} />
             </div>
 
             <div className="form-control flex flex-col">
@@ -255,6 +357,7 @@ export function CreateAssetForm({
               <Textarea
                 className="textarea textarea-bordered"
                 placeholder="Description"
+                value={asset.description}
                 {...register("description")}
               />
             </div>
@@ -265,6 +368,7 @@ export function CreateAssetForm({
               </label>
               <Input
                 type="text"
+                value={asset.serial_number}
                 placeholder="Asset Serial Number"
                 className="input input-bordered"
                 {...register("serial_number")}

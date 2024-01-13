@@ -1,5 +1,7 @@
 import prisma from "@/lib/db/prisma";
 import { AssetLog } from "./asset_log/asset_log";
+import { users } from "@prisma/client";
+import { getCurrentUser } from "@/lib/session";
 
 export class Loader {
   static async paginate(query: string | null = null) {
@@ -17,6 +19,19 @@ export class Loader {
         },
       },
     });
+  }
+
+  static async getUserAsset(user: users|null = null){
+    if(!user){
+      user = await getCurrentUser();
+    }
+
+    return await prisma.assets.findMany({
+      orderBy: {id: "desc"},
+      where: {
+        assignee_id: user?.id
+      }
+    })
   }
 
   static async getById(id: number) {

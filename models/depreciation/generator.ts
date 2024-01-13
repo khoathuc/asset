@@ -1,8 +1,22 @@
 import { assets, depreciations } from "@prisma/client";
 import { Asset } from "../asset/asset";
 import { Depreciation } from "./depreciation";
-import { getDateOfBeginOfMonth, getDateOfEndOfMonth } from "@/lib/utils/datetime";
+import {
+  getDateOfBeginOfMonth,
+  getDateOfEndOfMonth,
+} from "@/lib/utils/datetime";
 import { differenceInMonths } from "date-fns";
+import { STRAIGHT_LINE_METHOD } from "@/app/depreciations/depreciations";
+
+export type DeprecationRecordType = {
+  asset: assets;
+  year: number;
+  period: number;
+  depreciation_method: string;
+  opening_book_price: number;
+  depreciation_expense: number;
+  ending_book_price: number;
+};
 
 export class Generator {
   private depreciation?: depreciations;
@@ -29,15 +43,32 @@ export class Generator {
     //caculate opening book price
     const caculate_engine = Asset.caculate(asset);
 
-    const opening_book_price = caculate_engine.openingBookPrice(period_end_date);
+    const opening_book_price =
+      caculate_engine.openingBookPrice(period_end_date);
+    
+    if(!opening_book_price){
+      return ;
+    }
 
-    const depreciation_expense = caculate_engine.getPeriodExpense(period_end_date);
+    const depreciation_expense =
+      caculate_engine.getPeriodExpense(period_end_date);
 
-    const ending_book_price = Number(opening_book_price) - Number(depreciation_expense);
+    const ending_book_price =
+      Number(opening_book_price) - Number(depreciation_expense);
 
-    return {asset, year, period, opening_book_price, depreciation_expense, ending_book_price}
+    return {
+      asset,
+      year,
+      period,
+      depreciation_method: STRAIGHT_LINE_METHOD,
+      opening_book_price: Number(opening_book_price),
+      depreciation_expense: Number(depreciation_expense),
+      ending_book_price,
+    };
   }
 
+
+  
   async generateRecords() {
     if (!this.depreciation) {
       throw new Error("Invalid depreciation");
@@ -49,7 +80,7 @@ export class Generator {
       throw new Error("Invalid depreciation(2)");
     }
 
-    var depreciation_records: any = [];
+    var depreciation_records: DeprecationRecordType[] = [];
     const { start_period, end_period, year } = depreciation_period;
     for (let i = start_period; i <= end_period; ++i) {
       depreciation_assets.forEach((depreciation_asset) => {
@@ -59,7 +90,9 @@ export class Generator {
           i,
         );
 
-        depreciation_records.push(depreciation_record);
+        if (depreciation_record) {
+          depreciation_records.push(depreciation_record);
+        }
       });
     }
 

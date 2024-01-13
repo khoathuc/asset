@@ -39,6 +39,36 @@ export class Listener {
     });
   }
 
+  async edit(){
+    const user = await getCurrentUser();
+    if (!user) {
+      throw new Error("Invalid asset creator");
+    }
+    if (!this.asset) {
+      throw new Error("Invalid asset");
+    }
+
+    return await prisma.asset_logs.create({
+      data: {
+        name: "Edit",
+        user_id: Number(user?.id),
+        metatype: "edit",
+        object_id: this.asset.id,
+        object_export: {
+          name: this.asset.name,
+          id: this.asset.id,
+          code: this.asset.code,
+        },
+        object_type: "asset",
+        action_cost: this.asset.purchase_price,
+        action_date: this.asset.since,
+        changes: {},
+        description: `${user.username} has edited this request`,
+        file: this.asset.file,
+      },
+    });
+  }
+
   async action(action_data: any) {
     const user = await getCurrentUser();
     if (!user) {

@@ -87,7 +87,7 @@ export function CreateForm({ onClose }: { onClose: () => void }) {
       >
         <div className="form-control flex flex-col">
           <label className="pb-1 text-sm font-bold text-current">
-            Asset Name *
+            Action Name *
           </label>
           <Input
             type="text"
