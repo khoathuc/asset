@@ -7,7 +7,7 @@ import Image from "next/image";
 export function UserAvaGroup({ user_ids }: { user_ids: any }) {
   const { contextData } = useData();
   const { users } = contextData;
-  
+
   if (!users) {
     return;
   }
@@ -30,13 +30,16 @@ export function UserAvaGroup({ user_ids }: { user_ids: any }) {
     }
 
     return (
-      <div className="avatar tooltip hover:cursor-pointer" data-tip={user.username}>
-        {avatar}
+      <div
+        className="avatar tooltip hover:cursor-pointer"
+        data-tip={user.username}
+      >
+        <div className=" h-6 w-6">{avatar}</div>
       </div>
     );
   });
 
   return (
-    <div className="avatar-group -space-x-6 rtl:space-x-reverse">{html}</div>
+    <div className="avatar-group -space-x-5 rtl:space-x-reverse">{html}</div>
   );
 }
