@@ -1,5 +1,4 @@
 import "@/styles/depreciation.css";
-import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import {getAllDepreciations, getDepreciationById } from "../actions";
 
@@ -25,13 +24,6 @@ export default async function Layout({
 
   return (
     <div className="depreciation-display-page absolute inset-0">
-      <PageHeader
-        backUrl="/depreciations"
-        label={`View depreciation ${depreciation?.name}`}
-        compact
-        className="depreciation-display-header text-sm font-medium"
-      >
-      </PageHeader>
       {children}
     </div>
   );

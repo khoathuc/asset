@@ -14,6 +14,7 @@ import Side from "@/components/layout/Side";
 import More from "@/public/more.svg";
 import AssetActions from "../assetaction/AssetActions";
 import { getCurrentUser } from "@/lib/session";
+import { LifeCycleCost } from "../@attrs/LifeCycleCost";
 
 type AssetDisplayProps = {
   asset: assets;
@@ -59,6 +60,9 @@ export default async function AssetDisplay({ asset }: AssetDisplayProps) {
           })}
         <ListRow label="Purchase Date">
           <Date date={asset.active_date} />
+        </ListRow>
+        <ListRow label="Life Cycle Cost">
+          <LifeCycleCost asset={asset} />
         </ListRow>
         <ListRow label="Purchase Cost">
           <AcquisitionCost asset={asset} />
