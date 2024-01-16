@@ -56,6 +56,7 @@ model assets {
   file           String?  @db.Text
   image          String?  @db.Text
   purchase_price Decimal  @db.Decimal(8, 2)
+  life_cost      Decimal?  @db.Decimal(8, 2)
 
   is_depreciable Boolean?
   useful_life    Int?

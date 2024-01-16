@@ -60,6 +60,7 @@ export async function addAsset(formData: FormData) {
         : null,
       salvage_price: data.depreciation ? data.depreciation.salvage_value : null,
       purchase_price: data.purchase_price,
+      life_cost: data.purchase_price,
     },
   });
 
