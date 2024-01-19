@@ -33,6 +33,25 @@ export async function getAllAssets(query: string | null = null) {
   });
 }
 
+
+export async function getAllAssetInYear(year: number | null = null){
+  if(!year){
+    year = new Date().getFullYear();
+  }
+
+  const first_date_of_year = new Date(year, 0, 1);
+  const last_date_of_year = new Date(year + 1, 0, 0);
+
+  return await prisma.assets.findMany({
+    where: {
+      since: {
+        gte: first_date_of_year, 
+        lte: last_date_of_year, 
+      },
+    },
+  });
+}
+
 export async function getMyAssets() {
   return await Asset.loader().getUserAsset();
 }

@@ -3,6 +3,7 @@ import { Loader } from "./loader";
 import { Reader } from "./reader";
 import { Checkout } from "./checkout";
 import { Listener } from "./listener";
+import { Stat } from "./stat";
 
 export class Request{
     public static loader(){
@@ -25,5 +26,10 @@ export class Request{
 
     public static on(request: requests){
         return new Listener(request);
+    }
+
+
+    public static stat(){
+        return new Stat();
     }
 }

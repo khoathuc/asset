@@ -3,6 +3,7 @@ import Link from "next/link";
 import Setting from "@/public/setting.svg";
 import Home from "@/public/home.svg";
 import Asset from "@/public/asset.svg";
+import Dashboard from "@/public/code-scan-svgrepo-com.svg";
 import Accessories from "@/public/accessories.svg";
 import Licenses from "@/public/licenses.svg";
 import Request from "@/public/request.svg";
@@ -27,6 +28,23 @@ export default function MasterMenu() {
         <UserNav />
       </ul>
       <ul className="menu w-56">
+        {isAdmin && (
+          <li>
+            <Link
+              href={"/dashboard"}
+              className={currentRoute.includes("/dashboard") ? "active" : ""}
+            >
+              <Dashboard
+                className={`${
+                  currentRoute.includes("/dashboard")
+                    ? styles.active_menu_svg
+                    : "stroke-current"
+                } h-5 w-5`}
+              />{" "}
+              Dashboard
+            </Link>
+          </li>
+        )}
         <li>
           <Link href={"/"} className={currentRoute === "/" ? "active" : ""}>
             <Home
@@ -58,7 +76,7 @@ export default function MasterMenu() {
 
       {isAdmin && (
         <ul className="menu  w-56">
-          <li className='menu-title'> USERS</li>
+          <li className="menu-title"> USERS</li>
           <li>
             <Link
               href={"/users"}

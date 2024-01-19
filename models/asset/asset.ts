@@ -3,6 +3,7 @@ import { Loader } from "./loader";
 import { Reader } from "./reader";
 import { Listener } from "./listener";
 import { Caculate } from "./caculate";
+import { Stat } from "./stat";
 
 export class Asset{
     public static loader(){
@@ -24,5 +25,9 @@ export class Asset{
   
     public static caculate(asset: assets){
         return new Caculate(asset);
+    }
+
+    public static stat(){
+        return new Stat();
     }
 }
