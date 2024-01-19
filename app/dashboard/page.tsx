@@ -14,7 +14,7 @@ export default async function Page() {
     <>
       <PageHeader
         label="Dashboard"
-        subLabel="Acquire, operate, maintain, and dispose of assets"
+        subLabel="Asset management dashboard"
       ></PageHeader>
       <PageBody>
         <div className="flex h-full w-full flex-1 justify-center overflow-auto px-12">

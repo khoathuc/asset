@@ -49,7 +49,7 @@ export class Audit {
     var audited_logs = [];
     audit_asset_logs.forEach((audit_asset_log)=>{
         const asset_export = audit_asset_log.object_export;
-        if(asset_export){
+        if(asset_export && audit_asset_log.is_correct !== null){
             audited_logs.push({ id: asset_export.id, name: asset_export.name });
         }
     })

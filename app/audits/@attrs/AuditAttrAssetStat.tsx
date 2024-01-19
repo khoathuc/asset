@@ -7,8 +7,7 @@ export default function AuditAttrAssetStat({audit}:{audit: audits}){
 
     const assets = audit.data.stat?.assets;
     const auditeds = audit.data.stat?.auditeds;
-    console.log(assets.length, auditeds.length);
-
+    
     return <>
         <div className="flex flex-col gap-2">
             <div>
