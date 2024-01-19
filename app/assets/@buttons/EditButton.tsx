@@ -5,13 +5,12 @@ import { Modal } from "@/components/layout/Modal";
 import Edit from "@/public/edit.svg";
 import { EditForm } from "../@form/EditForm";
 
-export default function EditButton({ asset }: { asset: assets }) {
+export default function EditButton({ asset, className}: { asset: assets, className?:string }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>
-        <Edit className="-4 h-4" />
+      <button className={className} onClick={() => setShowModal(true)}>
         Edit Asset
       </button>
       {showModal &&

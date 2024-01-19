@@ -5,13 +5,19 @@ import { Modal } from "@/components/layout/Modal";
 import Edit from "@/public/edit.svg";
 import { EditForm } from "../@form/EditForm";
 
-export default function DuplicateButton({ asset, className}: { asset: assets, className?:string }) {
+export default function CheckinButton({
+  asset,
+  className,
+}: {
+  asset: assets;
+  className?: string;
+}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <button className={className} onClick={() => setShowModal(true)}>
-        Duplicate asset
+        Checkin Asset
       </button>
       {showModal &&
         Modal.initModal(
