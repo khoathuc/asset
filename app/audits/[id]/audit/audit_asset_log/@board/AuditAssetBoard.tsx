@@ -1,7 +1,3 @@
-import { Assignee } from "@/app/assets/@attrs/Assignee";
-import { Status } from "@/app/assets/@attrs/Status";
-import { Type } from "@/app/assets/@attrs/Type";
-import DisplaySection from "@/components/layout/DisplaySection";
 import UserAva from "@/components/ui/user/UserAva";
 import { audit_logs, audits } from "@prisma/client";
 import Link from "next/link";
@@ -11,6 +7,7 @@ import { AuditAssetLogAttrType } from "../@attr/AuditAssetLogAttrType";
 import { AuditAssetLogAttrResult } from "../@attr/AuditAssetLogAttrResult";
 import { AuditAssetLogAttrStatus } from "../@attr/AuditAssetLogAttrStatus";
 import AuditAssetCheckbox from "../@button/AuditAssetCheckbox";
+import { MoreButton } from "../@button/MoreButton";
 
 type AuditAssetBoardType = {
   audit: audits;
@@ -74,6 +71,9 @@ export default function AuditAssetBoard({
               </td>
               <td>
                 <AuditAssetLogAttrResult asset_log={asset_log} asset={asset} />
+              </td>
+              <td>
+                <MoreButton asset_log={asset_log}/>
               </td>
             </tr>
           );
