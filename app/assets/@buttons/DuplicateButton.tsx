@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { assets } from "@prisma/client";
 import { Modal } from "@/components/layout/Modal";
-import Edit from "@/public/edit.svg";
-import { EditForm } from "../@form/EditForm";
+import DuplicateConfirm from "../@confirm-dialog/DuplicateConfirm";
 
 export default function DuplicateButton({ asset, className}: { asset: assets, className?:string }) {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +14,7 @@ export default function DuplicateButton({ asset, className}: { asset: assets, cl
       </button>
       {showModal &&
         Modal.initModal(
-          <EditForm asset={asset} onClose={() => setShowModal(false)} />,
+          <DuplicateConfirm asset={asset} onClose={() => setShowModal(false)} />,
         )}
     </>
   );

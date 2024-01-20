@@ -168,4 +168,34 @@ export class Listener {
       },
     });
   }
+
+  async duplicate(asset: assets){
+    const user = await getCurrentUser();
+    if (!user) {
+      throw new Error("Invalid user");
+    }
+    if (!this.asset) {
+      throw new Error("Invalid asset");
+    }
+
+    return await prisma.asset_logs.create({
+      data: {
+        name: "Duplicate",
+        user_id: Number(user?.id),
+        metatype: "duplicate",
+        object_id: this.asset.id,
+        object_export: {
+          name: this.asset.name,
+          id: this.asset.id,
+          code: this.asset.code,
+        },
+        object_type: "asset",
+        action_cost: 0,
+        action_date: this.asset.since,
+        changes: {},
+        description: `${user.username} has duplicated this asset from ${asset.name} _ ${asset.code}`,
+        file: this.asset.file,
+      },
+    });
+  }
 }
