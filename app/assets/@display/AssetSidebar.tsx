@@ -19,15 +19,6 @@ type AssetSidebarProps = {
 };
 
 function AssetDefaultAction({ asset }: { asset: assets }) {
-  function onClick() {}
-  const defaultActions = [
-    { label: "Edit Asset", url: onClick },
-    { label: "Clone Asset", url: onClick },
-    { label: "Download Qr Code", url: onClick },
-    { label: "Export", url: onClick },
-    { label: "Remove", url: onClick, style: "red" },
-  ];
-
   return (
     <div className="flex w-full flex-col gap-1 py-2">
       <div className="btn h-4 w-full bg-neutral-focus normal-case text-neutral-content hover:text-neutral-focus">
@@ -73,7 +64,9 @@ function AssetSidebarUser({asset}:{asset:assets}) {
     return <></>
   }
   const user = getUser(asset.assignee_id);
-  console.log(user)
+  if(!user){
+    return <></>
+  }
   
   return (
     <div className="flex flex-col items-start gap-2">

@@ -44,7 +44,6 @@ export default function LogDisplay({
           </button>
           <h3 className="text-lg font-bold">Log Details</h3>
         </div>
-
         {html}
       </div>
     </dialog>

@@ -4,6 +4,7 @@ import { assets } from "@prisma/client";
 import { Modal } from "@/components/layout/Modal";
 import Edit from "@/public/edit.svg";
 import { EditForm } from "../@form/EditForm";
+import CheckinConfirm from "../@confirm-dialog/CheckinConfirm";
 
 export default function CheckinButton({
   asset,
@@ -21,7 +22,7 @@ export default function CheckinButton({
       </button>
       {showModal &&
         Modal.initModal(
-          <EditForm asset={asset} onClose={() => setShowModal(false)} />,
+          <CheckinConfirm asset={asset} onClose={() => setShowModal(false)} />,
         )}
     </>
   );

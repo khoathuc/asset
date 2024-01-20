@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { assets } from "@prisma/client";
 import { Modal } from "@/components/layout/Modal";
-import Edit from "@/public/edit.svg";
 import { EditForm } from "../@form/EditForm";
+import RemoveConfirm from "../@confirm-dialog/RemoveConfirm";
 
 export default function RemoveButton({ asset, className}: { asset: assets, className?:string }) {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +15,7 @@ export default function RemoveButton({ asset, className}: { asset: assets, class
       </button>
       {showModal &&
         Modal.initModal(
-          <EditForm asset={asset} onClose={() => setShowModal(false)} />,
+          <RemoveConfirm asset={asset} onClose={() => setShowModal(false)} />,
         )}
     </>
   );

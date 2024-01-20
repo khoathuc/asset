@@ -5,11 +5,12 @@ import { asset_logs } from "@prisma/client";
 import Edit from "@/public/pencil_square.svg";
 import Create from "@/public/cog.svg";
 import Update from "@/public/x_circle.svg";
+import CheckinIcon from "@/public/archive_box_arrow.svg"
 
 import { getUser } from "@/lib/user";
 import { Currency } from "@/utils/currency";
 import { ShowLogButton } from "../@buttons/ShowLogButton";
-import { CREATE_TYPE, UPDATE_TYPE } from "../asset_log";
+import { CHECKIN_TYPE, CREATE_TYPE, UPDATE_TYPE } from "../asset_log";
 
 export default function LogsDisplay({ logs }: { logs: asset_logs[] }) {
   return (
@@ -31,6 +32,12 @@ export default function LogsDisplay({ logs }: { logs: asset_logs[] }) {
             icon_html = (
               <div className="rounded-full bg-info p-2">
                 <Create className="h-4 w-4" />
+              </div>
+            );
+          } else if (log.metatype == CHECKIN_TYPE) {
+            icon_html = (
+              <div className="rounded-full bg-error p-2">
+                <CheckinIcon className="h-4 w-4" />
               </div>
             );
           } else if (log.metatype == UPDATE_TYPE) {
