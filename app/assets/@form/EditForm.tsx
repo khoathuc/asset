@@ -22,6 +22,8 @@ import InfoIcon from "@/public/information_circle.svg";
 import Image from "next/image";
 
 import { id } from "date-fns/locale";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type AssetFormData = z.infer<typeof assetSchema>;
 
@@ -32,6 +34,8 @@ export function EditForm({
   asset: assets;
   onClose: () => void;
 }) {
+  const router = useRouter();
+
   const [depreciation, setDepreciation] = useState<any>(null);
   const [cform, setCform] = useState<cfieldValue[]>(
     asset.form as cfieldValue[],
@@ -121,14 +125,28 @@ export function EditForm({
     }
 
     try {
-      await editAsset(formData);
-      toast.success("Added asset successfully");
+      const response = await axios.post(
+        `/api/assets/${asset.id}/edit`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (response.data.success == false) {
+        throw new Error(response.data.message);
+      }
+
+      toast.success("Edited asset successfully");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
     }
 
+    router.refresh()
     setIsLoading(false);
   };
 
@@ -149,7 +167,7 @@ export function EditForm({
               <Input
                 type="text"
                 placeholder="Asset name"
-                value={asset.name}
+                defaultValue={asset.name}
                 className="input input-bordered"
                 {...register("name")}
               />
@@ -164,7 +182,7 @@ export function EditForm({
                 type="text"
                 placeholder="Leave blank for auto generate"
                 className="input input-bordered"
-                value={asset.code}
+                defaultValue={asset.code}
                 {...register("code")}
               />
               <p className="error">{errors.code?.message?.toString()}</p>
@@ -302,7 +320,7 @@ export function EditForm({
                     type="number"
                     placeholder="Useful life"
                     className="input input-bordered h-[38px] w-full rounded"
-                    value={depreciation.useful_life}
+                    defaultValue={depreciation.useful_life}
                     onChange={(e: any) => {
                       setDepreciation({
                         ...depreciation,
@@ -357,7 +375,7 @@ export function EditForm({
               <Textarea
                 className="textarea textarea-bordered"
                 placeholder="Description"
-                value={asset.description}
+                defaultValue={asset.description}
                 {...register("description")}
               />
             </div>
