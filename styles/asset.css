@@ -1,0 +1,23 @@
+.asset-display-page{
+    .asset-display-header{
+        padding-left: 80px;
+        .tabs{
+            > .tab{
+                font-size: 16px;
+                font-weight: 600;
+                &.tab-active{
+                    border-bottom: 1px solid black;
+                }
+            }
+        }
+    }
+}
+
+.master-page:has(.asset-display-page){
+    & > aside{
+        display: none;
+    }
+    & > main{
+        left: 0px;
+    }
+}

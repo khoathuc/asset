@@ -1,0 +1,17 @@
+.request-sidebar{
+    .request-sidebar-user{
+        position: relative;
+        font-size: 14px;
+        padding-top: 8px;
+        .avatar{
+            width: 24px;
+        }
+        .-user-content{
+            gap: 2px;
+        }
+        .approval-status{
+            right: 0px;
+            top: 18px;
+        }
+    }
+}

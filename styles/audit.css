@@ -1,0 +1,14 @@
+.audit-display-page{
+    .audit-display-header{
+        padding-left: 80px;
+    }
+}
+
+.master-page:has(.audit-display-page){
+    & > aside{
+        display: none;
+    }
+    & > main{
+        left: 0px;
+    }
+}
