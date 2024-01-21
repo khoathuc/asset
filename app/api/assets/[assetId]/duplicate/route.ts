@@ -55,6 +55,7 @@ export async function POST(
         image: asset.image,
         form: asset.form,
         purchase_price: asset.purchase_price,
+        life_cost: asset.purchase_price,
       },
     });
 

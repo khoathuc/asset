@@ -3,6 +3,7 @@ import Link from "next/link";
 import Setting from "@/public/setting.svg";
 import Home from "@/public/home.svg";
 import Asset from "@/public/asset.svg";
+import UserIcon from "@/public/users-group-rounded-svgrepo-com.svg";
 import Dashboard from "@/public/code-scan-svgrepo-com.svg";
 import Accessories from "@/public/accessories.svg";
 import Licenses from "@/public/licenses.svg";
@@ -76,28 +77,7 @@ export default function MasterMenu() {
 
       {isAdmin && (
         <ul className="menu  w-56">
-          <li className="menu-title"> USERS</li>
-          <li>
-            <Link
-              href={"/users"}
-              className={currentRoute === "/users" ? "active" : ""}
-            >
-              <Asset
-                className={`${
-                  currentRoute === "/users"
-                    ? styles.active_menu_svg
-                    : "stroke-current"
-                } h-5 w-5`}
-              />{" "}
-              Users
-            </Link>
-          </li>
-        </ul>
-      )}
-
-      {isAdmin && (
-        <ul className="menu  w-56">
-          <li className="menu-title">ASSET MANAGEMENT</li>
+          <li className="menu-title">MANAGEMENT</li>
           <li>
             <Link
               href={"/assets"}
@@ -115,32 +95,17 @@ export default function MasterMenu() {
           </li>
           <li>
             <Link
-              href={"/accessories"}
-              className={currentRoute === "/accessories" ? "active" : ""}
+              href={"/users"}
+              className={currentRoute === "/users" ? "active" : ""}
             >
-              <Accessories
+              <UserIcon
                 className={`${
-                  currentRoute === "/accessories"
+                  currentRoute === "/users"
                     ? styles.active_menu_svg
                     : "stroke-current"
                 } h-5 w-5`}
-              />
-              Accessories
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={"/licenses"}
-              className={currentRoute === "/licenses" ? "active" : ""}
-            >
-              <Licenses
-                className={`${
-                  currentRoute === "/licenses"
-                    ? styles.active_menu_svg
-                    : "stroke-current"
-                } h-5 w-5`}
-              />
-              Licenses
+              />{" "}
+              Users
             </Link>
           </li>
         </ul>
@@ -197,9 +162,9 @@ export default function MasterMenu() {
         )}
       </ul>
 
-      <ul className="menu w-56">
+      {/* <ul className="menu w-56">
         <li className="menu-title">LOGS AND REPORTS</li>
-      </ul>
+      </ul> */}
     </aside>
   );
 }

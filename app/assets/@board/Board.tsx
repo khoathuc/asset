@@ -23,7 +23,7 @@ export default function AssetBoard({ assets }: { assets: assets[] }) {
                 <th>Acquisition Date</th>
                 <th>Status</th>
                 <th>Acquisition Cost</th>
-                <th>Current Book Value</th>
+                <th>Life cycle cost</th>
                 <th></th>
               </tr>
             </thead>

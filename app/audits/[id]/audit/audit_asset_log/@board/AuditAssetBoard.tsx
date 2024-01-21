@@ -73,7 +73,7 @@ export default function AuditAssetBoard({
                 <AuditAssetLogAttrResult asset_log={asset_log} asset={asset} />
               </td>
               <td>
-                <MoreButton asset_log={asset_log}/>
+                {asset_log.is_correct !== null && <MoreButton asset_log={asset_log} />}
               </td>
             </tr>
           );

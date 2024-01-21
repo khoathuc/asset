@@ -193,7 +193,7 @@ export class Listener {
         action_cost: 0,
         action_date: this.asset.since,
         changes: {},
-        description: `${user.username} has duplicated this asset from ${asset.name} _ ${asset.code}`,
+        description: `${user.username} has duplicated this asset from ${asset.name} _ ${asset.code  }`,
         file: this.asset.file,
       },
     });

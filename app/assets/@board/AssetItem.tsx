@@ -9,6 +9,7 @@ import { AcquisitionCost } from "../@attrs/AcquisitionCost";
 import { BookValue } from "../@attrs/BookValue";
 import { MoreButton } from "../@buttons/MoreButton";
 import Link from "next/link";
+import { LifeCycleCost } from "../@attrs/LifeCycleCost";
 
 
 export function AssetItem({ asset }: { asset: assets }) {
@@ -44,7 +45,7 @@ export function AssetItem({ asset }: { asset: assets }) {
         <AcquisitionCost asset={asset}/>
       </td>
       <td>
-        <BookValue asset={asset}/>
+        <LifeCycleCost asset={asset} />
       </td>
       <td>
         <MoreButton asset={asset} />
