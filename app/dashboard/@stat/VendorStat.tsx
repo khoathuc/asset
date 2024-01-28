@@ -9,7 +9,7 @@ export default async function VendorStat() {
       <div className="stat-figure text-neutral">
         <VendorIcon className="h-8 w-8" />
       </div>
-      <div className="stat-title">Total Vendor</div>
+      <div className="stat-title">Total Vendors</div>
       <div className="stat-value">{vendor_stat}</div>
       <div className="stat-desc"></div>
       <Link

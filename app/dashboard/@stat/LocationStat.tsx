@@ -12,7 +12,7 @@ export default async function LocationStat() {
       <div className="stat-figure text-neutral">
         <Locations className="h-8 w-8" />
       </div>
-      <div className="stat-title">Total Location</div>
+      <div className="stat-title">Total Locations</div>
       <div className="stat-value">{location_stat}</div>
       <div className="stat-desc">
         {auding_location_stat?._count.auditing.toString()} auditing

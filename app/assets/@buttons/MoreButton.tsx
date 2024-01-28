@@ -10,7 +10,7 @@ export function MoreButton({ asset }: { asset: assets }) {
     <>
       <div className="dropdown dropdown-end dropdown-bottom dropdown-hover">
         <Link
-          href="/"
+          href={`/assets/${asset.id}`}
           tabIndex={0}
           className="btn flex h-6 min-h-fit items-center justify-center px-2"
         >

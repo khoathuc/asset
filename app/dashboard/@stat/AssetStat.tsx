@@ -13,7 +13,7 @@ export default async function AssetStat() {
       <div className="stat-figure text-neutral">
         <QRCode className="h-8 w-8" />
       </div>
-      <div className="stat-title">Total Asset</div>
+      <div className="stat-title">Total Assets</div>
       <div className="stat-value">{stat}</div>
       <div className="stat-desc">
         <CurrencyValue
