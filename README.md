@@ -15,33 +15,7 @@ npm run dev
 
 
 ## Giao diện vài màn hình:
-1. Quản lý user
-![alt text](image/users.png)
-
-2. Quản lý tài sản
-![alt text](image/action.png)
-
-3. Chi tiết tài sản
-![alt text](image/assets.png)
-![alt text](image/asset.png)
-![alt text](image/logs.png)
-
-4. Chi tiết đề xuất
-![alt text](image/requests.png)
-![alt text](image/request.png)
-![alt text](image/logs.request.png)
-
-5. Chi tiết kiểm kê
-![alt text](image/audit.list.png)
-![alt text](image/audit.form.png)
-![alt text](image/audit.png)
-
-6. Chi tiết khấu hao
-![alt text](image/depreciation.list.png)
-![alt text](image/depreciation.form.png)
-![alt text](image/depreciation.png)
-
-7. Cài đặt.
+1. **Cài đặt.**
 ![alt text](image/location.list.png)
 ![alt text](image/vendor.list.png)
 ![alt text](image/tag.list.png)
@@ -52,3 +26,29 @@ npm run dev
 
 ![alt text](image/request.form.png)
 ![alt text](image/action.form.png)
+
+2. **Quản lý user**
+![alt text](image/users.png)
+
+3. **Quản lý tài sản**
+![alt text](image/action.png)
+
+4. **Chi tiết tài sản**
+![alt text](image/assets.png)
+![alt text](image/asset.png)
+![alt text](image/logs.png)
+
+5. **Chi tiết đề xuất**
+![alt text](image/requests.png)
+![alt text](image/request.png)
+![alt text](image/logs.request.png)
+
+6. **Chi tiết kiểm kê**
+![alt text](image/audit.list.png)
+![alt text](image/audit.form.png)
+![alt text](image/audit.png)
+
+7. **Chi tiết khấu hao**
+![alt text](image/depreciation.list.png)
+![alt text](image/depreciation.form.png)
+![alt text](image/depreciation.png)
