@@ -8,76 +8,65 @@ datasource db {
 }
 
 model actions {
-  id            Int   @id @default(autoincrement()) @db.UnsignedInt
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
   name          String   @db.VarChar(255)
-  user_id       Int
+  user_id       Int?
   status        Boolean
-  change_fields String   @db.Text
-  conditions    String   @db.Text
-  since         DateTime @default(now()) @db.Timestamp(0)
-  last_update   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-}
-
-model activity_logs {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  user_id     Int
-  object_id   Int
-  object_type String   @db.VarChar(255)
-  changes     String   @db.Text
-  files       String   @db.Text
-  metatype    String   @db.VarChar(255)
-  action_cost Decimal  @db.Decimal(8, 2)
-  action_date DateTime @default(now()) @db.Timestamp(0)
-  data        String   @db.Text
-  since       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-
-  @@index([object_id, object_type, metatype], map: "activity_logs_object_id_object_type_metatype_index")
+  change_fields Json
+  conditions    Json?
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model asset_logs {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  user_id     Int
-  metatype    String   @db.VarChar(255)
-  object_id   Int
-  object_type String   @db.VarChar(255)
-  changes     String   @db.Text
-  files       String   @db.Text
-  description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  name          String   @db.VarChar(255)
+  user_id       Int?
+  metatype      String   @db.VarChar(255)
+  object_export Json?
+  object_id     Int
+  object_type   String   @db.VarChar(255)
+  action_cost   Decimal  @db.Decimal(8, 2)
+  action_date   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  changes       Json?
+  file          String?  @db.Text
+  description   String?  @db.Text
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([metatype], map: "asset_logs_metatype_index")
   @@index([object_id, object_type], map: "asset_logs_object_id_object_type_index")
 }
 
 model assets {
-  id             Int   @id @default(autoincrement()) @db.UnsignedInt
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
   name           String   @db.VarChar(255)
-  image          String   @db.VarChar(255)
   code           String   @db.VarChar(32)
-  serial_number  String   @db.VarChar(255)
-  assignee_id    Int
-  tag_ids        String   @db.Text
+  serial_number  String?  @db.VarChar(255)
+  assignee_id    Int?
+  tag_ids        String?  @db.Text
   status_id      Int
   type_id        Int
   location_id    Int
   vendor_id      Int
-  meta_type      String   @db.VarChar(32)
+  meta_type      String?  @db.VarChar(32)
   description    String?  @db.Text
-  form           String   @db.Text
-  active_date    DateTime @default(now()) @db.Timestamp(0)
-  files          String   @db.Text
-  images         String   @db.Text
-  purchase_date  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  form           Json?
+  active_date    DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  file           String?  @db.Text
+  image          String?  @db.Text
   purchase_price Decimal  @db.Decimal(8, 2)
-  stats          String   @db.Text
-  token          String   @db.VarChar(255)
-  data           String   @db.Text
-  since          DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  last_update    DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  life_cost      Decimal?  @db.Decimal(8, 2)
+
+  is_depreciable Boolean?
+  useful_life    Int?
+  salvage_price  Decimal? @db.Decimal(8, 2)
+
+  stats       String?  @db.Text
+  token       String?  @db.VarChar(255)
+  data        String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([location_id], map: "assets_location_id_index")
   @@index([meta_type], map: "assets_meta_type_index")
@@ -87,83 +76,158 @@ model assets {
 }
 
 model locations {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
   address     String?  @db.Text
   user_id     Int?
   description String?  @db.Text
   status      Boolean
   image       String?  @db.Text
+  auditing    Boolean
   data        String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @updatedAt @db.Timestamp(0)
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "locations_name_index")
 }
 
-model request_groups {
-  id                    Int   @id @default(autoincrement()) @db.UnsignedInt
-  user_id               Int
-  name                  String   @db.VarChar(255)
-  form                  String   @db.Text
-  description           String?  @db.Text
-  default_approvers     String   @db.Text
-  default_followers     String   @db.Text
-  allow_direct_approval Boolean
-  approval_follow       String   @db.VarChar(255)
-  status                Boolean
-  since                 DateTime @default(now()) @db.Timestamp(0)
-  last_update           DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+model request_types {
+  id                     Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id                Int?
+  name                   String   @db.VarChar(255)
+  form                   Json?
+  description            String?  @db.Text
+  default_approvers      Json
+  default_followers      Json
+  allow_change_approvers Boolean
+  approval_follow        String   @db.VarChar(255)
+  status                 Boolean
+  since                  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
 model requests {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
-  name             String   @db.VarChar(256)
-  user_id          Int
-  location_id      Int
-  request_group_id Int
-  approvals        String   @db.Text
-  approvers        String   @db.Text
-  rejections       String   @db.Text
-  followers        String   @db.Text
-  status           String   @db.VarChar(255)
-  description      String?  @db.Text
-  files            String   @db.Text
-  form             String   @db.Text
-  since            DateTime @default(now()) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  id              Int      @id @default(autoincrement()) @db.UnsignedInt
+  name            String   @db.VarChar(256)
+  user_id         Int
+  request_type_id Int
+  approval_follow String   @db.VarChar(255)
+  approvals       Json?
+  approvers       Json
+  rejections      Json?
+  followers       Json
+  status          String?  @db.VarChar(255)
+  files           String?  @db.Text
+  form            Json?
+  description     String?  @db.Text
+  since           DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
-  @@index([location_id], map: "requests_location_id_index")
-  @@index([request_group_id], map: "requests_request_group_id_index")
+  @@index([request_type_id], map: "requests_request_type_id_index")
   @@index([status], map: "requests_status_index")
 }
 
-model roles_permissions {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  role_id     String   @db.VarChar(255)
-  permissions String   @db.VarChar(255)
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+model request_logs {
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id       Int
+  request_id    Int
+  object_export Json?
+  object_id     Int
+  object_type   String   @db.VarChar(255)
+  note          String?  @db.Text
+  metatype      String   @db.VarChar(255)
+  ref           String?  @db.Text
+  changes       Json?
+  description   String?  @db.Text
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+model audits {
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  name        String   @db.VarChar(255)
+  user_id     Int
+  locations   Json
+  auditors    Json
+  followers   Json?
+  files       String?  @db.Text
+  data        Json?
+  status      String?  @db.VarChar(32)
+  start_date  DateTime @db.Timestamp(0)
+  end_date    DateTime @db.Timestamp(0)
+  description String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+model audit_logs {
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id       Int
+  audit_id      Int
+  object_export Json?
+  asset_id      Int?
+  is_correct    Boolean?
+  ref           String?  @db.Text
+  metatype      String   @db.VarChar(255)
+  description   String?  @db.Text
+  since         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update   DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+model depreciations {
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  name        String   @db.VarChar(255)
+  user_id     Int
+  locations   Json?
+  start_date  DateTime @db.Timestamp(0)
+  end_date    DateTime @db.Timestamp(0)
+  description String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+model depreciation_logs {
+  id                  Int      @id @default(autoincrement()) @db.UnsignedInt
+  depreciation_id     Int
+  object_export       Json?
+  object_id           Int
+  object_type         String   @db.VarChar(255)
+  method              String   @db.VarChar(32)
+  useful_life         Int
+  year                Int
+  period              Int
+  depreciation_amount Decimal  @db.Decimal(8, 2)
+  ending_book_value   Decimal  @db.Decimal(8, 2)
+  opening_book_value  Decimal  @db.Decimal(8, 2)
+  description         String?  @db.Text
+  since               DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update         DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+enum StatusType {
+  DEPLOYABLE
+  PENDING
+  UNDEPLOYABLE
+  ARCHIVED
 }
 
 model statuses {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
-  name             String   @db.VarChar(256)
-  user_id          Int
-  active           Boolean
-  available_to_use Boolean
-  currently_in_use Boolean
-  color            String   @db.VarChar(32)
-  data             String   @db.Text
-  since            DateTime @default(now()) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  id          Int        @id @default(autoincrement()) @db.UnsignedInt
+  name        String     @db.VarChar(256)
+  user_id     Int?
+  type        StatusType @default(DEPLOYABLE)
+  notes       String?    @db.Text
+  default     Boolean
+  color       String     @db.VarChar(32)
+  data        String?    @db.Text
+  since       DateTime   @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime   @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
-  @@index([active, available_to_use, currently_in_use], map: "statuses_active_available_to_use_currently_in_use_index")
   @@index([name], map: "statuses_name_index")
 }
 
 model stock {
-  id               Int   @id @default(autoincrement()) @db.UnsignedInt
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
   name             String   @db.VarChar(255)
   user_id          Int
   code             String   @db.VarChar(255)
@@ -174,8 +238,7 @@ model stock {
   tag_ids          String   @db.Text
   type_id          Int
   is_inventory     Boolean
-  form             String   @db.Text
-  purchase_date    DateTime @default(now()) @db.Timestamp(0)
+  form             Json?
   price_per_unit   Decimal  @db.Decimal(8, 2)
   data             String   @db.Text
   image            String?  @db.Text
@@ -183,8 +246,8 @@ model stock {
   images           String   @db.Text
   stats            String   @db.Text
   description      String?  @db.Text
-  since            DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  last_update      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  since            DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update      DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([is_inventory], map: "stock_is_inventory_index")
   @@index([location_id, vendor_id, type_id], map: "stock_location_id_vendor_id_type_id_index")
@@ -192,65 +255,66 @@ model stock {
 }
 
 model tags {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(255)
-  user_id     Int
-  color       String   @db.VarChar(255)
-  description String   @db.VarChar(255)
-  data        String   @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  user_id     Int?
+  color       String   @db.VarChar(32)
+  description String?  @db.Text
+  data        String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "tags_name_index")
 }
 
 model types {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(256)
-  user_id     Int
-  form        String   @db.Text
-  settings    String   @db.Text
-  files       String   @db.Text
-  prefix      String   @db.VarChar(32)
-  description String?  @db.Text
-  data        String   @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  id                Int      @id @default(autoincrement()) @db.UnsignedInt
+  name              String   @db.VarChar(256)
+  user_id           Int?
+  form              Json?
+  settings          String?  @db.Text
+  files             String?  @db.Text
+  prefix            String   @db.VarChar(32)
+  is_depreciable    Boolean?
+  depreciation_conf Json?
+  description       String?  @db.Text
+  data              String?  @db.Text
+  since             DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+}
+
+enum UserRoles {
+  ADMIN
+  SYSADMIN
+  USER
 }
 
 model users {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  first_name  String   @db.VarChar(255)
-  last_name   String   @db.VarChar(255)
-  email       String   @db.VarChar(255)
-  password    String   @db.Text
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  first_name  String    @db.VarChar(255)
+  last_name   String    @db.VarChar(255)
+  email       String?   @unique
+  password    String    @db.Text
+  role        UserRoles @default(USER)
+  username    String    @db.VarChar(255)
   activated   Boolean
-  country     String?  @db.VarChar(255)
-  avatar      String?  @db.Text
-  phone       String?  @db.VarChar(255)
-  job_title   String?  @db.VarChar(255)
-  username    String   @db.VarChar(255)
-  description String?  @db.Text
-  address     String?  @db.VarChar(255)
-  city        String?  @db.VarChar(255)
-  state       String?  @db.VarChar(255)
-  zip         String?  @db.VarChar(255)
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  country     String?   @db.VarChar(255)
+  avatar      String?   @db.Text
+  phone       String?   @db.VarChar(255)
+  job_title   String?   @db.VarChar(255)
+  description String?   @db.Text
+  address     String?   @db.VarChar(255)
+  city        String?   @db.VarChar(255)
+  state       String?   @db.VarChar(255)
+  zip         String?   @db.VarChar(255)
+  since       DateTime  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 }
 
-model users_roles {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
-  name        String   @db.VarChar(255)
-  description String?  @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-}
-
-model vendor {
-  id          Int   @id @default(autoincrement()) @db.UnsignedInt
+model vendors {
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   name        String   @db.VarChar(256)
-  user_id     Int
+  user_id     Int?
   phone       String?  @db.VarChar(256)
   contact     String?  @db.VarChar(256)
   url         String?  @db.VarChar(255)
@@ -258,9 +322,9 @@ model vendor {
   email       String?  @db.VarChar(256)
   description String?  @db.Text
   image       String?  @db.Text
-  files       String   @db.Text
-  since       DateTime @default(now()) @db.Timestamp(0)
-  last_update DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  files       String?  @db.Text
+  since       DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
+  last_update DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp(0)
 
   @@index([name], map: "vendor_name_index")
 }

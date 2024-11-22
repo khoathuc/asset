@@ -1,34 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
-
 First, run the development server:
 
 ```bash
+npm run install
+# then
+npx prisma db push 
+# finally 
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Lưu ý, do là phần mềm doanh nghiệp nên phần khởi tạo tài khoản cho admin cần được add thủ công, tuy nhiên trong đồ án chưa làm kỹ tới phần này mà chỉ tập trung vào việc quản lý tài sản. Vì thế để khởi tạo tài khoản admin và đăng nhập vào hệ thôngs thì ae cần chủ động sửa code ạ !!!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Giao diện vài màn hình:
+1. **Cài đặt.**
+![alt text](image/location.list.png)
+![alt text](image/vendor.list.png)
+![alt text](image/tag.list.png)
+![alt text](image/status.list.png)
 
-## Learn More
+![alt text](image/type.list.png)
+![alt text](image/type.cf.png)
 
-To learn more about Next.js, take a look at the following resources:
+![alt text](image/request.form.png)
+![alt text](image/action.form.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Quản lý user**
+![alt text](image/users.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. **Quản lý tài sản**
+![alt text](image/action.png)
 
-## Deploy on Vercel
+4. **Chi tiết tài sản**
+![alt text](image/assets.png)
+![alt text](image/asset.png)
+![alt text](image/logs.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Chi tiết đề xuất**
+![alt text](image/requests.png)
+![alt text](image/request.png)
+![alt text](image/logs.request.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+6. **Chi tiết kiểm kê**
+![alt text](image/audit.list.png)
+![alt text](image/audit.form.png)
+![alt text](image/audit.png)
+
+7. **Chi tiết khấu hao**
+![alt text](image/depreciation.list.png)
+![alt text](image/depreciation.form.png)
+![alt text](image/depreciation.png)

@@ -1,0 +1,12 @@
+.depreciation-display-header{
+    padding-left: 64px
+}
+
+.master-page:has(.depreciation-display-page){
+    & > aside{
+        display: none;
+    }
+    & > main{
+        left: 0px;
+    }
+}

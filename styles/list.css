@@ -1,0 +1,7 @@
+.list.zebra {
+  .list-group-wrapper {
+    .list-row:nth-child(odd) {
+        background-color: #eee;
+    }
+  }
+}
